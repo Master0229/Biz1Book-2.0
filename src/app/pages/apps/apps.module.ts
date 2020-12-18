@@ -25,7 +25,10 @@ import { GoogleAnalyticsComponent } from 'src/app/pages/apps/google-analytics/go
 import { HelpdeskDashboardComponent } from 'src/app/pages/apps/helpdesk-dashboard/helpdesk-dashboard.component'
 import { WordpressPostComponent } from 'src/app/pages/apps/wordpress-post/wordpress-post.component'
 import { WordpressPostsComponent } from 'src/app/pages/apps/wordpress-posts/wordpress-posts.component'
-import { WordpressAddComponent } from 'src/app/pages/apps/wordpress-add/wordpress-add.component'
+import { WordpressAddComponent } from 'src/app/pages/apps/wordpress-add/wordpress-add.component';
+import { PricebookComponent } from './pricebook/pricebook.component';
+import { OrderComponent } from './order/order.component';
+
 
 const COMPONENTS = [
   AppsMessagingComponent,
@@ -58,6 +61,6 @@ const COMPONENTS = [
     SortablejsModule,
     NestableModule,
   ],
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, PricebookComponent, OrderComponent],
 })
 export class AppsModule {}

@@ -19,6 +19,9 @@ import { HelpdeskDashboardComponent } from 'src/app/pages/apps/helpdesk-dashboar
 import { WordpressPostComponent } from 'src/app/pages/apps/wordpress-post/wordpress-post.component'
 import { WordpressPostsComponent } from 'src/app/pages/apps/wordpress-posts/wordpress-posts.component'
 import { WordpressAddComponent } from 'src/app/pages/apps/wordpress-add/wordpress-add.component'
+import { PricebookComponent } from './pricebook/pricebook.component'
+import { OrderComponent } from './order/order.component'
+
 
 const routes: Routes = [
   {
@@ -106,6 +109,18 @@ const routes: Routes = [
     component: WordpressAddComponent,
     data: { title: 'Wordpress Add' },
   },
+  {
+    path: 'order',
+    component: OrderComponent,
+    data: { title: 'Sell' },
+  },
+  {
+    path: 'pricebook',
+    component: PricebookComponent,
+    data: { title: 'Price Book' },
+  },
+
+  
 ]
 
 @NgModule({

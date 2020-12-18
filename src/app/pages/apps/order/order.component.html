@@ -1,0 +1,163 @@
+<div class="row"  *ngIf="!show">
+
+    <!-- Quick Order Card -->
+
+    <!-- <a _ngcontent-eei-c446="" href="#/" routerlink="/" ng-reflect-router-link="/">Home</a> -->
+
+
+    <a class="col-xl-3 col-lg-3" (click)="show = !show">
+
+        <div class="card">
+            <div class="card-body"> 
+
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fe fe-zap"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Quick Order</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-success"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </a>
+
+
+   
+
+
+    <!-- Dine In Card -->
+
+    <a class="col-xl-3 col-lg-3" (click)="show = !show">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fa fa-cutlery"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Dine In</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-primary"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </a>
+
+
+    <!-- Takeaway Card -->
+
+
+    <a class="col-xl-3 col-lg-3" (click)="show = !show">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fe fe-briefcase"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Takeaway</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-warning"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </a>
+
+    <!-- Advance Order Card -->
+
+    <a class="col-xl-3 col-lg-3" (click)="show = !show">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fa fa-send-o"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Advance Order</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-gray-6"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </a>
+
+
+    <!-- Delivery Card -->
+
+    <a class="col-xl-3 col-lg-3" (click)="show = !show">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fa fa-truck"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Delivery</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-red"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </a>
+
+    <!-- Online Order Card -->
+
+    <a class="col-xl-3 col-lg-3" (click)="show = !show">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fe fe-globe"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Online Order</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-dark"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </a>
+
+</div>
+
+<div *ngIf="show">
+    <h1>
+       Waiting For NXT Level
+    </h1>
+
+    <button class="btn btn-rounded btn-danger mr-2 mb-2" type="submit" (click)="toggle()" id="bt">
+    {{buttonName}}
+  </button>
+</div>
+
+
+

@@ -1,0 +1,65 @@
+<div class="col-xl-11 col-lg-14">
+  <div class="card">
+    <div class="card-header card-header-flex flex-column">
+
+      <nz-tabset class="kit-tabs kit-tabs-bold" (nzSelectedIndexChange)="changeKey($event)">
+        <nz-tab nzTitle="Produts"></nz-tab>
+        <nz-tab nzTitle="Options"></nz-tab>
+
+
+      </nz-tabset>
+    </div>
+    <div class="card-body">
+      <div *ngIf="activeKey === 0">
+        <nz-table #basicTable [nzData]="listOfData" class="kit__utils__table mb-4">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Takeaway Price</th>
+              <th>Delivery Price</th>
+              <th>Sort Order</th>
+              <th>Recommended</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+
+            </tr>
+          </tbody>
+        </nz-table>
+
+      </div>
+
+
+      <div *ngIf="activeKey === 1">
+        <nz-table #basicTable [nzData]="listOfData" class="kit__utils__table mb-4">
+          <thead>
+            <tr>
+              <th>Options</th>
+              <th>Price</th>
+              <th>Takeaway Price</th>
+              <th>Delivery Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+
+    </div>
+  </div>
+</div>
