@@ -21,6 +21,8 @@ import { WordpressPostsComponent } from 'src/app/pages/apps/wordpress-posts/word
 import { WordpressAddComponent } from 'src/app/pages/apps/wordpress-add/wordpress-add.component'
 import { PricebookComponent } from './pricebook/pricebook.component'
 import { OrderComponent } from './order/order.component'
+// import { ReceiptsComponent } from './receipts/receipts.component';
+
 
 
 const routes: Routes = [
@@ -119,6 +121,12 @@ const routes: Routes = [
     component: PricebookComponent,
     data: { title: 'Price Book' },
   },
+
+  // {
+  //   path: 'receipts',
+  //   component: ReceiptsComponent,
+  //   data: { title: 'receipts' },
+  // },
 
   
 ]

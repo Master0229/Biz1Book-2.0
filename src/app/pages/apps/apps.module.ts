@@ -28,6 +28,8 @@ import { WordpressPostsComponent } from 'src/app/pages/apps/wordpress-posts/word
 import { WordpressAddComponent } from 'src/app/pages/apps/wordpress-add/wordpress-add.component';
 import { PricebookComponent } from './pricebook/pricebook.component';
 import { OrderComponent } from './order/order.component';
+import { ReceiptComponent } from './receipt/receipt.component';
+// import { ReceiptsComponent } from './receipts/receipts.component';
 
 
 const COMPONENTS = [
@@ -61,6 +63,6 @@ const COMPONENTS = [
     SortablejsModule,
     NestableModule,
   ],
-  declarations: [...COMPONENTS, PricebookComponent, OrderComponent],
+  declarations: [...COMPONENTS, PricebookComponent, OrderComponent, ReceiptComponent],
 })
 export class AppsModule {}

@@ -71,6 +71,11 @@ export const getMenuData: any[] = [
         key: 'Sell',
         url: '/apps/order',
       },
+      // {
+      //   title: 'Receipts',
+      //   key: 'Receipts',
+      //   url: '/apps/receipts',
+      // },
       {
         title: 'Price Book',
         key: 'book',
