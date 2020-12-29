@@ -1,0 +1,235 @@
+<div class="card">
+    <div class="card-header card-header-flex">
+        <div class="d-flex flex-column justify-content-center mr-auto">
+            <h5 class="mb-0">Settings</h5>
+        </div>
+        <nz-tabset class="kit-tabs" (nzSelectedIndexChange)="changeKey($event)">
+            <nz-tab nzTitle="Order Discount/Tax Settings"></nz-tab>
+            <nz-tab nzTitle="POS Preferences"></nz-tab>
+            <nz-tab nzTitle="Printer Settings"></nz-tab>
+            <nz-tab nzTitle="Waiter / KDS App"></nz-tab>
+            <nz-tab nzTitle="Receipt Customization"></nz-tab>
+            <nz-tab nzTitle="Order Backup"></nz-tab>
+
+        </nz-tabset>
+    </div>
+    <div class="card-body">
+        <div *ngIf="activeKey === 0">
+            <h3>
+                Order Discount/Tax Settings
+            </h3>
+            <br>
+            <nz-form-item>
+                <nz-form-label><label>Discount Inclusive(item lvl.)</label></nz-form-label>
+                <nz-form-control style="padding-left: 5%;">
+                    <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                </nz-form-control>
+            </nz-form-item>
+            <br>
+            <nz-form-item>
+                <nz-form-label><label>Discount Inclusive(order lvl.)</label></nz-form-label>
+                <nz-form-control style="padding-left: 4.5%;">
+                    <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                </nz-form-control>
+            </nz-form-item>
+            <br>
+            <nz-form-item>
+                <nz-form-label><label>Display Tax On Bill</label></nz-form-label>
+                <nz-form-control style="padding-left: 9.5%;">
+                    <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                </nz-form-control>
+            </nz-form-item>
+
+
+        </div>
+        <div *ngIf="activeKey === 1">
+            <h3>
+                POS Preferences
+            </h3>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <nz-form-item>
+                            <nz-form-label><label>Admin only Cancellation</label></nz-form-label>
+                            <nz-form-control style="padding-left: 29%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Enable Delivery Orders</label></nz-form-label>
+                            <nz-form-control style="padding-left: 30%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Enable TakeAway Orders</label></nz-form-label>
+                            <nz-form-control style="padding-left: 29%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Enable FreeQuantity for Products</label></nz-form-label>
+                            <nz-form-control style="padding-left: 19%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Show Tax on receipts</label></nz-form-label>
+                            <nz-form-control style="padding-left: 33%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Enable KOT in QuickOrder</label></nz-form-label>
+                            <nz-form-control style="padding-left: 27%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Show Customer Address in Bill(except delivery)</label></nz-form-label>
+                            <nz-form-control style="padding-left: 5%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-sm">
+                        <nz-form-item>
+                            <nz-form-label><label>Enable Advance Orders</label></nz-form-label>
+                            <nz-form-control style="padding-left: 24%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Enable DineIn Orders</label></nz-form-label>
+                            <nz-form-control style="padding-left: 26%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Enable QuickOrder</label></nz-form-label>
+                            <nz-form-control style="padding-left: 28.5%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Enforce Customer No. during Ordering</label></nz-form-label>
+                            <nz-form-control style="padding-left: 7%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Enable KOT Generation</label></nz-form-label>
+                            <nz-form-control style="padding-left: 24%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Show Upcategory Products</label></nz-form-label>
+                            <nz-form-control style="padding-left: 20%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label><label>Show Child Category</label></nz-form-label>
+                            <nz-form-control style="padding-left: 26.5%;">
+                                <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div *ngIf="activeKey === 2">
+
+            <h3>
+                Printer Settings
+            </h3>
+
+            <div class="tabs">
+                <div class="tabhead">
+                    <nz-tabset class="kit-tabs" (nzSelectedIndexChange)="changeKeyps($event)">
+
+                        <nz-tab nzTitle="Receipt"></nz-tab>
+                        <nz-tab nzTitle="KOT"></nz-tab>
+                    </nz-tabset>
+                </div>
+                <div class="tabdatas">
+
+
+
+                    <div *ngIf="pskey ===0">
+                        <div class="d-inline-block mb-3 mr-3">
+                            <nz-select style="width: 120px;" [(ngModel)]="selectedValue" nzAllowClear
+                                nzPlaceHolder="Select Printer">
+                                <nz-option nzValue="Epson" nzLabel="Epson"></nz-option>
+                                <nz-option nzValue="EpsonTM T82" nzLabel="EpsonTM T82"></nz-option>
+
+                            </nz-select>
+                            <br>
+                            <div>
+                                <nz-input-number [(ngModel)]="demoValue" [nzMin]="1" [nzMax]="10" [nzStep]="1">
+                                </nz-input-number>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="pskey ===1">
+                        <h1>
+                            Waiting For Jack [ANAS] Order
+                        </h1>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div *ngIf="activeKey === 3">
+
+            <h4>Server IP Address For Waiter / KDS App</h4>
+            <div class="col-lg-6 mb-4">
+                <input nz-input placeholder="Server IP Address For Waiter / KDS App" [(ngModel)]="value" />
+            </div>
+            <h5>
+                Available Network:
+            </h5>
+        </div>
+        <div *ngIf="activeKey === 4">
+            <h1>
+                5
+            </h1>
+        </div>
+        <div *ngIf="activeKey === 5">
+
+            <div class="mb-5">
+                <button nz-button nzType="danger" class="mr-3 mb-3">Close Order Backup</button>
+            </div>
+            
+            <nz-table #basicTable [nzData]="" class="kit__utils__table mb-4">
+
+                <thead>
+                    <tr>
+                        <th>Invoice No</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>

@@ -14,7 +14,7 @@ export const initialState: object = {
   // default settings, if not exist in localStorage
   ...STORED_SETTINGS({
     authProvider: 'firebase', // firebase, jwt
-    logo: 'Clean UI Pro',
+    logo: 'Biz1Book',
     locale: 'en-US',
     isSidebarOpen: false,
     isSupportChatOpen: false,

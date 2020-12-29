@@ -1,1 +1,204 @@
-<p>receipt works!</p>
+<h2>
+    Receipts
+</h2>
+<div class="card" *ngIf="!show">
+
+    <!-- Receipts input & filters -->
+
+    <div class="card">
+      
+        <div class="card-body">
+          
+            <div class="row">
+                <div class="mr-3">
+                    <input nz-input placeholder="Basic usage" [(ngModel)]="value" />
+                </div>
+                <div class=" mr-3">
+                    <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)"></nz-range-picker>
+                </div>
+                <div class="mr-3">
+                    <button nz-button nzType="primary">Clear Filter</button>
+                </div>
+                <div class="mr-3">
+                    <nz-select style="width: 150px;" [(ngModel)]="selectedValue" nzAllowClear
+                        nzPlaceHolder="Order Status">
+                        <nz-option nzValue="All" nzLabel="All"></nz-option>
+                        <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
+                        <nz-option nzValue="Completed" nzLabel="Completed"></nz-option>
+                        <nz-option nzValue="Cancelled" nzLabel="Cancelled"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="mr-3">
+                    <nz-select style="width: 150px;" [(ngModel)]="selectedValue" nzAllowClear
+                        nzPlaceHolder="Payment Status">
+                        <nz-option nzValue="All" nzLabel="All"></nz-option>
+                        <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
+                        <nz-option nzValue="Completed" nzLabel="Completed"></nz-option>
+                        <nz-option nzValue="Cancelled" nzLabel="Cancelled"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Receipts Cards -->
+
+
+
+    <div class="card-body">
+
+        <!-- Total Sales -->
+
+        <div class="alignleft">
+            <div class="card" style="width: 15rem;">
+                <div class="card-body">
+                    <div class="item mb-xl-0 mb-3">
+                        <div class="desc">
+                            <span class="title">Total Sales</span>
+                            <h3>₹</h3>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Payments -->
+        <div class="alignright">
+            <div class="card" style="width: 15rem;">
+                <div class="card-body">
+                    <div class="item mb-xl-0 mb-3">
+                        <div class="desc">
+                            <span class="title">Total Payments</span>
+                            <h3>₹</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Receipt Table -->
+
+    <div class="card-body">
+        <div>
+            <nz-table #basicTable [nzData]="" class="kit__utils__table mb-4">
+                <thead>
+                    <tr>
+                        <th>Order No</th>
+                        <th>Created At</th>
+                        <th>Customer Details</th>
+                        <th>Order Status</th>
+                        <th>Payment Status</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <a (click)="show = !show">
+                                124678654962
+                            </a>
+                        </td>
+                        <td>
+                            Dec 21, 2020 12:28 PM
+                        </td>
+                        <td>
+                            -/-
+                        </td>
+                        <td>
+                            Completed
+                        </td>
+                        <td>
+                            Paid
+                        </td>
+                        <td>
+                            ₹ 100 /-
+                        </td>
+
+                    </tr>
+                </tbody>
+            </nz-table>
+
+        </div>
+    </div>
+</div>
+
+<div class="card" *ngIf="show">
+
+    <!-- Receipt Back Preference -->
+
+    <div class="mr-2 mb-2">
+        <div class="col-lg-12 mb-5">
+
+            <div class="btn-group mr-2 mb-2">
+                <button type="button" (click)="toggle()" class="btn">Back</button>
+                <button type="button" class="btn">Print</button>
+                <button type="button" class="btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+
+
+        <!-- Receipt Details Table -->
+
+
+        <div>
+            <nz-table #basicTable [nzData]="" class="kit__utils__table mb-4">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Tax%</th>
+                        <th>Price</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Subtotal</strong><br><br>
+                            <span><strong>
+
+                                </strong><br><br></span>
+                            <span><strong>Discount</strong><br><br></span>
+                            <strong>CGST</strong><br><br>
+                            <strong>SGST</strong><br><br>
+                            <strong>Total</strong><br><br>
+                        </td>
+                        <td><br><br>
+                            <span class="text-right"><br><br></span>
+                            <span class="text-right"><br><br></span>
+                            <span class="text-right">
+                            </span><br><br>
+                            <span class="text-right">
+                            </span><br><br>
+                            <span class="text-right"> </span><br><br>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+
+
+
+        </div>
+    </div>
+
+</div>

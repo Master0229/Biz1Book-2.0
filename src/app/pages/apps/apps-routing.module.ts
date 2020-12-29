@@ -21,7 +21,14 @@ import { WordpressPostsComponent } from 'src/app/pages/apps/wordpress-posts/word
 import { WordpressAddComponent } from 'src/app/pages/apps/wordpress-add/wordpress-add.component'
 import { PricebookComponent } from './pricebook/pricebook.component'
 import { OrderComponent } from './order/order.component'
-// import { ReceiptsComponent } from './receipts/receipts.component';
+import { ReceiptComponent } from './receipt/receipt.component';
+import { SettingComponent } from './setting/setting.component';
+import { CustomerComponent } from './customer/customer.component';
+import { ExpensesComponent } from './expenses/expenses.component';
+import { UrbanpiperComponent } from "./urbanpiper/urbanpiper.component";
+import { UpdaterComponent } from './updater/updater.component';
+import { AboutusComponent } from './aboutus/aboutus.component';
+import { ReportComponent } from './report/report.component';
 
 
 
@@ -122,12 +129,48 @@ const routes: Routes = [
     data: { title: 'Price Book' },
   },
 
-  // {
-  //   path: 'receipts',
-  //   component: ReceiptsComponent,
-  //   data: { title: 'receipts' },
-  // },
+  {
+    path: 'receipt',
+    component: ReceiptComponent,
+    data: { title: 'receipt' },
+  },
+  {
+    path: 'setting',
+    component: SettingComponent,
+    data: {title: 'setting'},
+  },
+  {
+    path: 'customer',
+    component: CustomerComponent,
+    data: {title: 'customer'},
+  },
+  {
+    path: 'expenses',
+    component: ExpensesComponent,
+    data: {title: 'expenses'},
+  },
+  {
+    path: 'urbanpiper',
+    component: UrbanpiperComponent,
+    data: {title: 'urbanpiper'},
+  },
 
+  {
+    path: 'updater',
+    component: UpdaterComponent,
+    data: {title: 'updater'},
+  },
+  
+  {
+    path: 'aboutus',
+    component: AboutusComponent,
+    data: {title: 'aboutus'},
+  },
+  {
+    path: 'report',
+    component: ReportComponent,
+    data: {title: 'report'},
+  },
   
 ]
 

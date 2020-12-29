@@ -29,6 +29,13 @@ import { WordpressAddComponent } from 'src/app/pages/apps/wordpress-add/wordpres
 import { PricebookComponent } from './pricebook/pricebook.component';
 import { OrderComponent } from './order/order.component';
 import { ReceiptComponent } from './receipt/receipt.component';
+import { SettingComponent } from './setting/setting.component';
+import { CustomerComponent } from './customer/customer.component';
+import { ExpensesComponent } from './expenses/expenses.component';
+import { UrbanpiperComponent } from './urbanpiper/urbanpiper.component';
+import { UpdaterComponent } from './updater/updater.component';
+import { AboutusComponent } from './aboutus/aboutus.component';
+import { ReportComponent } from './report/report.component';
 // import { ReceiptsComponent } from './receipts/receipts.component';
 
 
@@ -63,6 +70,6 @@ const COMPONENTS = [
     SortablejsModule,
     NestableModule,
   ],
-  declarations: [...COMPONENTS, PricebookComponent, OrderComponent, ReceiptComponent],
+  declarations: [...COMPONENTS, PricebookComponent, OrderComponent, ReceiptComponent, SettingComponent, CustomerComponent, ExpensesComponent, UrbanpiperComponent, UpdaterComponent, AboutusComponent, ReportComponent],
 })
 export class AppsModule {}
