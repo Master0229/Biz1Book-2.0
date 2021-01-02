@@ -1,26 +1,32 @@
 <h2>
   Customers Details
 </h2>
-<nz-table #basicTable [nzData]="" class="kit__utils__table mb-4">
-  <thead>
-    <tr>
-      <th>PhoneNo</th>
-      <th>Name</th>
-      <th>Order Count</th>
-      <th>Order Value</th>
-      <th>Last Seen</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+<div class="card">
+  <div class="card-body">
 
-    </tr>
-  </tbody>
-</nz-table>
+
+    <nz-table #basicTable [nzData]="" class="kit__utils__table mb-4">
+      <thead>
+        <tr>
+          <th>PhoneNo</th>
+          <th>Name</th>
+          <th>Order Count</th>
+          <th>Order Value</th>
+          <th>Last Seen</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of Customer">
+          <td>{{item.PhoneNo}}</td>
+          <td></td>
+          <td>{{item.OrderCount}}</td>
+          <td></td>
+          <td>{{item.LastSeen}}</td>
+          <td></td>
+
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

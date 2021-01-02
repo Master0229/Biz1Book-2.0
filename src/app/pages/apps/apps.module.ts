@@ -39,6 +39,7 @@ import { ReportComponent } from './report/report.component';
 // import { ReceiptsComponent } from './receipts/receipts.component';
 
 
+
 const COMPONENTS = [
   AppsMessagingComponent,
   AppsCalendarComponent,
@@ -57,6 +58,7 @@ const COMPONENTS = [
   WordpressPostComponent,
   WordpressPostsComponent,
   WordpressAddComponent,
+  
 ]
 
 @NgModule({
@@ -69,6 +71,7 @@ const COMPONENTS = [
     QuillModule.forRoot(),
     SortablejsModule,
     NestableModule,
+    
   ],
   declarations: [...COMPONENTS, PricebookComponent, OrderComponent, ReceiptComponent, SettingComponent, CustomerComponent, ExpensesComponent, UrbanpiperComponent, UpdaterComponent, AboutusComponent, ReportComponent],
 })

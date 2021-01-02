@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store'
+import * as SettingsActions from 'src/app/store/settings/actions'
+import * as Reducers from 'src/app/store/reducers'
 
 @Component({
   selector: 'app-report',
@@ -7,9 +10,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportComponent implements OnInit {
 
-  constructor() { }
+  isSupportChatOpen: boolean
+
+  constructor(private store: Store<any>) {
+    this.store.pipe(select(Reducers.getSettings)).subscribe(state => {
+      this.isSupportChatOpen = state.isSupportChatOpen
+    })
+  }
 
   ngOnInit(): void {
+  }
+
+
+  toggle() {
+    this.store.dispatch(
+      new SettingsActions.SetStateAction({
+        isSupportChatOpen: !this.isSupportChatOpen,
+      }),
+    )
   }
 
 }
