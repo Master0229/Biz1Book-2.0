@@ -121,7 +121,6 @@ export class AuthService {
     var formURL =
       this.base_url +
       "Stores/Get?CompanyId=" + CompanyId;
-      console.log(CompanyId)
     return this.http.get(formURL);
   }
   AddStoreData1(formdata) {

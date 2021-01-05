@@ -316,18 +316,18 @@ export const getMenuData: any[] = [
     url: '/apps/aboutus',
   },
 
-  // {
-  //   title: 'Ant Design',
-  //   key: 'antDesign',
-  //   icon: 'fe fe-bookmark',
-  //   url: '/ui-kits/antd',
-  // },
-  // {
-  //   title: 'Bootstrap',
-  //   key: 'bootstrap',
-  //   icon: 'fe fe-bookmark',
-  //   url: '/ui-kits/bootstrap',
-  // },
+  {
+    title: 'Ant Design',
+    key: 'antDesign',
+    icon: 'fe fe-bookmark',
+    url: '/ui-kits/antd',
+  },
+  {
+    title: 'Bootstrap',
+    key: 'bootstrap',
+    icon: 'fe fe-bookmark',
+    url: '/ui-kits/bootstrap',
+  },
   // {
   //   category: true,
   //   title: 'Components',
@@ -416,33 +416,33 @@ export const getMenuData: any[] = [
   //     },
   //   ],
   // },
-  // {
-  //   title: 'Icons',
-  //   key: 'icons',
-  //   icon: 'fe fe-star',
-  //   children: [
-  //     {
-  //       title: 'Feather Icons',
-  //       key: 'iconsFeatherIcons',
-  //       url: '/icons/feather-icons',
-  //     },
-  //     {
-  //       title: 'Fontawesome',
-  //       key: 'iconsFontawesome',
-  //       url: '/icons/fontawesome',
-  //     },
-  //     {
-  //       title: 'Linearicons Free',
-  //       key: 'iconsLineariconsFree',
-  //       url: '/icons/linearicons-free',
-  //     },
-  //     {
-  //       title: 'Icomoon Free',
-  //       key: 'iconsIcomoonFree',
-  //       url: '/icons/icomoon-free',
-  //     },
-  //   ],
-  // },
+  {
+    title: 'Icons',
+    key: 'icons',
+    icon: 'fe fe-star',
+    children: [
+      {
+        title: 'Feather Icons',
+        key: 'iconsFeatherIcons',
+        url: '/icons/feather-icons',
+      },
+      {
+        title: 'Fontawesome',
+        key: 'iconsFontawesome',
+        url: '/icons/fontawesome',
+      },
+      {
+        title: 'Linearicons Free',
+        key: 'iconsLineariconsFree',
+        url: '/icons/linearicons-free',
+      },
+      {
+        title: 'Icomoon Free',
+        key: 'iconsIcomoonFree',
+        url: '/icons/icomoon-free',
+      },
+    ],
+  },
   // {
   //   category: true,
   //   title: 'Advanced',

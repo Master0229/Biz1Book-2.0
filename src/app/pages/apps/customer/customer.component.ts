@@ -9,9 +9,12 @@ import * as moment from "moment";
   styleUrls: ['./customer.component.scss']
 })
 export class CustomerComponent implements OnInit {
+  // POP Up
+  closeResult: string
 
+  // OLD Data
   Customer: any;
-  CompanyId: any;
+  CompanyId: number;
   status: number;
   errorMsg: any;
   show: any = false;
@@ -20,15 +23,21 @@ export class CustomerComponent implements OnInit {
   p;
   filteredcustomer = null;
   deleteId;
-
   constructor(private Auth: AuthService, private modalService: NgbModal) {
-    var logInfo = JSON.parse(localStorage.getItem("logInfo"));
-    this.CompanyId = logInfo.CompanyId;
-    this.StoreId = logInfo.StoreId;
+    // var userinfo = localStorage.getItem("userinfo");
+    // var userinfoObj = JSON.parse(userinfo);
+    // console.log(userinfoObj)
+    // this.CompanyId = userinfoObj[0].CompanyId;
+    // var logInfo = JSON.parse(localStorage.getItem("logInfo"));
+    this.CompanyId = 3;
+    this.StoreId = 22;
+
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    //  this.datService.execute();
     this.getCustomer();
+    
   }
 
   getCustomer() {
@@ -74,5 +83,9 @@ export class CustomerComponent implements OnInit {
     });
 
   }
-
+  
+  // POP Up
+  openCustomClass(content) {
+    this.modalService.open(content, { centered: true })
+  }
 }
