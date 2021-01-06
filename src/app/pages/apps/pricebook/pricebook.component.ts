@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../../../auth.service';
-// import { DataService } from '../service/data.service';
+
 
 @Component({
   selector: 'app-pricebook',
@@ -18,25 +18,46 @@ export class PricebookComponent implements OnInit {
   p1;
   term;
   datachange: boolean = false;
+  products = [];
+  options = [];
   @HostListener('document:click', ['$event']) ClickOutsideDirective($event) {
-    var Id = $event.path[0].id
+    var Id = $event.path[0].Id
     var element = document.getElementById(Id);
     if (element != null) {
       element.focus();
     }
   }
-  constructor(private Auth: AuthService, 
-    // private datService: DataService
-    ) {
-    var logInfo = JSON.parse(localStorage.getItem("logInfo"));
-    console.log(logInfo)
-    // this.CompanyId = logInfo.CompanyId;
-    // this.StoreId = logInfo.StoreId;
+  editCache: { [key: string]: any } = {}
+
+
+  startEdit(id: string): void {
+    this.editCache[id].edit = true
+  }
+
+  cancelEdit(id: string): void {
+    const index = this.products.findIndex(item => item.Id === id)
+    this.editCache[id] = {
+      data: { ...this.products[index] },
+      edit: false,
+    }
+  }
+
+  saveEdit(id: string): void {
+    const index = this.products.findIndex(item => item.Id === id)
+    Object.assign(this.products[index], this.editCache[id].data)
+    this.editCache[id].edit = false
+  }
+
+  constructor(private Auth: AuthService) {
+    // var logInfo = JSON.parse(localStorage.getItem("logInfo"));
+    this.CompanyId = 3;
+    this.StoreId = 22;
   }
   canDeactivate(): boolean {
     return !this.datachange;
   }
   ngOnInit() {
+
     this.GetPrice();
   }
   GetPrice() {
@@ -49,6 +70,9 @@ export class PricebookComponent implements OnInit {
         element.takpriceE = false;
         element.Changed = false;
       });
+      this.products = this.Pricedata.streprd;
+      this.options = this.Pricedata.streopt;
+      this.updateEditCache(0)
       console.log(this.Pricedata);
     })
   }
@@ -59,9 +83,9 @@ export class PricebookComponent implements OnInit {
       var response: any = data;
       this.GetPrice();
       if (response.status == 200) {
-        // console.log(toast(response.msg));
-      } else if (response.status == 0) {
-        // console.log(dangertoast(response.msg));
+        //   console.log(toast(response.msg));
+        // } else if (response.status == 0) {
+        //   console.log(dangertoast(response.msg));
       }
       this.datachange = false;
     });
@@ -79,7 +103,7 @@ export class PricebookComponent implements OnInit {
       var response: any = data;
       if (response.status == 200) {
         // console.log(toast(response.msg));
-      } else if (response.status == 0) {
+        // } else if (response.status == 0) {
         // console.log(dangertoast(response.msg));
       }
     });
@@ -90,7 +114,24 @@ export class PricebookComponent implements OnInit {
     document.getElementById("Price1056").focus();
   }
   changeKey(key) {
+    this.updateEditCache(key);
     this.activeKey = key
   }
-
+  updateEditCache(key): void {
+    if (key == 0) {
+      this.products.forEach(item => {
+        this.editCache[item.Id] = {
+          edit: false,
+          data: { ...item },
+        }
+      })
+    } else if (key == 1) {
+      this.options.forEach(item => {
+        this.editCache[item.Id] = {
+          edit: false,
+          data: { ...item },
+        }
+      })
+    }
+  }
 }

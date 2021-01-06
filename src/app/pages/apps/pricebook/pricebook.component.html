@@ -6,7 +6,7 @@
 
   <div class="card-header card-header-flex flex-column">
 
-    <nz-tabset class="kit-tabs kit-tabs-bold" (nzSelectedIndexChange)="changeKey($event)">
+    <nz-tabset class="kit-tabs" (nzSelectedIndexChange)="changeKey($event)">
       <nz-tab nzTitle="Produts"></nz-tab>
       <nz-tab nzTitle="Options"></nz-tab>
 
@@ -15,7 +15,7 @@
   </div>
   <div class="card-body">
     <div *ngIf="activeKey === 0">
-      <nz-table #basicTable [nzData]="listOfData" class="kit__utils__table mb-4">
+      <!-- <nz-table #basicTable [nzData]="Pricedata.streprd" class="kit__utils__table mb-4">
         <thead>
           <tr>
             <th>Product</th>
@@ -27,37 +27,154 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let item of basicTable.data ">
+            <td>{{item.Description}}</td>
+            <td> <span class="input-group input-group-sm"><input type="number" id="Price{{item.Id}}"
+                  class="form-control w-sm-25p" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                  [(ngModel)]="item.Price" *ngIf="item.priceE" (change)="item.Changed=true;datachange=true"
+                  (focusout)="item.priceE=false;"><span id="Price{{item.Id}}" (click)="item.priceE=true"
+                  *ngIf="!item.priceE">{{item.Price}}</span></span></td>
+            <td>{{item.TakeawayPrice}}</td>
+            <td>{{item.DeliveryPrice}}</td>
+            <td>{{(item.SortOrder)?item.SortOrder:'-'}}</td>
+            <td><input type="checkbox" (change)="item.Changed = true" [(ngModel)]="item.Recommended"></td>
 
           </tr>
         </tbody>
-      </nz-table>
+      </nz-table> -->
+      <nz-table #editRowTable nzBordered [nzData]="products" class="kit__utils__table mb-4">
+        <thead>
+          <tr>
+            <th nzWidth="30%">Products</th>
+            <th nzWidth="10%" class="text-center">Price</th>
+            <th nzWidth="10%" class="text-center">Takeaway Price</th>
+            <th nzWidth="10%" class="text-center">Delivery Price</th>
+            <th nzWidth="10%" class="text-center">Sort Order</th>
+            <th nzWidth="10%" class="text-center">Recommended </th>
+            <th nxWidth="20%" class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of editRowTable.data">
+            <td>
+              <ng-container *ngIf="!editCache[data.Id].edit; else nameInputTpl">
+                {{ data.Description }}
+              </ng-container>
+              <ng-template #nameInputTpl>
+                <input type="text" nz-input [(ngModel)]="editCache[data.Id].data.Description" />
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!editCache[data.Id].edit; else ageInputTpl">
+                {{ data.Price }}
+              </ng-container>
+              <ng-template #ageInputTpl>
+                <input type="text" nz-input [(ngModel)]="editCache[data.Id].data.Price" />
+              </ng-template>
+            </td>
 
+            <td class="text-center">
+              <ng-container *ngIf="!editCache[data.Id].edit; else ageInputTpl">
+                {{ data.TakeawayPrice }}
+              </ng-container>
+              <ng-template #ageInputTpl>
+                <input type="text" nz-input [(ngModel)]="editCache[data.Id].data.TakeawayPrice" />
+              </ng-template>
+            </td>
+
+            <td class="text-center">
+              <ng-container *ngIf="!editCache[data.Id].edit; else ageInputTpl">
+                {{ data.DeliveryPrice }}
+              </ng-container>
+              <ng-template #ageInputTpl>
+                <input type="text" nz-input [(ngModel)]="editCache[data.Id].data.DeliveryPrice" />
+              </ng-template>
+            </td>
+
+
+            <td class="text-center">
+              <ng-container *ngIf="!editCache[data.Id].edit; else addressInputTpl">
+                {{ data.SortOrder }}
+              </ng-container>
+              <ng-template #addressInputTpl>
+                <input type="text" nz-input [(ngModel)]="editCache[data.Id].data.SortOrder" />
+              </ng-template>
+            </td>
+
+
+            <td class="text-center"> <input type="checkbox" (change)="item.Changed = true"></td>
+
+            <td class="text-center">
+              <div class="editable-row-operations">
+                <ng-container *ngIf="!editCache[data.Id].edit; else saveTpl">
+                  <a (click)="startEdit(data.Id)">Edit</a>
+                </ng-container>
+                <ng-template #saveTpl>
+                  <a (click)="saveEdit(data.Id)">Save</a>
+                  <a nz-popconfirm nzPopconfirmTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(data.Id)">Cancel</a>
+                </ng-template>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
     </div>
 
 
     <div *ngIf="activeKey === 1">
-      <nz-table #basicTable [nzData]="listOfData" class="kit__utils__table mb-4">
+
+      
+
+      <nz-table #basicTable [nzData]="options" class="kit__utils__table mb-4">
         <thead>
           <tr>
-            <th>Options</th>
-            <th>Price</th>
-            <th>Takeaway Price</th>
-            <th>Delivery Price</th>
+            <th nzWidth="40%">Options</th>
+            <th nzWidth="10%" class="text-center">Price</th>
+            <th nzWidth="10%" class="text-center">Takeaway Price</th>
+            <th nzWidth="10%" class="text-center">Delivery Price</th>
+            <th nzWidth="10%" class="text-center">Action</th>
+
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let data of basicTable.data; let i=index ">
+            <td>{{data.Name}}</td>
+            <td class="text-center">
+              <ng-container *ngIf="!editCache[data.Id].edit; else nameInputTpl">
+                {{ data.Price }}
+              </ng-container>
+              <ng-template #nameInputTpl>
+                <input type="text" nz-input [(ngModel)]="editCache[data.Id].data.Price" />
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <ng-container *ngIf="!editCache[data.Id].edit; else ageInputTpl">
+                {{ data.DeliveryPrice }}
+              </ng-container>
+              <ng-template #ageInputTpl>
+                <input type="text" nz-input [(ngModel)]="editCache[data.Id].data.DeliveryPrice" />
+              </ng-template>
+            </td>
+
+            <td class="text-center">
+              <ng-container *ngIf="!editCache[data.Id].edit; else ageInputTpl">
+                {{ data.TakeawayPrice }}
+              </ng-container>
+              <ng-template #ageInputTpl>
+                <input type="text" nz-input [(ngModel)]="editCache[data.Id].data.TakeawayPrice" />
+              </ng-template>
+            </td>
+            <td class="text-center">
+              <div class="editable-row-operations">
+                <ng-container *ngIf="!editCache[data.Id].edit; else saveTpl">
+                  <a (click)="startEdit(data.Id)">Edit</a>
+                </ng-container>
+                <ng-template #saveTpl>
+                  <a (click)="saveEdit(data.Id)">Save</a>
+                  <a nz-popconfirm nzPopconfirmTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(data.Id)">Cancel</a>
+                </ng-template>
+              </div>
+            </td>
 
           </tr>
         </tbody>

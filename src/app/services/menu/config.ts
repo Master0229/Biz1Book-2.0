@@ -64,7 +64,7 @@ export const getMenuData: any[] = [
   {
     title: 'Price Book',
     key: 'book',
-    icon: 'fa fa-leanpub',
+    icon: 'fe fe-book-open',
     url: '/apps/pricebook',
   },
   {
@@ -377,23 +377,23 @@ export const getMenuData: any[] = [
   //     },
   //   ],
   // },
-  // {
-  //   title: 'Tables',
-  //   key: 'tables',
-  //   icon: 'fe fe-grid',
-  //   children: [
-  //     {
-  //       title: 'Ant Design',
-  //       key: 'tablesAntd',
-  //       url: '/tables/antd',
-  //     },
-  //     {
-  //       title: 'Bootstrap',
-  //       key: 'tablesBootstrap',
-  //       url: '/tables/bootstrap',
-  //     },
-  //   ],
-  // },
+  {
+    title: 'Tables',
+    key: 'tables',
+    icon: 'fe fe-grid',
+    children: [
+      {
+        title: 'Ant Design',
+        key: 'tablesAntd',
+        url: '/tables/antd',
+      },
+      {
+        title: 'Bootstrap',
+        key: 'tablesBootstrap',
+        url: '/tables/bootstrap',
+      },
+    ],
+  },
   // {
   //   title: 'Charts',
   //   key: 'charts',
