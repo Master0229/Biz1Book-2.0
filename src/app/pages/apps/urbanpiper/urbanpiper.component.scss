@@ -1,0 +1,26 @@
+// #container {
+//   text-align: justify;
+// }
+// #container > div {
+//   // width: 100%; /* Declare your value. Can be in relative units. */
+//   // height: 100%;
+//   // display: inline-block;
+//   // vertical-align: top;
+
+//   /* IE fix. */
+//   *display: inline;
+//   zoom: 1;
+// }
+// #container:after {
+//   content: "";
+//   width: 100%;
+//   display: inline-block;
+// }
+
+.searchbar {
+  width: 50%;
+}
+
+.btn1 {
+  padding-left: 25%;
+}

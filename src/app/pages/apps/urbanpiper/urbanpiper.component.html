@@ -1,18 +1,60 @@
 <h2>
-    UrbanPiper Hub
+  UrbanPiper Hub
 </h2>
 <div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-lg-4">
-                <h5 class="mb-3">
-                    <strong>Checkable</strong>
-                </h5>
-                <nz-tree #nzTreeComponent [nzData]="nodes" nzCheckable [nzCheckedKeys]="defaultCheckedKeys"
-                    [nzExpandedKeys]="defaultExpandedKeys" [nzSelectedKeys]="defaultSelectedKeys"
-                    (nzClick)="nzClick($event)" (nzCheckBoxChange)="nzCheck($event)" (nzExpandChange)="nzCheck($event)">
-                </nz-tree>
-            </div>
-        </div>
+  <div class="card-body">
+
+    <!-- <div class="searcfilter">
+
+      <input placeholder="Search Expenses..." nz-input [(ngModel)]="inputValue" (input)="onInput($event.target?.value)"
+        [nzAutocomplete]="auto" style="width: 61%;" />
+      <nz-autocomplete nzBackfill #auto>
+        <nz-auto-option *ngFor="let option of options" [nzValue]="option">
+          {{ option }}
+        </nz-auto-option>
+      </nz-autocomplete>
+
+      <div style="float: right; margin-left: 10%;">
+        <button nz-button nzType="primary"><i class="fe fe-x-circle"></i></button>
+
+        <button nz-button nzType="primary" class="mr-3 mb-3">Primary</button>
+      </div>
+
+    </div> -->
+
+    <div class="row">
+      <div class="searchbar">
+        <input placeholder="Search Here..." nz-input [(ngModel)]="inputValue" (input)="onInput($event.target?.value)"
+        [nzAutocomplete]="auto" style="width: 100%;" />
+      <nz-autocomplete nzBackfill #auto>
+        <nz-auto-option *ngFor="let option of options" [nzValue]="option">
+          {{ option }}
+        </nz-auto-option>
+      </nz-autocomplete>
+      </div>
+      <div class="Clearbtn">
+        <button nz-button nzType="primary"><i class="fe fe-x-circle"></i></button>
+      </div>
+      <div class="btn1">
+        <button nz-button style="background-color: rgb(20, 170, 83); color: white;" class="mr-3 mb-3">In Stock</button>
+      </div>
+      <div class="btn2">
+        <button nz-button nzType="danger" class="mr-3 mb-3">Out of Stock</button>
+      </div>
     </div>
+    <br>
+    <br>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <h5 class="mb-3">
+          <strong>Checkable</strong>
+        </h5>
+        <nz-tree #nzTreeComponent [nzData]="nodes" nzCheckable [nzCheckedKeys]="defaultCheckedKeys"
+          [nzExpandedKeys]="defaultExpandedKeys" [nzSelectedKeys]="defaultSelectedKeys" (nzClick)="nzClick($event)"
+          (nzCheckBoxChange)="nzCheck($event)" (nzExpandChange)="nzCheck($event)">
+        </nz-tree>
+      </div>
+    </div>
+  </div>
 </div>
