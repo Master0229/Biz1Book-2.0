@@ -6,7 +6,8 @@
     <cui-topbar-search></cui-topbar-search>
   </div>
   <div class="mr-4 d-none d-md-block">
-    <cui-topbar-issues-history></cui-topbar-issues-history>
+    <!-- <cui-topbar-issues-history></cui-topbar-issues-history> -->
+    {{ time | date: 'MMM d, y | hh:mm:ss a' }}
   </div>
   <div class="mb-0 mr-auto d-xl-block d-none">
     <cui-topbar-project-management></cui-topbar-project-management>

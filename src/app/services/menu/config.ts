@@ -40,25 +40,25 @@ export const getMenuData: any[] = [
   {
     title: 'Sell',
     key: 'Sell',
-    icon: 'fa fa-shopping-cart',
+    icon: 'fe fe-shopping-cart',
     url: '/apps/order',
   },
   {
     title: 'Receipts',
     key: 'Receipt',
-    icon: 'fa fa-rupee',
+    icon: 'fe fe-dollar-sign',
     url: '/apps/receipt',
   },
   {
     title: 'Customers',
     key: 'Customers',
-    icon: 'lnr lnr-users',
+    icon: 'fe fe-users',
     url: '/apps/customer',
   },
   {
     title: 'Expenses',
     key: 'Expenses',
-    icon: 'lnr lnr-layers',
+    icon: 'fe fe-package',
     url: '/apps/expenses',
   },
   {
@@ -70,7 +70,7 @@ export const getMenuData: any[] = [
   {
     title: 'UrbanPiper Hub',
     key: 'book',
-    icon: 'lnr lnr-underline',
+    icon: 'fe fe-underline',
     url: '/apps/urbanpiper',
   },
   // {
