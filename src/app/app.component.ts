@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
         filter(route => route.outlet === 'primary'),
         mergeMap(route => route.data),
       )
-      .subscribe(event => this.titleService.setTitle('Clean UI Pro Angular | ' + event['title']))
+      .subscribe(event => this.titleService.setTitle('Biz1Book | ' + event['title']))
 
     // listen url query params and set them to ngrx store
     this.router.events
