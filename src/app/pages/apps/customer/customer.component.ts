@@ -45,7 +45,9 @@ export class CustomerComponent implements OnInit {
       this.Customer = data;
       for (let i = 0; i < this.Customer.length; i++) {
         this.Customer[i].LastSeen = moment(this.Customer[i].LastSeen).format('LLL');
+       
       }
+    
     });
   }
 

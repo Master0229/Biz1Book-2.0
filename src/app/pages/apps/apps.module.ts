@@ -36,6 +36,8 @@ import { UrbanpiperComponent } from './urbanpiper/urbanpiper.component';
 import { UpdaterComponent } from './updater/updater.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ReportComponent } from './report/report.component';
+import { ElectronService } from 'ngx-electron';
+
 // import { ReceiptsComponent } from './receipts/receipts.component';
 
 
@@ -74,5 +76,6 @@ const COMPONENTS = [
     
   ],
   declarations: [...COMPONENTS, PricebookComponent, OrderComponent, ReceiptComponent, SettingComponent, CustomerComponent, ExpensesComponent, UrbanpiperComponent, UpdaterComponent, AboutusComponent, ReportComponent],
+  providers: [ElectronService]
 })
 export class AppsModule {}

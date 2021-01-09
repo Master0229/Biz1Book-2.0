@@ -22,7 +22,7 @@ export class ExpensesComponent implements OnInit {
   errorMsg: string = '';
   term;
   p;
-
+  transactions = [];
   // Hide and Show
 
   public show: boolean = false;
@@ -47,10 +47,11 @@ export class ExpensesComponent implements OnInit {
       console.log(this.expense);
       for (let i = 0; i < this.expense.transtype.length; i++) {
         var obj = this.expense.payment.filter(x => x.Id == this.expense.transtype[i].PaymentTypeId);
-        console.log(obj)
+        // console.log(obj)
         this.expense.transtype[i].Payment = obj[0].Description;
       }
-      console.log(this.expense.transtype)
+      this.transactions = this.expense.transtype;
+      // console.log(this.expense)
       var response: any = data
       if (response.status == 0) {
         this.errorMsg = response.msg;
