@@ -1,7 +1,8 @@
 {
-  "name": "clean-ui-admin-template-angular",
+  "name": "Biz1Book-POS-BizDom",
   "version": "3.3.0",
   "private": true,
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
@@ -14,7 +15,9 @@
     "prettier": "prettier --write \"src/**/*.{ts,scss,less}\"",
     "tslint": "tslint \"src/**/*.{ts}\"",
     "stylelint": "stylelint \"src/**/*.{scss,less}\"",
-    "postinstall": "ngcc"
+    "postinstall": "ngcc",
+    "electron-build": "ng build --prod && electron .",
+    "electron": "electron ."
   },
   "husky": {
     "hooks": {

@@ -22,6 +22,7 @@ import { UserEffects } from './store/user/effects'
 import { firebaseConfig, firebaseAuthService } from './services/firebase'
 import { jwtAuthService } from './services/jwt'
 import { MockHttpCallInterceptor } from './services/fakeApi'
+import { ElectronService, NgxElectronModule } from 'ngx-electron';
 
 // locale resistration
 import { registerLocaleData } from '@angular/common'
@@ -41,6 +42,7 @@ registerLocaleData(localeEn, 'en')
     BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
+    NgxElectronModule,
 
     // translate
     TranslateModule.forRoot(),
@@ -68,6 +70,7 @@ registerLocaleData(localeEn, 'en')
     // auth services
     firebaseAuthService,
     jwtAuthService,
+    ElectronService,
 
     // fake http interceptors
     {
