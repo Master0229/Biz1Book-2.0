@@ -15,30 +15,35 @@
     </div>
     <div class="card-body">
         <div *ngIf="activeKey === 0">
-            <h3>
+            <!-- <h3>
                 Order Discount/Tax Settings
-            </h3>
+            </h3> -->
             <br>
-            <nz-form-item>
-                <nz-form-label><label>Discount Inclusive(item lvl.)</label></nz-form-label>
-                <nz-form-control style="padding-left: 5%;">
-                    <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
-                </nz-form-control>
-            </nz-form-item>
-            <br>
-            <nz-form-item>
-                <nz-form-label><label>Discount Inclusive(order lvl.)</label></nz-form-label>
-                <nz-form-control style="padding-left: 4.5%;">
-                    <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
-                </nz-form-control>
-            </nz-form-item>
-            <br>
-            <nz-form-item>
-                <nz-form-label><label>Display Tax On Bill</label></nz-form-label>
-                <nz-form-control style="padding-left: 9.6%;">
-                    <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
-                </nz-form-control>
-            </nz-form-item>
+            <div >
+                <label for="kot-printer"><strong class="text-light">Order Discount/Tax Settings</strong></label><label for="kot-printer"><strong class="text-light">Order Discount/Tax Settings</strong></label>
+
+
+                <nz-form-item>
+                    <nz-form-label><label>Discount Inclusive(item lvl.)</label></nz-form-label>
+                    <nz-form-control style="padding-left: 5%;">
+                        <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <br>
+                <nz-form-item>
+                    <nz-form-label><label>Discount Inclusive(order lvl.)</label></nz-form-label>
+                    <nz-form-control style="padding-left: 4.5%;">
+                        <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <br>
+                <nz-form-item>
+                    <nz-form-label><label>Display Tax On Bill</label></nz-form-label>
+                    <nz-form-control style="padding-left: 9.6%;">
+                        <nz-switch [(ngModel)]="checkbox" name="checkbox"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
 
 
         </div>
@@ -254,15 +259,15 @@
                     <cui-sidebar></cui-sidebar>
                     <cui-support-chat></cui-support-chat> -->
 
-                    <!-- left menu -->
-                    <!-- FIX: nz-sider wrapper fix layout behaviour in case when cui-menu-left root tag breaks layout transformation -->
-                    <!-- <nz-sider *ngIf="menuLayoutType === 'left' && !isMobileView"
+<!-- left menu -->
+<!-- FIX: nz-sider wrapper fix layout behaviour in case when cui-menu-left root tag breaks layout transformation -->
+<!-- <nz-sider *ngIf="menuLayoutType === 'left' && !isMobileView"
                         [nzWidth]="isMenuCollapsed ? 80 : leftMenuWidth" style="transition: none !important">
                         <cui-menu-left></cui-menu-left>
                     </nz-sider> -->
 
-                    <!-- mobile menu with drawer -->
-                    <!-- <div *ngIf="isMobileView">
+<!-- mobile menu with drawer -->
+<!-- <div *ngIf="isMobileView">
                         <div class="handler" (click)="toggleMobileMenu()">
                             <div class="handlerIcon"></div>
                         </div>
@@ -272,8 +277,8 @@
                         </nz-drawer>
                     </div> -->
 
-                    <!-- top menu -->
-                    <!-- <div *ngIf="menuLayoutType === 'top' && !isMobileView">
+<!-- top menu -->
+<!-- <div *ngIf="menuLayoutType === 'top' && !isMobileView">
                         <cui-menu-top></cui-menu-top>
                     </div>
 
@@ -286,8 +291,8 @@
                             <cui-topbar></cui-topbar>
                         </nz-header>
                         <nz-content style="height: 100%; position: relative;"> -->
-                            <!-- <cui-breadcrumbs></cui-breadcrumbs> -->
-                            <!-- <div class="cui__utils__content">
+<!-- <cui-breadcrumbs></cui-breadcrumbs> -->
+<!-- <div class="cui__utils__content">
                                 <div [@slideFadeinUp]="routeAnimation(outlet, 'slideFadeinUp')"
                                     [@slideFadeinRight]="routeAnimation(outlet, 'slideFadeinRight')"
                                     [@zoomFadein]="routeAnimation(outlet, 'zoomFadein')"
