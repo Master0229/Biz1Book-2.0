@@ -9,7 +9,10 @@ const electron = require('electron');
 // const ip = require('ip');
 
 let mainWindow
-
+function redirect() {
+    mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
+  }
+  
 function createWindow() {
     mainWindow = new BrowserWindow({
         // backgroundColor: ' rgb(27, 69, 160)',
@@ -31,7 +34,7 @@ function createWindow() {
         })
     );
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
 
     mainWindow.on('closed', function () {
         mainWindow = null

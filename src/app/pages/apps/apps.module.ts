@@ -38,6 +38,10 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { ReportComponent } from './report/report.component';
 import { ElectronService } from 'ngx-electron';
 
+// import { FilterPipe, CategoryPipe, MultiFilterPipe, ExcludeFilterPipe } from '../../shared/order.filter.pipe';
+
+// import { MomentPipe } from '../../shared/moment.pipe';
+
 // import { ReceiptsComponent } from './receipts/receipts.component';
 
 
@@ -61,6 +65,7 @@ const COMPONENTS = [
   WordpressPostsComponent,
   WordpressAddComponent,
   
+  
 ]
 
 @NgModule({
@@ -73,6 +78,7 @@ const COMPONENTS = [
     QuillModule.forRoot(),
     SortablejsModule,
     NestableModule,
+   
     
   ],
   declarations: [...COMPONENTS, PricebookComponent, OrderComponent, ReceiptComponent, SettingComponent, CustomerComponent, ExpensesComponent, UrbanpiperComponent, UpdaterComponent, AboutusComponent, ReportComponent],

@@ -6,9 +6,9 @@
     <!-- Receipts input & filters -->
 
     <div class="card">
-      
+
         <div class="card-body">
-          
+
             <div class="row">
                 <div class="mr-3">
                     <input nz-input placeholder="Basic usage" [(ngModel)]="value" />
@@ -56,7 +56,7 @@
                     <div class="item mb-xl-0 mb-3">
                         <div class="desc">
                             <span class="title">Total Sales</span>
-                            <h3>₹</h3>
+                            <h3>₹ {{totalsales}}</h3>
                         </div>
 
                     </div>
@@ -71,7 +71,7 @@
                     <div class="item mb-xl-0 mb-3">
                         <div class="desc">
                             <span class="title">Total Payments</span>
-                            <h3>₹</h3>
+                            <h3>₹ {{totalpayments}}</h3>
                         </div>
                     </div>
                 </div>
@@ -82,9 +82,10 @@
 
     <!-- Receipt Table -->
 
-    <div class="card-body">
-        <div>
-            <nz-table #basicTable [nzData]="" class="kit__utils__table mb-4">
+    <!-- <div class="card-body">
+        <div
+        *ngIf="(receipts.receipts).length>0;else emptyreceipt" >
+            <nz-table #basicTable [nzData]="" class="kit__utils__table mb-4">{{ngforLen}}
                 <thead>
                     <tr>
                         <th>Order No</th>
@@ -96,8 +97,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
+                    <tr   *ngFor="let item of receipts.receipts">
+                        <td  class="text-left"><img src="{{item.logo}}" width="20">
                             <a (click)="show = !show">
                                 124678654962
                             </a>
@@ -123,82 +124,239 @@
             </nz-table>
 
         </div>
+    </div> -->
+
+
+    <div class="col-xl-12 pl-0 pr-0">
+        <section class="hk-sec-wrapper">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="table-wrap" *ngIf="receipts!=undefinde">
+                        <div class="table-responsive" *ngIf="(receipts.receipts).length>0;else emptyreceipt">
+                            <table class="table mb-0 text-center">{{ngforLen}}
+                                <thead>
+                                    <tr>
+                                        <th>OrderNo</th>
+                                        <th>Created At</th>
+                                        <th>Customer Details</th>
+                                        <th>Order Status</th>
+                                        <th>Payment Status</th>
+                                        <th>Price</th>
+                                        <!-- <th></th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of receipts.receipts ;let i=index">
+                                        <td class="text-left"><img src="{{item.logo}}" width="20"><button type="button"
+                                                class="btn btn-link"
+                                                (click)="filter(item.Id,item.ChargeAmount,item.PaidAmount);show = 1;OrderStatus = item.OrderStatusId">{{item.InvoiceNo}}</button>
+                                        </td>
+                                        <td>{{item.OrderedDateTime}}</td>
+                                        <td class="text-center">
+                                            {{item.Customer==null?"-":item.Customer}}/{{item.PhoneNo==null?"-":item.PhoneNo}}
+                                        </td>
+                                        <td><span *ngIf="item.OrderStatusId == 5">Completed</span>
+                                            <span
+                                                *ngIf="item.OrderStatusId != -1 && item.OrderStatusId != 5">Pending</span>
+                                            <span *ngIf="item.OrderStatusId == -1">Cancelled</span>
+                                        </td>
+                                        <td><span *ngIf="item.OrderStatusId != -1 && item.BillAmount == item.PaidAmount"
+                                                class="badge badge-success mr-10">Paid</span>
+                                            <span *ngIf="item.OrderStatusId != -1 && item.BillAmount > item.PaidAmount"
+                                                class="badge badge-warning mr-10">Pending</span>
+                                            <span *ngIf="item.OrderStatusId == -1"
+                                                class="badge badge-danger mr-10">Cancelled</span>
+                                        </td>
+                                        <td>{{item.OrderStatusId==-1?'Refunded &#8377;'+item.BillAmount+'
+                                            /-':'&#8377;'+item.BillAmount+' /-' }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center">
+                                <button [class.disabled]="LastId" [ngClass]="{'text-blue': !LastId}"
+                                    class="btn btn-link" (click)="nextRecipts('prev')">Previous</button>
+                                <button [class.disabled]="FirstId" [ngClass]="{'text-blue': !FirstId}"
+                                    class="btn btn-link text-blue" (click)="nextRecipts('next')">Next</button>
+                            </div>
+                        </div>
+                        <ng-template #emptyreceipt>
+                            <p class="text-center">No receipts found!</p>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 
-<div class="card" *ngIf="show">
 
-    <!-- Receipt Back Preference -->
+<div class="container" *ngIf="show">
+    <!-- Title -->
+    <div class="hk-pg-header">
+        <h4 (click)="show = 0" class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i
+                        data-feather="archive"></i></span></span>{{ordertype}}/{{orderno}}</h4>
+        <!-- <div class="col-xl-8 mb-10 text-right"><button printSectionId="demo" ngxPrint>Print</button></div> -->
+        <div class="col-xl-8 mb-10 text-right"><button class="btn btn-link"
+                (click)="getReceipt(0,'next','all',strdate,enddate);show=0">Back</button>|<button class="btn btn-link"
+                (click)="electronPrint()">print</button>
+            <span *ngIf="OrderStatus != -1"> |<button class="btn btn-link"
+                    (click)="openOrderpopup(CancelReceipt)">Cancel</button></span>
+        </div>
+    </div>
+    <!-- Row -->
+    <div class="col-xl-12 pl-0 pr-0">
+        <section class="hk-sec-wrapper">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="table-wrap">
+                        <div class="table-responsive">
+                            <!-- <div class="header">
+                                <hr class="print">
+                                <p style="text-align: center;">FB Cakes<br><br>
+                                    Chennai, Tamil Nadu, India<br>
+                                    Receipt: FB-VV0-1905-12<br>
+                                    Sep 16, 2019, at 10:25 AM</p>
+                                <hr class="print">
+                            </div> -->
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th><strong>Item</strong></th>
+                                        <th><strong>Qty</strong></th>
+                                        <th><strong>Tax%</strong></th>
+                                        <th><strong>Price</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr [ngClass]="{print: last}" *ngFor="let item of orderitem;let last = last"
+                                        style="border-bottom: 1px solid #000;">
+                                        <td>{{item.Description}}</td>
+                                        <td>{{item.Quantity}}{{item.ComplementryQty>0?'+'+item.ComplementryQty:''}}
+                                        </td>
+                                        <td>{{item.Tax1 + item.Tax2 + item.Tax3}}</td>
+                                        <td>{{item.UnitPrice * item.Quantity | number: ".2" }}</td>
+                                        <!-- <hr> -->
+                                    </tr>
+                                    <tr>
+                                        <td class="cs" [attr.colspan]="3"><strong>Subtotal</strong><br><br>
+                                            <span
+                                                *ngFor="let item of AdditionalCharges"><strong>{{item.Description}}</strong><br><br></span>
+                                            <span *ngIf="Discount > 0"><strong>Discount</strong><br><br></span>
+                                            <strong *ngIf="CGST">CGST</strong><br><br>
+                                            <strong *ngIf="SGST">SGST</strong><br><br>
+                                            <strong>Total</strong><br><br>
+                                        </td>
+                                        <td>{{Subtotal | number: ".2" }}<br><br>
+                                            <span class="text-right"
+                                                *ngFor="let item of AdditionalCharges">{{item.ChargeAmount | number:
+                                                ".2" }}<br><br></span>
+                                            <span class="text-right" *ngIf="Discount > 0">{{Discount | number: ".2"
+                                                }}<br><br></span>
+                                            <span class="text-right" *ngIf="CGST">{{CGST | number: ".2" }}
+                                            </span><br><br>
+                                            <span class="text-right" *ngIf="SGST">{{SGST | number: ".2" }}
+                                            </span><br><br>
+                                            <span class="text-right">{{Total | number: ".2" }} </span><br><br>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12 sp-margin-left20">
+                                <strong>CustomerName :</strong><span>{{customer.Name}} |
+                                    {{customer.PhoneNo}}</span><br><br>
+                                <strong>CustomerAddress :</strong><span>{{customer.Address}}</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12 pt-0 sp-margin-left20">
+                                <p><span><strong>Order Tickets</strong>
+                                        <span *ngFor="let item of KOTs; let last = last"
+                                            (click)="KOTFilter(item.Id);openOrderpopup(KOTItem)"><a
+                                                href="javascript:void(0)"
+                                                class="sp-fit-width">&nbsp;#{{item.KOTNo}}<span
+                                                    *ngIf="!last">,</span>&nbsp;</a></span></span></p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12 pt-0 sp-margin-left20">
+                                <strong>Payment History</strong><br>
+                                <span *ngFor="let item of transactions"><span
+                                        *ngIf="item.TransTypeId==1">{{item.Amount}}
+                                        /- on
+                                        {{item.TransDateTime}} by {{item.Description}}</span>
+                                    <span *ngIf="item.TransTypeId==3">{{item.Amount}} /- Refunded on
+                                        {{item.TransDateTime}} by {{item.Description}}</span>
+                                    <button mat-icon-button class="text-blue" (click)="openDialog(transactiondetails)">
+                                        <mat-icon inline="true">edit</mat-icon>{{item.PaymentTypeId}}
+                                    </button>
 
-    <div class="mr-2 mb-2">
-        <div class="col-lg-12 mb-5">
 
-            <div class="btn-group mr-2 mb-2">
-                <button type="button" (click)="toggle()" class="btn">Back</button>
-                <button type="button" class="btn">Print</button>
-                <button type="button" class="btn">Cancel</button>
+
+                                    <!-- dialog box -->
+
+
+                                    <ng-template #transactiondetails>
+                                        <h2 mat-dialog-title>Edit Payment:</h2>
+                                        <mat-dialog-content class="mat-typography">
+                                            <mat-radio-group aria-label="Select an option"
+                                                [(ngModel)]="item.PaymentTypeId" value="i" [checked]="true"
+                                                (change)="onItemChange($event.target.value)">
+                                                <mat-radio-button value='1'>Cash</mat-radio-button>
+                                                <mat-radio-button value='2'>Card</mat-radio-button>
+                                                <mat-radio-button value='3'>Others
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                            <mat-form-field class="example-form-field" style="padding-left: 8%;">
+                                                <mat-label>Transaction Amount</mat-label>
+                                                <input matInput type="number" (keyup.enter)="gettransactionsbyinvoice()"
+                                                    [(ngModel)]="item.Amount">
+                                            </mat-form-field>
+                                        </mat-dialog-content>
+                                        <mat-dialog-actions align="end">
+                                            <button mat-raised-button (click)="savetransaction(item)">Save</button>
+                                        </mat-dialog-actions>
+                                    </ng-template>
+                                </span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row" *ngIf="OrderStatus != -1&&Total-PaidAmount>0">
+                            <div class="col-md-12 pt-0">
+                                <strong class="sp-margin-left20">Pending Payment
+                                    :</strong><span>{{Total-PaidAmount}}</span>
+                            </div>
+                        </div>
+                        <hr *ngIf="Total-PaidAmount > 0 && OrderStatus != -1">
+                        <div class="row" *ngIf="Total-PaidAmount > 0 && OrderStatus != -1">
+                            <strong class="col-sm-3 pt-0 sp-margin-left20">Payment type</strong><span>
+                                <span class="sp-margin-top20" *ngFor="let item of receipts.PaymentType"
+                                    (click)="transaction.PaymentTypeId != 5 && payment(item.Id)">
+                                    <span class="sp-option-detail sp-no-user-select">
+                                        <span *ngIf="item.Price > 0"
+                                            class="glyphicon glyphicon-ok sp-option-selected"></span>{{item.Description}}
+                                        <span *ngIf="item.Price > 0 && transaction.PaymentTypeId == 5">Rs.{{item.Price}}
+                                            /-</span></span></span>
+                                <span class="sp-margin-top20">
+                                    <span class="sp-option-detail sp-no-user-select"
+                                        (click)="openOrderpopup(splitpayment)">
+                                        Split Payment</span></span></span>
+                        </div>
+                        <div *ngIf="OrderStatus != -1">
+                            <span><input *ngIf="transaction.PaymentTypeId != 5 && transaction.PaymentTypeId != 0"
+                                    [(ngModel)]="transaction.Amount" class="form-control custom-select  mt-15"
+                                    id="PaidAmount" type="number" min="0">
+                                <span><button *ngIf="transaction.PaymentTypeId > 0" type="submit"
+                                        class="btn btn-primary float-right" (click)="Pay()">Pay</button></span></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
     </div>
-
-    <div class="card-body">
-
-
-        <!-- Receipt Details Table -->
-
-
-        <div>
-            <nz-table #basicTable [nzData]="" class="kit__utils__table mb-4">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Qty</th>
-                        <th>Tax%</th>
-                        <th>Price</th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Subtotal</strong><br><br>
-                            <span><strong>
-
-                                </strong><br><br></span>
-                            <span><strong>Discount</strong><br><br></span>
-                            <strong>CGST</strong><br><br>
-                            <strong>SGST</strong><br><br>
-                            <strong>Total</strong><br><br>
-                        </td>
-                        <td><br><br>
-                            <span class="text-right"><br><br></span>
-                            <span class="text-right"><br><br></span>
-                            <span class="text-right">
-                            </span><br><br>
-                            <span class="text-right">
-                            </span><br><br>
-                            <span class="text-right"> </span><br><br>
-                        </td>
-                    </tr>
-                </tbody>
-            </nz-table>
-
-
-
-        </div>
-    </div>
-
 </div>
