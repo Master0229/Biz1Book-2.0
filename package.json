@@ -74,6 +74,7 @@
     "ng-apexcharts": "^1.2.3",
     "ng-chartist": "^4.1.0",
     "ng-zorro-antd": "^9.3.0",
+    "ngx-daterangepicker-material": "^4.0.1",
     "ngx-electron": "^2.2.0",
     "ngx-nestable": "^0.9.4",
     "ngx-perfect-scrollbar": "^10.0.1",

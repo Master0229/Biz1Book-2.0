@@ -37,6 +37,8 @@ import { UpdaterComponent } from './updater/updater.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ReportComponent } from './report/report.component';
 import { ElectronService } from 'ngx-electron';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+
 
 
 // import { FilterPipe, CategoryPipe, MultiFilterPipe, ExcludeFilterPipe } from '../../shared/order.filter.pipe';
@@ -81,6 +83,8 @@ const COMPONENTS = [
     QuillModule.forRoot(),
     SortablejsModule,
     NestableModule,
+    NgxDaterangepickerMd.forRoot(),
+
    
     
   ],

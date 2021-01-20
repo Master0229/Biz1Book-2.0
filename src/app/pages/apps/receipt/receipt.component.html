@@ -31,9 +31,10 @@
                             [showClearButton]="true" (datesUpdated)="setdate($event)" placeholder="Select Date..."
                              /> -->
 
-                             <input type="text" nz-range-picker [(ngModel)]="selected" [showCustomRangeLabel]="true"
-                             [alwaysShowCalendars]="true" [ranges]="ranges" [linkedCalendars]="true" [showClearButton]="true"
-                             (datesUpdated)="setdate($event)" placeholder="Select Date..." class="form-control" />
+                            <input type="text" ngxDaterangepickerMd [(ngModel)]="selected" [showCustomRangeLabel]="true"
+                                [alwaysShowCalendars]="true" [ranges]="ranges" [linkedCalendars]="true"
+                                [showClearButton]="true" (datesUpdated)="setdate($event)" placeholder="Select Date..."
+                                class="form-control" />
                         </div>
                         <div class="mr-3">
                             <button nz-button nzType="primary"
@@ -170,7 +171,7 @@
                                             <tr *ngFor="let item of receipts.receipts ;let i=index">
                                                 <td class="text-left"><img src="{{item.logo}}" width="20"><button
                                                         type="button" class="btn btn-link"
-                                                        (click)="filter(item.Id,item.ChargeAmount,item.PaidAmount); show = 1 ;OrderStatus = item.OrderStatusId">{{item.InvoiceNo}}</button>
+                                                        (click)=" show = 1 ; filter(item.Id,item.ChargeAmount,item.PaidAmount); OrderStatus = item.OrderStatusId">{{item.InvoiceNo}}</button>
                                                 </td>
                                                 <td>{{item.OrderedDateTime}}</td>
                                                 <td class="text-center">
@@ -214,8 +215,7 @@
         </div>
     </div>
 
-    <div class="container" 
-    *ngIf="show">
+    <div class="container" *ngIf="show">
         <!-- Title -->
         <div class="hk-pg-header">
             <h4 (click)="show = 0" class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i
@@ -316,38 +316,10 @@
                                             {{item.TransDateTime}} by {{item.Description}}</span>
                                         <span *ngIf="item.TransTypeId==3">{{item.Amount}} /- Refunded on
                                             {{item.TransDateTime}} by {{item.Description}}</span>
-                                        <button mat-icon-button class="text-blue"
+                                        <!-- <button mat-icon-button class="text-blue"
                                             (click)="openDialog(transactiondetails)">
                                             <mat-icon inline="true">edit</mat-icon>{{item.PaymentTypeId}}
-                                        </button>
-
-
-
-                                        <!-- dialog box -->
-
-
-                                        <ng-template #transactiondetails>
-                                            <h2 mat-dialog-title>Edit Payment:</h2>
-                                            <mat-dialog-content class="mat-typography">
-                                                <mat-radio-group aria-label="Select an option"
-                                                    [(ngModel)]="item.PaymentTypeId" value="i" [checked]="true"
-                                                    (change)="onItemChange($event.target.value)">
-                                                    <mat-radio-button value='1'>Cash</mat-radio-button>
-                                                    <mat-radio-button value='2'>Card</mat-radio-button>
-                                                    <mat-radio-button value='3'>Others
-                                                    </mat-radio-button>
-                                                </mat-radio-group>
-                                                <mat-form-field class="example-form-field" style="padding-left: 8%;">
-                                                    <mat-label>Transaction Amount</mat-label>
-                                                    <input matInput type="number"
-                                                        (keyup.enter)="gettransactionsbyinvoice()"
-                                                        [(ngModel)]="item.Amount">
-                                                </mat-form-field>
-                                            </mat-dialog-content>
-                                            <mat-dialog-actions align="end">
-                                                <button mat-raised-button (click)="savetransaction(item)">Save</button>
-                                            </mat-dialog-actions>
-                                        </ng-template>
+                                        </button> -->
                                     </span>
                                 </div>
                             </div>
@@ -361,26 +333,37 @@
                             <hr *ngIf="Total-PaidAmount > 0 && OrderStatus != -1">
                             <div class="row" *ngIf="Total-PaidAmount > 0 && OrderStatus != -1">
                                 <strong class="col-sm-3 pt-0 sp-margin-left20">Payment type</strong><span>
-                                    <span class="sp-margin-top20" *ngFor="let item of receipts.PaymentType"
+
+
+                                    <button class="sp-margin-top20" *ngFor="let item of receipts.PaymentType"
                                         (click)="transaction.PaymentTypeId != 5 && payment(item.Id)">
                                         <span class="sp-option-detail sp-no-user-select">
                                             <span *ngIf="item.Price > 0"
-                                                class="glyphicon glyphicon-ok sp-option-selected"></span>{{item.Description}}
+                                                class="glyphicon glyphicon-ok sp-option-selected">
+                                            </span>{{item.Description}}
                                             <span
                                                 *ngIf="item.Price > 0 && transaction.PaymentTypeId == 5">Rs.{{item.Price}}
-                                                /-</span></span></span>
+                                                /-
+                                            </span>
+                                        </span>
+                                    </button>
                                     <span class="sp-margin-top20">
                                         <span class="sp-option-detail sp-no-user-select"
                                             (click)="openOrderpopup(splitpayment)">
-                                            Split Payment</span></span></span>
+                                            Split Payment
+                                        </span>
+                                    </span>
+                                </span>
                             </div>
                             <div *ngIf="OrderStatus != -1">
                                 <span><input *ngIf="transaction.PaymentTypeId != 5 && transaction.PaymentTypeId != 0"
                                         [(ngModel)]="transaction.Amount" class="form-control custom-select  mt-15"
                                         id="PaidAmount" type="number" min="0">
-                                    <span><button *ngIf="transaction.PaymentTypeId > 0" type="submit"
-                                            class="btn btn-primary float-right"
-                                            (click)="Pay()">Pay</button></span></span>
+                                    <span>
+                                        <button *ngIf="transaction.PaymentTypeId > 0" type="submit"
+                                            class="btn btn-primary float-right" (click)="Pay()">Pay</button>
+                                    </span>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -391,3 +374,135 @@
 
 
 </div>
+
+<ng-template #splitpayment let-modal aria-label="modal-basic-title">
+    <div class="modal d-block position-static overflow-show" tabindex="-1" role="dialog">
+        <div class="modal-dialog ma-0" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">SplitPayment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.close()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>Rs.{{remaining}}/-<span class="d-block valid-feedback"
+                            *ngIf="remaining >= 0">Remaining</span><span class="d-block invalid-feedback"
+                            *ngIf="remaining < 0">Exceded</span></div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <form>
+                                <div *ngFor="let item of receipts.PaymentType">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3"
+                                            class="col-sm-4 col-form-label">{{item.Description}}</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group mb-3">
+                                                <input (input)="sum()" [(ngModel)]="item.Price"
+                                                    name="{{item.Description}}" type="number" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- {{receipts.PaymentType | json}} -->
+                                <!-- <div  class="form-group row">
+                                                <label for="inputEmail3" class="col-sm-4 col-form-label">Card</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group mb-3">                                            
+                                                        <input [(ngModel)] ="item.Price" name="Card" type="number" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                                      </div>
+                                                </div>
+                                              </div>-->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary float-right" [disabled]="remaining < 0"
+                        (click)="modal.close();transaction.PaymentTypeId = 5;setPrice()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #KOTItem let-modal aria-label="modal-basic-title">
+    <div class="modal d-block position-static overflow-show" tabindex="-1" role="dialog">
+        <div class="modal-dialog ma-0" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Order Ticket</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.close()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- <div class="col-xs-12">
+                                            <label class="sp-full-width">
+                                                <span class="glyphicon glyphicon-time icon-grey">MainKitchen</span>
+                                                <span class="pull-right sp-pad-right-10">{{customer.Name}} | {{customer.PhoneNo}}</span>
+                                            </label>
+                                        </div> -->
+                        <div class="col-xs-12 col-sm-6" *ngIf="KOTItems.AddedItems.length > 0">
+                            <label><span class="badge badge-primary badge-indicator"></span> Added Items</label>
+                            <div *ngFor="let item of KOTItems.AddedItems" class="sp - margin-bottom5">
+                                <span>{{item.Quantity}} x {{item.Description}}</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6" *ngIf="KOTItems.RemovedItems.length > 0">
+                            <label><span class="badge badge-danger badge-indicator"></span> Removed Items</label>
+                            <div *ngFor="let item of KOTItems.RemovedItems" class="sp - margin-bottom5">
+                                <span>{{item.Quantity}} x {{item.Description}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary float-right" (click)="modal.close()">Ok(Esc)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </div>   -->
+</ng-template>
+<ng-template #CancelReceipt let-modal aria-label="modal-basic-title">
+    <div class="modal d-block position-static overflow-show" tabindex="-1" role="dialog">
+        <div class="modal-dialog ma-0" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Refund!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.close()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center pl-100">
+                    <div class="row">
+                        <span>
+                            <span class="sp-margin-top20">
+                                <span class="sp-option-detail sp-no-user-select"
+                                    (click)="transaction.PaymentTypeId = 1">
+                                    <span *ngIf="transaction.PaymentTypeId == 1"
+                                        class="glyphicon glyphicon-ok sp-option-selected"></span>Cash</span></span>
+                            <span class="sp-margin-top20">
+                                <span class="sp-option-detail sp-no-user-select"
+                                    (click)="transaction.PaymentTypeId = 2">
+                                    <span *ngIf="transaction.PaymentTypeId == 2"
+                                        class="glyphicon glyphicon-ok sp-option-selected"></span>Card/Credit</span></span>
+                            <span class="sp-margin-top20">
+                                <span class="sp-option-detail sp-no-user-select"
+                                    (click)="transaction.PaymentTypeId = 3">
+                                    <span *ngIf="transaction.PaymentTypeId == 3"
+                                        class="glyphicon glyphicon-ok sp-option-selected"></span>Others</span></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary float-right"
+                        (click)="cancel(PaidAmount);modal.close()">Ok(Esc)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </div>   -->
+</ng-template>

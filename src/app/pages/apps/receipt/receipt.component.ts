@@ -8,6 +8,7 @@ import {  SafeHtml } from '@angular/platform-browser';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap'
 
 
+
 @Component({
   selector: 'app-receipt',
   templateUrl: './receipt.component.html',
@@ -18,7 +19,7 @@ export class ReceiptComponent implements OnInit {
   model: NgbDateStruct
   date: { year: number; month: number }
 
-  
+
 
   // hide and Show
   // public show: boolean = false;
@@ -90,7 +91,7 @@ export class ReceiptComponent implements OnInit {
     // this.transaction = { Amount: 0, OrderId: 0, CompanyId: this.CompanyId, StoreId: this.StoreId, PaymentTypeId: 0, CustomerId: 0, UserId: this.UserId };
     // this.user = JSON.parse(localStorage.getItem("user"));
     this.CompanyId = 3;
-    this.StoreId = 29;
+    this.StoreId = 4;
     this.UserId=null;
   }
 
