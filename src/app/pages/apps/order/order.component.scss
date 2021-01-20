@@ -6,6 +6,10 @@
   padding-left: rem(55);
   padding-bottom: rem(6);
 }
+.prod-item {
+  position: relative;
+  padding-bottom: rem(6);
+}
 
 .icon {
   position: absolute;
@@ -28,3 +32,19 @@
   border-radius: 2px;
   background: $gray-2;
 }
+
+.pcat {
+  background: grey;
+  color: white;
+}
+
+.cat-active {
+  background: black;
+  color: white;
+}
+
+.max-h-70 {
+  max-height: 80vh;
+  overflow: auto;
+}
+// modal animation

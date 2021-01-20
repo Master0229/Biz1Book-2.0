@@ -1,43 +1,82 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
+import { OrderModule, OrderItemModule } from './order.moduel'
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+  styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
-  
+  order: OrderModule
+  categories = []
+  parentcategories = []
+  childcategories = []
+  nodesFiles = [
+    {
+      title: 'All',
+      key: '100',
+      expanded: false,
+    },
+  ]
   activeKey = 0
-
+  products = []
   // Hide and Show
+  selectedcategoryid = 0
+  public show: boolean = false
 
-  public show: boolean = false;
-  
-  public buttonName: any = 'Back';
+  public buttonName: any = 'Back'
 
-  hide = true;
-
-  constructor() { }
+  hide = true
+  cards = [
+    { name: 'Quick Order', ordertypeid: 5, class: 'bg-success', icon: 'fe fe-zap' },
+    { name: 'Dine In', ordertypeid: 1, class: 'bg-primary', icon: 'fa fa-cutlery' },
+    { name: 'Take Away', ordertypeid: 2, class: 'bg-warning', icon: 'fe fe-briefcase' },
+    { name: 'Delivery', ordertypeid: 3, class: 'bg-gray-6', icon: 'fa fa-send-o' },
+    { name: 'Pick Up', ordertypeid: 4, class: 'bg-red', icon: 'fa fa-truck' },
+    { name: 'Online Orders', ordertypeid: 6, class: 'bg-dark', icon: 'fe fe-globe' },
+  ]
+  constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {
+    this.getcategories()
+    this.getproducts()
   }
   changeKey(key) {
     this.activeKey = key
   }
 
   //Hide and Show toggle
-
+  getcategories() {
+    this.categories = JSON.parse(localStorage.getItem('Category'))
+    this.parentcategories = this.categories.filter(x => x.ParentId == 0)
+    this.childcategories = this.categories.filter(x => x.ParentId != 0)
+  }
+  getproducts() {
+    this.products = JSON.parse(localStorage.getItem('Product'))
+  }
   toggle() {
-    this.show = !this.show;
-    
+    this.show = !this.show
+    if (this.show) this.buttonName = 'Back'
+    else this.buttonName = 'Back'
+  }
 
-    // CHANGE THE NAME OF THE BUTTON.
-    if (this.show)
-      this.buttonName = "Back";
-    else
-      this.buttonName = "Back";
+  createorder(ordertypeid) {
+    this.order = new OrderModule(ordertypeid)
+    this.show = !this.show
+    console.log(this.order)
+  }
+  addProduct(product) {
+    var options = {
+      quantity: 1,
+      key: '',
     }
-
-  
-
+    this.order.additem(product, options)
+  }
+  nzClick(event) {
+    console.log(event)
+  }
+  openCustomClass(content) {
+    this.modalService.open(content, { centered: true, windowClass: 'modal-holder' })
+  }
 }

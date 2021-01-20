@@ -5,6 +5,7 @@ import { ElectronService } from 'ngx-electron';
 import { AuthService } from 'src/app/auth.service';
 import * as moment from "moment";
 import {  SafeHtml } from '@angular/platform-browser';
+import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap'
 
 
 @Component({
@@ -13,6 +14,11 @@ import {  SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./receipt.component.scss']
 })
 export class ReceiptComponent implements OnInit {
+
+  model: NgbDateStruct
+  date: { year: number; month: number }
+
+  
 
   // hide and Show
   // public show: boolean = false;
@@ -69,7 +75,7 @@ export class ReceiptComponent implements OnInit {
 
 
   constructor(
-    private Auth: AuthService, private modalService: NgbModal, private sanitizer: DomSanitizer, private electron: ElectronService,
+    private Auth: AuthService, private modalService: NgbModal, private sanitizer: DomSanitizer, private electron: ElectronService, private calendar: NgbCalendar,
     // private datService: DataService,
     // public printService: PrintService,
     // public dialog: MatDialog,
@@ -84,7 +90,7 @@ export class ReceiptComponent implements OnInit {
     // this.transaction = { Amount: 0, OrderId: 0, CompanyId: this.CompanyId, StoreId: this.StoreId, PaymentTypeId: 0, CustomerId: 0, UserId: this.UserId };
     // this.user = JSON.parse(localStorage.getItem("user"));
     this.CompanyId = 3;
-    this.StoreId = 4;
+    this.StoreId = 29;
     this.UserId=null;
   }
 
@@ -677,4 +683,7 @@ export class ReceiptComponent implements OnInit {
     });
   }
 
+  selectToday() {
+    this.model = this.calendar.getToday()
+  }
 }

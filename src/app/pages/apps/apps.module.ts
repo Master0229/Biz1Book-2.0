@@ -38,6 +38,7 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { ReportComponent } from './report/report.component';
 import { ElectronService } from 'ngx-electron';
 
+
 // import { FilterPipe, CategoryPipe, MultiFilterPipe, ExcludeFilterPipe } from '../../shared/order.filter.pipe';
 
 // import { MomentPipe } from '../../shared/moment.pipe';
@@ -64,6 +65,8 @@ const COMPONENTS = [
   WordpressPostComponent,
   WordpressPostsComponent,
   WordpressAddComponent,
+  
+  
   
   
 ]

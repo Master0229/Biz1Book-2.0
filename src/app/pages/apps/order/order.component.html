@@ -1,162 +1,105 @@
 <div class="row" *ngIf="!show">
-
-    <!-- Quick Order Card -->
-
-    <!-- <a _ngcontent-eei-c446="" href="#/" routerlink="/" ng-reflect-router-link="/">Home</a> -->
-
-
-    <a class="col-xl-3 col-lg-3" (click)="show = !show">
-
+    <a class="col-xl-3 col-lg-3" *ngFor="let card of cards" (click)="createorder(card.ordertypeid)">
         <div class="card">
             <div class="card-body">
-
                 <div class="item mb-xl-0 mb-3">
                     <span class="icon">
-                        <i class="fe fe-zap"></i>
+                        <i class="{{card.icon}}"></i>
                     </span>
                     <div class="desc">
-                        <span class="title">Quick Order</span>
+                        <span class="title">{{card.name}}</span>
                         <p>Waiting for review</p>
                     </div>
-                    <div class="line bg-success"></div>
+                    <div class="line {{card.class}}"></div>
                 </div>
-
             </div>
-
         </div>
-
     </a>
-
-
-
-
-
-    <!-- Dine In Card -->
-
-    <a class="col-xl-3 col-lg-3" (click)="show = !show">
-        <div class="card">
-            <div class="card-body">
-
-                <div class="item mb-xl-0 mb-3">
-                    <span class="icon">
-                        <i class="fa fa-cutlery"></i>
-                    </span>
-                    <div class="desc">
-                        <span class="title">Dine In</span>
-                        <p>Waiting for review</p>
+    <button class="btn btn-primary mb-3 mr-3" (click)="openCustomClass(vertical)">Vertically centered modal</button>
+</div>
+<div *ngIf="show" class="row text-center">
+    <div class="col-sm-2 max-h-70">
+        <ul class="list-group">
+            <div *ngFor="let pcat of parentcategories">
+                <a href="javascript:void(0);" (click)="selectedcategoryid = pcat.Id"
+                    [class.cat-active]="selectedcategoryid == pcat.Id"
+                    class="list-group-item-action list-group-item pcat"><code>[#]</code>{{pcat.Category}}
+                </a>
+                <ul class="list-group">
+                    <a href="javascript:void(0);" (click)="selectedcategoryid = ccat.Id"
+                        *ngFor="let ccat of childcategories | parentcategory: pcat.Id"
+                        [class.cat-active]="selectedcategoryid == ccat.Id"
+                        class="list-group-item-action list-group-item">{{ccat.Category}}</a>
+                </ul>
+            </div>
+        </ul>
+    </div>
+    <div class="col-sm row max-h-70">
+        <div class="col-sm-6" *ngFor="let product of products | productfilter: selectedcategoryid"
+            (click)="addProduct(product)">
+            <a>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="prod-item mb-xl-0 mb-3">
+                            <div class="desc">
+                                <span class="title">{{product.Product}}</span>
+                                <p>&#8377;{{product.Price}}</p>
+                            </div>
+                            <div [ngClass]="{'bg-success': product.ProductTypeId == 1, 'bg-danger': product.ProductTypeId == 2, 'bg-warning': product.ProductTypeId == 3, 'bg-gray-6': product.ProductTypeId == 4}"
+                                class="line"></div>
+                        </div>
                     </div>
-                    <div class="line bg-primary"></div>
                 </div>
-
-            </div>
-
+            </a>
         </div>
-
-    </a>
-
-
-    <!-- Takeaway Card -->
-
-
-    <a class="col-xl-3 col-lg-3" (click)="show = !show">
-        <div class="card">
-            <div class="card-body">
-
-                <div class="item mb-xl-0 mb-3">
-                    <span class="icon">
-                        <i class="fe fe-briefcase"></i>
-                    </span>
-                    <div class="desc">
-                        <span class="title">Takeaway</span>
-                        <p>Waiting for review</p>
-                    </div>
-                    <div class="line bg-warning"></div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </a>
-
-    <!-- Advance Order Card -->
-
-    <a class="col-xl-3 col-lg-3" (click)="show = !show">
-        <div class="card">
-            <div class="card-body">
-
-                <div class="item mb-xl-0 mb-3">
-                    <span class="icon">
-                        <i class="fa fa-send-o"></i>
-                    </span>
-                    <div class="desc">
-                        <span class="title">Advance Order</span>
-                        <p>Waiting for review</p>
-                    </div>
-                    <div class="line bg-gray-6"></div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </a>
-
-
-    <!-- Delivery Card -->
-
-    <a class="col-xl-3 col-lg-3" (click)="show = !show">
-        <div class="card">
-            <div class="card-body">
-
-                <div class="item mb-xl-0 mb-3">
-                    <span class="icon">
-                        <i class="fa fa-truck"></i>
-                    </span>
-                    <div class="desc">
-                        <span class="title">Delivery</span>
-                        <p>Waiting for review</p>
-                    </div>
-                    <div class="line bg-red"></div>
-                </div>
-            </div>
-
-        </div>
-
-    </a>
-
-    <!-- Online Order Card -->
-
-    <a class="col-xl-3 col-lg-3" (click)="show = !show">
-        <div class="card">
-            <div class="card-body">
-
-                <div class="item mb-xl-0 mb-3">
-                    <span class="icon">
-                        <i class="fe fe-globe"></i>
-                    </span>
-                    <div class="desc">
-                        <span class="title">Online Order</span>
-                        <p>Waiting for review</p>
-                    </div>
-                    <div class="line bg-dark"></div>
-                </div>
-            </div>
-
-        </div>
-
-    </a>
-
+    </div>
+    <div class="col-sm max-h-70">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-left" scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of order.Items; index as i">
+                    <td class="text-left">{{item.Name}}</td>
+                    <td>
+                        {{ item.Quantity }}
+                    </td>
+                    <td>{{ item.TotalAmount | number }}</td>
+                    <td>
+                        <a href="javascript: void(0);" class="btn btn-sm btn-link"><i class="fe fe-edit-2"></i></a>
+                        <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger"><i
+                                class="fe fe-trash-2"></i></a>
+                    </td>
+                </tr>
+                <tr *ngIf="order.Items == 0">
+                    <td colspan="4">Cart is Empty!</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<div *ngIf="show">
-    <h1>
-        Waiting For NXT Level
-    </h1>
-
-    <button class="btn btn-rounded btn-danger mr-2 mb-2" type="submit" (click)="toggle()" id="bt">
-        {{buttonName}}
-    </button>
-
-    
-</div>
+<ng-template #vertical let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Vertically centered modal</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Do Something</button>
+    </div>
+</ng-template>

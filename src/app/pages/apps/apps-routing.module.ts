@@ -31,7 +31,6 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { ReportComponent } from './report/report.component';
 
 
-
 const routes: Routes = [
   {
     path: 'messaging',
