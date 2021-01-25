@@ -840,10 +840,19 @@ export class AuthService {
   }
   Getitem(storeId, CompanyId) {
     // console.log(storeId);
-    return this.http.get(this.base_url + "UrbanPiper/GetPrd?Id=" + storeId + "&compId=" + CompanyId);
+    var headers = new HttpHeaders().set("authorization", "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZnJ1aXRzYW5kYmFrZXNAZ21haWwuY29tIiwiZXhwIjoxNjQzMDg2Mzg2LCJpc3MiOiJCaXoxQm9vayIsImF1ZCI6InJlYWRlcnMifQ.k9Lu7x4b3C6Q0L3nn_ESKJZHZyNm1TNDqw86U_o0UAg")
+    return this.http.get(this.base_url + "UrbanPiper/GetPrd?Id=" + storeId + "&compId=" + CompanyId, {headers});
   }
   GetUPProducts(storeid, companyid) {
-    return this.http.get(this.base_url + "UrbanPiper/GetExeUPProducts?Id=" + storeid + "&compId=" + companyid);
+    var headers = new Headers({
+      "auth": "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZnJ1aXRzYW5kYmFrZXNAZ21haWwuY29tIiwiZXhwIjoxNjE0MjQyNDcwLCJpc3MiOiJCaXoxQm9vayIsImF1ZCI6InJlYWRlcnMifQ.PscWl8DU47jisgt7IZ6bxajTwevJ_R-9nxoMMSvK0Uo"
+    })
+    return this.http.get(this.base_url + "UrbanPiper/GetExeUPProducts?Id=" + storeid + "&compId=" + companyid, {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZnJ1aXRzYW5kYmFrZXNAZ21haWwuY29tIiwiZXhwIjoxNjE0MjQyNDcwLCJpc3MiOiJCaXoxQm9vayIsImF1ZCI6InJlYWRlcnMifQ.PscWl8DU47jisgt7IZ6bxajTwevJ_R-9nxoMMSvK0Uo",
+        "Content-Type": "application/json"
+      })
+    });
   }
   urbandata(companyId) {
     let headers = new Headers({ "Content-Type": "application/json" });
@@ -885,13 +894,12 @@ export class AuthService {
   }
 
   upstoredetails(storeid, companyId) {
-    let headers = new Headers({ "Content-Type": "application/json" });
-    let options = new RequestOptions({ headers: headers });
+    var headers = new HttpHeaders().set("authorization", "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZnJ1aXRzYW5kYmFrZXNAZ21haWwuY29tIiwiZXhwIjoxNjQzMDg2Mzg2LCJpc3MiOiJCaXoxQm9vayIsImF1ZCI6InJlYWRlcnMifQ.k9Lu7x4b3C6Q0L3nn_ESKJZHZyNm1TNDqw86U_o0UAg")
     var formURL = this.base_url;
     var formURL =
       this.base_url +
       `UrbanPiper/GetStoreById?storeid=${storeid}&companyId=${companyId}`;
-    return this.http.get(formURL);
+    return this.http.get(formURL, {headers});
   }
 
   storeAction(jstring) {

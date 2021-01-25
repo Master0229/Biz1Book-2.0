@@ -8,6 +8,8 @@
   <div class="mr-4 d-none d-md-block">
     <!-- <cui-topbar-issues-history></cui-topbar-issues-history> -->
     {{ time | date: 'MMM d, y | hh:mm:ss a' }}
+
+
   </div>
   <div class="mb-0 mr-auto d-xl-block d-none">
     <cui-topbar-project-management></cui-topbar-project-management>
@@ -18,6 +20,15 @@
   <div class="mr-4 d-none d-sm-block">
     <cui-topbar-actions></cui-topbar-actions>
   </div>
+  <div  class="mr-4 d-none d-sm-block">
+    <a href="javascript: void(0);" style="bottom: calc(50% + 60px)"
+      (click)="setTheme(theme === 'default' ? 'dark' : 'default')" nzTooltipTitle="Switch Dark / Light Theme"
+      nzTooltipPlacement="left" nz-tooltip class="cui__sidebar__toggleButton">
+      <i *ngIf="theme === 'default'" class="fe fe-moon"></i>
+      <i *ngIf="theme !== 'default'" class="fe fe-sun"></i>
+    </a>
+  </div>
+
   <div>
     <cui-topbar-user-menu></cui-topbar-user-menu>
   </div>

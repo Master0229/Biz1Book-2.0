@@ -16,9 +16,10 @@ export class PricebookComponent implements OnInit {
   CompanyId: any;
   p;
   p1;
-  term;
+  term: string;
   datachange: boolean = false;
   products = [];
+  masterdata = [];
   options = [];
   @HostListener('document:click', ['$event']) ClickOutsideDirective($event) {
     var Id = $event.path[0].Id
@@ -51,7 +52,7 @@ export class PricebookComponent implements OnInit {
   constructor(private Auth: AuthService) {
     // var logInfo = JSON.parse(localStorage.getItem("logInfo"));
     this.CompanyId = 3;
-    this.StoreId = 22;
+    this.StoreId = 4;
   }
   canDeactivate(): boolean {
     return !this.datachange;
@@ -71,6 +72,7 @@ export class PricebookComponent implements OnInit {
         element.Changed = false;
       });
       this.products = this.Pricedata.streprd;
+      this.masterdata = this.Pricedata.streprd;
       this.options = this.Pricedata.streopt;
       this.updateEditCache(0)
       console.log(this.Pricedata);
@@ -132,6 +134,21 @@ export class PricebookComponent implements OnInit {
           data: { ...item },
         }
       })
+    }
+  }
+  timeout: any = null;
+  private onKeySearch() {
+    clearTimeout(this.timeout);
+    var $this = this;
+    this.timeout = setTimeout(function () {
+      $this.search();
+    }, 500);
+  }
+  search() {
+    if (this.term == '' || this.term == null) {
+      this.products = this.masterdata
+    } else {
+      this.products = this.masterdata.filter(x => x.Description.toLowerCase().includes(this.term.toLowerCase()));
     }
   }
 }

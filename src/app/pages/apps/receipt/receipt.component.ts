@@ -280,11 +280,11 @@ export class ReceiptComponent implements OnInit {
         // }
         element.OrderedDateTime = moment(element.OrderedDateTime).format('lll');
         if (element.Source == 'swiggy') {
-          element.logo = '../../../assets/images/swiggy.svg';
+          element.logo = './assets/images/swiggy.svg';
         } else if (element.Source == 'zomato') {
-          element.logo = '../../../assets/images/zomato.svg';
+          element.logo = './assets/images/zomato.svg';
         } else {
-          element.logo = '../../../assets/images/favicon.png';
+          element.logo = './assets/images/favicon.png';
         }
       
       });

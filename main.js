@@ -8,6 +8,8 @@ const electron = require('electron');
 // const find = require('local-devices');
 // const ip = require('ip');
 
+
+
 let mainWindow
 function redirect() {
     mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
@@ -19,6 +21,7 @@ function createWindow() {
         titleBarStyle: "hiddenInset",
         width: 800,
         height: 600,
+        frame: false,
         icon: __dirname + `/dist/favicon.png`,
         webPreferences: {
             nodeIntegration: true,
@@ -49,11 +52,20 @@ function createWindow() {
             submenu: [
                 {
                     label: 'Reload',
+                    // accelerator: "F5", 
+                    accelerator: process.platform === 'darwin' ? 'Ctrl+R' : 'F5',
                     click() { redirect(); }
                 },
-                { role: 'toggledevtools' },
+                { 
+                    role: 'toggledevtools',
+                    accelerator: process.platform === 'darwin' ? 'Ctrl+T' : 'F12',
+                    
+                },
                 { role: 'togglefullscreen' },
-                { role: 'close' },
+                { 
+                    role: 'close',
+                    accelerator: process.platform === 'darwin' ? 'F10' : 'Ctrl+Q',
+                },
             ]
         }
     ])

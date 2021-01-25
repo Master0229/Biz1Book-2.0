@@ -38,16 +38,7 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { ReportComponent } from './report/report.component';
 import { ElectronService } from 'ngx-electron';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
-
-
-
-// import { FilterPipe, CategoryPipe, MultiFilterPipe, ExcludeFilterPipe } from '../../shared/order.filter.pipe';
-
-// import { MomentPipe } from '../../shared/moment.pipe';
-
-// import { ReceiptsComponent } from './receipts/receipts.component';
-
-
+import { FilterPipe } from '../../pipes/filter/filter.pipe';
 
 const COMPONENTS = [
   AppsMessagingComponent,
@@ -67,10 +58,7 @@ const COMPONENTS = [
   WordpressPostComponent,
   WordpressPostsComponent,
   WordpressAddComponent,
-  
-  
-  
-  
+  FilterPipe
 ]
 
 @NgModule({
@@ -83,12 +71,9 @@ const COMPONENTS = [
     QuillModule.forRoot(),
     SortablejsModule,
     NestableModule,
-    NgxDaterangepickerMd.forRoot(),
-
-   
-    
+    NgxDaterangepickerMd.forRoot()
   ],
   declarations: [...COMPONENTS, PricebookComponent, OrderComponent, ReceiptComponent, SettingComponent, CustomerComponent, ExpensesComponent, UrbanpiperComponent, UpdaterComponent, AboutusComponent, ReportComponent],
   providers: [ElectronService]
 })
-export class AppsModule {}
+export class AppsModule { }

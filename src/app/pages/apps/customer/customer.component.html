@@ -4,6 +4,11 @@
 <div class="card">
   <div class="card-body">
 
+    <div class="col-xl-4 text-left">
+      <input type="text" class="form-control" placeholder="Search Customer.." [(ngModel)]="term" (input)="onKeySearch()"> 
+    </div>
+    <br>
+
     <nz-table #basicTable [nzData]="Customer" class="kit__utils__table mb-4">
       <thead>
         <tr>
@@ -16,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of basicTable.data">
+        <tr *ngFor="let item of  basicTable.data">
           <td>{{item.PhoneNo}}</td>
           <td>{{(item.Name != '')?item.Name:'-'}}</td>
           <td>{{item.OrderCount}}</td>
@@ -36,7 +41,7 @@
     </nz-table>
   </div>
 </div>
-<ng-template #vertical let-modal id="customerdetails" >
+<ng-template #vertical let-modal id="customerdetails">
   <div class="modal-header">
     <h5 class="modal-title" id="modal-basic-title">Customer Details</h5>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
