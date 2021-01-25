@@ -1,215 +1,209 @@
 <h2>
   UrbanPiper Hub
 </h2>
-<div class="card">
-  <div class="card-body">
-
-    <!-- <section class="hk-sec-wrapper">
-      <mat-tab-group animationDuration="0ms" [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="console($event);"
-        mat-align-tabs="Start">
-        <mat-tab *ngFor="let brand of BrandProducts" label="{{brand.BrandName}}">
-          <br />
-          <div class="d-flex">
-            <div class="form-group col-xl-6" style="vertical-align: middle;">
-              <div class="input-group">
-                <input type="text" [(ngModel)]="searchterm" class="form-control" placeholder="Search...">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-light" (click)="searchterm=''" type="button">X</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="text-right col-xl-6">
-
-              <button class="btn btn-success  btn-sm mx-10 w-20" (click)="enabledisable('enable',brand.BrandId)">In
-                Stock</button>
-              <button class="btn btn-danger  btn-sm mx-10 w-20" (click)="enabledisable('disable',brand.BrandId)">Out of
-                Stock</button>
-            </div>
-          </div>
-          <br>
-          <div *ngIf="searchterm=='' || searchterm==undefined || searchterm==null">
-            <div *ngFor="let category of brand.categories" [hidden]="parentcatvisibility(category, brand.BrandId)==0">
-              <div class="list-group-item col-xl-12 d-flex">
-                <div class="col-xl-6">
-                  <span class="rotate font-20 pointer" [ngClass]="{'down': category.show}"
-                    (click)="toggle(category)">&#9656;</span>
-                  <span *ngIf="category.show" class="py-1 px-10">
-                    <input type="checkbox" (change)="Headselect($event.target.checked, category.Id, brand.BrandId)">
-                  </span>
-                  <span class="font-18  pointer btn-link" (click)="toggle(category)">{{category.Description}}</span>
-                </div>
-                <div class="col-xl-6 text-right">
-                  <span class="text-light "> {{category.subcategories.length}} sub</span>
-                </div>
-              </div>
-              <div *ngIf="category.show">
-                <div *ngFor="let subcat of category.subcategories"
-                  [hidden]="getproducts(subcat.Id, brand.BrandId).length==0">
-                  <div class="list-group-item d-flex col-xl-12 pointer">
-                    <span class="col-xl-6 ">
-                      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="rotate font-20 pointer"
-                        [ngClass]="{'down': subcat.show}" (click)="toggleSubcat(subcat)">&#9656;</span>
-                      <span *ngIf="subcat.show" class="py-1 px-10">
-                        <input id="sub-{{subcat.Id}}-{{brand.BrandId}}" type="checkbox" [(ngModel)]="subcat.selected"
-                          (change)="selectdeselect($event.target.checked, subcat.Id, brand.BrandId)">
-                      </span>
-                      <span class=" pointer btn-link" (click)="toggleSubcat(subcat)">{{subcat.Description}}</span>
-                    </span>
-                    <span class=" text-right col-xl-6">
-                      <span class="text-light "> {{getproducts(subcat.Id, brand.BrandId).length}}
-                        items</span>
-                    </span>
-                  </div>
-                  <div *ngIf="subcat.show">
-                    <div class="list-group-item text-left d-flex pl-50 px-100 col-xl-12 h-50p"
-                      *ngFor="let product of getproducts(subcat.Id, brand.BrandId)">
-                      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <span class="py-1">
-                        <input type="checkbox" [(ngModel)]="product.selected"
-                          (change)="indeterminate(subcat.Id, subcat.ParentCategoryId, brand.BrandId)">
-                      </span>
-                      <span class="col-xl-6">
-                        <span *ngIf="product.ProductTypeId==1" class="badge badge-success badge-outline">
-                          <span class="badge badge-success badge-indicator"></span>
-                        </span>
-                        <span *ngIf="product.ProductTypeId==2" class="badge badge-danger badge-outline">
-                          <span class="badge badge-danger badge-indicator"></span>
-                        </span>
-                        <span *ngIf="product.ProductTypeId==3" class="badge badge-warning badge-outline">
-                          <span class="badge badge-warning badge-indicator"></span>
-                        </span>
-                        <span *ngIf="product.ProductTypeId==4" class="badge badge-light badge-outline">
-                          <span class="badge badge-light badge-indicator"></span>
-                        </span>
 
 
-                        &nbsp;&nbsp;{{product.Name }}
-                      </span>
-                      <div class="col-xl-3 text-light">
-                        &#8377; {{(product.UPenabled)? product.UPPrice : product.Price}}
-                      </div>
-                      <div class="col-xl-3 text-center">
-                        <span *ngIf="product.Available" class="badge badge-success">In
-                          Stock</span><span *ngIf="!product.Available" class="badge badge-danger">Out Of Stock</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="!(searchterm=='' || searchterm==undefined || searchterm==null)">
-            <div class="list-group-item text-left d-flex pl-50 col-xl-12 h-50p"
-              *ngFor="let product of getproductsbybrand(brand.BrandId) | filter:searchterm">
-              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <span class="py-1">
-                <input type="checkbox" [(ngModel)]="product.selected">
-              </span>
-              <span class="col-xl-6">
-                <span *ngIf="product.ProductTypeId==1" class="badge badge-success badge-outline">
-                  <span class="badge badge-success badge-indicator"></span>
-                </span>
-                <span *ngIf="product.ProductTypeId==2" class="badge badge-danger badge-outline">
-                  <span class="badge badge-danger badge-indicator"></span>
-                </span>
-                <span *ngIf="product.ProductTypeId==3" class="badge badge-warning badge-outline">
-                  <span class="badge badge-warning badge-indicator"></span>
-                </span>
-                <span *ngIf="product.ProductTypeId==4" class="badge badge-light badge-outline">
-                  <span class="badge badge-light badge-indicator"></span>
-                </span>
-                &nbsp;&nbsp;{{product.Name }}
-              </span>
-              <div class="col-xl-1">
-                &#8377; {{(product.UPenabled)? product.UPPrice : product.Price}}
-              </div>
-              <div class="col-xl-2 text-center">
-                <span *ngIf="product.Available" class="badge badge-success">In
-                  Stock</span><span *ngIf="!product.Available" class="badge badge-danger">Out Of
-                  Stock</span>
-              </div>
-              <div class="col-xl-3 overflow" data-toggle="tooltip" data-placement="top" title="{{product.Category}}">
-                {{product.Category}}
-              </div>
-            </div>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-    </section> -->
 
-    <!-- <section class="hk-sec-wrapper" *ngIf="qwerty">
-      <div class="text-right">
-        <button class="btn btn-success  btn-sm mx-10 w-10 " (click)="enabledisable()">In Stock</button>
-        <button class="btn btn-danger  btn-sm mx-10 w-10" (click)="enabledisable()">Out of Stock</button>
-      </div>
 
-      <mat-tab-group animationDuration="0ms" mat-align-tabs="Start">
-        <mat-tab style="padding-top:20% ;" label="Brand 1">
-          <br />
-          <div *ngFor="let category of Data">
-            <div class="list-group-item col-xl-12 d-flex pointer" (click)="toggle(category)">
-              <div class="col-xl-6">
-                <span class="rotate" [ngClass]="{'down': category.show}">&#9656;</span>
-                <strong class="font-18">{{category.Description}}</strong>
-              </div>
-              <div class="col-xl-6 text-right">
-                <span class="text-light "> {{category.subcategories.length}} sub</span>
-              </div>
-            </div>
-            <div *ngIf="category.show">
-    
-              <div *ngFor="let subcat of category.subcategories">
-                <div class="list-group-item d-flex col-xl-12 pointer" (click)="toggleSubcat(subcat)">
-                  <span class="col-xl-6 pointer ">
-                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="rotate"
-                      [ngClass]="{'down': subcat.show}">&#9656;</span>
-                    <strong>{{subcat.Description}}</strong>
-                  </span>
-                  <span class=" text-right col-xl-6">
-                    <span class="text-light "> {{subcat.products.length}} items</span>
-                  </span>
-                </div>
-                <div *ngIf="subcat.show">
-                  <div class="list-group-item text-left d-flex pl-50 col-xl-12 h-50p"
-                    *ngFor="let product of subcat.products">
-                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span class="py-1">
-                      <input type="checkbox" [(ngModel)]="product.selected">
-                    </span>
-                    <span class="col-xl-6">
-                      <span *ngIf="product.ProductTypeId==1" class="badge badge-success badge-outline">
-                        <span class="badge badge-success badge-indicator"></span>
-                      </span>
-                      <span *ngIf="product.ProductTypeId==2" class="badge badge-danger badge-outline">
-                        <span class="badge badge-danger badge-indicator"></span>
-                      </span>
-                      <span *ngIf="product.ProductTypeId==3" class="badge badge-warning badge-outline">
-                        <span class="badge badge-warning badge-indicator"></span>
-                      </span>
-                      <span *ngIf="product.ProductTypeId==4" class="badge badge-light badge-outline">
-                        <span class="badge badge-light badge-indicator"></span>
-                      </span>
-                      &nbsp;&nbsp;{{product.Description}}
-                    </span>
-                    <div class="col-xl-6">
-                      <span class=" text-right">
-                        <span class="text-light "> &#8377; {{product.UPPrice}}</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </mat-tab>
-      
-      </mat-tab-group>
-    </section> -->
+<div class="row">
 
+  <div class="modal-body" *ngIf="tempstore">
+    <strong class="font-18">{{(tempstore.BrandId!=0)?tempstore.Brand.Name:'No Brand'}}</strong>
+    <br> <br>
+    <div class="d-flex">
+      <span>Swiggy</span> &nbsp;&nbsp;&nbsp;
+      <input class="switch" type="checkbox" id="swiggy-{{tempstore.BrandId}}"
+        [ngStyle]="tempstore.IsSwiggy?{'background-color':'green'} : {'background-color': 'red'}"
+        [(ngModel)]="tempstore.Swiggy" (change)="storeaction(tempstore.BrandId, 'swiggy', $event.target.checked)" />
+      <label class="switch" for="swiggy-{{tempstore.BrandId}}">
+      </label>
+      &nbsp;&nbsp;&nbsp;
+      <span>Zomato</span> &nbsp;&nbsp;&nbsp;
+      <input class="switch" type="checkbox" id="zomato-{{tempstore.BrandId}}"
+        [ngStyle]="tempstore.IsZomato?{'background-color':'green'} : {'background-color': 'red'}"
+        [(ngModel)]="tempstore.Zomato" (change)="storeaction(tempstore.BrandId, 'zomato', $event.target.checked)" />
+      <label class="switch" for="zomato-{{tempstore.BrandId}}">
+      </label>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div *ngFor="let error of errors">
+      <i class="fa fa-check-circle" *ngIf="error.status == 'success'" style="color: green;"></i><i class="fa fa-warning"
+        *ngIf="error.status == 'error'" style="color: orange;"></i>
+      {{error.message}}
+    </div>
   </div>
 </div>
 
 
 
 
+
+
+
+
+<div class="hk-pg-wrapper">
+  <div *ngIf="!show">
+    <!-- <div class="hk-pg-wrapper hk-auth-wrapper">
+      <header class="d-flex justify-content-end align-items-center">
+        <div class="btn-group btn-group-sm">
+          <a href="#" class="btn btn-outline-secondary">Help</a>
+          <a href="#" class="btn btn-outline-secondary">About Us</a>
+        </div>
+      </header>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-12 pa-0">
+            <div class="auth-form-wrap pt-xl-0 pt-70">
+              <div class="auth-form w-xl-25 w-sm-50 w-100">
+                <a class="auth-brand text-center d-block mb-45 w-110" href="https://biz1app.azurewebsites.net/"
+                  style="background-color: #233c46;">
+                  <img class="brand-img" src="./assets/dist/img/logo-dark.png" alt="brand" />
+                </a>
+                <form>
+                  <h1 class="display-4 mb-10 text-center">Register this store in Urbanpiper and come
+                    back.</h1>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+
+  <div *ngIf="show" class="container">
+
+
+    <div class="card">
+      <div class="card-body">
+
+
+        <ngb-tabset [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="console($event);">
+          <ngb-tab *ngFor="let brand of BrandProducts" label="{{brand.BrandName}}">
+            <br />
+            <div class="d-flex">
+              <div class="form-group col-xl-6" style="vertical-align: middle;">
+                <div class="input-group">
+                  <input type="text" [(ngModel)]="searchterm" class="form-control" placeholder="Search...">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-light" (click)="searchterm=''" type="button">X</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-right col-xl-6">
+
+                <button class="btn btn-success  btn-sm mx-10 w-20" (click)="enabledisable('enable',brand.BrandId)">In
+                  Stock</button>
+                <button class="btn btn-danger  btn-sm mx-10 w-20" (click)="enabledisable('disable',brand.BrandId)">Out
+                  of
+                  Stock</button>
+              </div>
+            </div>
+            <br>
+            <div *ngIf="searchterm=='' || searchterm==undefined || searchterm==null">
+              <div *ngFor="let category of brand.categories" [hidden]="parentcatvisibility(category, brand.BrandId)==0">
+                <div class="list-group-item col-xl-12 d-flex">
+                  <div class="col-xl-6">
+                    <span class="rotate font-20 pointer" [ngClass]="{'down': category.show}"
+                      (click)="toggle(category)">&#9656;</span>
+                    <span *ngIf="category.show" class="py-1 px-10">
+                      <input type="checkbox" (change)="Headselect($event.target.checked, category.Id, brand.BrandId)">
+                    </span>
+                    <span class="font-18  pointer btn-link" (click)="toggle(category)">{{category.Description}}</span>
+                  </div>
+                  <div class="col-xl-6 text-right">
+                    <span class="text-light "> {{category.subcategories.length}} sub</span>
+                  </div>
+                </div>
+                <div *ngIf="category.show">
+                  <div *ngFor="let subcat of category.subcategories"
+                    [hidden]="getproducts(subcat.Id, brand.BrandId).length==0">
+                    <div class="list-group-item d-flex col-xl-12 pointer">
+                      <span class="col-xl-6 ">
+                        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="rotate font-20 pointer"
+                          [ngClass]="{'down': subcat.show}" (click)="toggleSubcat(subcat)">&#9656;</span>
+                        <span *ngIf="subcat.show" class="py-1 px-10">
+                          <input id="sub-{{subcat.Id}}-{{brand.BrandId}}" type="checkbox" [(ngModel)]="subcat.selected"
+                            (change)="selectdeselect($event.target.checked, subcat.Id, brand.BrandId)">
+                        </span>
+                        <span class=" pointer btn-link" (click)="toggleSubcat(subcat)">{{subcat.Description}}</span>
+                      </span>
+                      <span class=" text-right col-xl-6">
+                        <span class="text-light "> {{getproducts(subcat.Id, brand.BrandId).length}}
+                          items</span>
+                      </span>
+                    </div>
+                    <div *ngIf="subcat.show">
+                      <div class="list-group-item text-left d-flex pl-50 px-100 col-xl-12 h-50p"
+                        *ngFor="let product of getproducts(subcat.Id, brand.BrandId)">
+                        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="py-1">
+                          <input type="checkbox" [(ngModel)]="product.selected"
+                            (change)="indeterminate(subcat.Id, subcat.ParentCategoryId, brand.BrandId)">
+                        </span>
+                        <span class="col-xl-6">
+                          <img *ngIf="product.ProductTypeId==1" src="../../../../assets/images/badges/veg.png" alt=""
+                            width="25px" height="auto">
+                          <img *ngIf="product.ProductTypeId==2" src="../../../../assets/images/badges/non-veg.png"
+                            alt="" width="25px" height="auto">
+                          <img *ngIf="product.ProductTypeId==3" src="../../../../assets/images/badges/egg.png" alt=""
+                            width="25px" height="auto">
+                          <img *ngIf="product.ProductTypeId==4" src="../../../../assets/images/badges/none.png" alt=""
+                            width="25px" height="auto">
+
+                          &nbsp;&nbsp;{{product.Name }}
+                        </span>
+                        <div class="col-xl-3 text-light">
+                          &#8377; {{(product.UPenabled)? product.UPPrice : product.Price}}
+                        </div>
+                        <div class="col-xl-3 text-center">
+                          <span *ngIf="product.Available" class="badge badge-success">In
+                            Stock</span><span *ngIf="!product.Available" class="badge badge-danger">Out Of Stock</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!(searchterm=='' || searchterm==undefined || searchterm==null)">
+              <div class="list-group-item text-left d-flex pl-50 col-xl-12 h-50p"
+                *ngFor="let product of getproductsbybrand(brand.BrandId) | filter:searchterm">
+                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="py-1">
+                  <input type="checkbox" [(ngModel)]="product.selected">
+                </span>
+                <span class="col-xl-6">
+                  <img *ngIf="product.ProductTypeId==1" src="../../../../assets/images/badges/veg.png" alt=""
+                    width="25px" height="auto">
+                  <img *ngIf="product.ProductTypeId==2" src="../../../../assets/images/badges/non-veg.png" alt=""
+                    width="25px" height="auto">
+                  <img *ngIf="product.ProductTypeId==3" src="../../../../assets/images/badges/egg.png" alt=""
+                    width="25px" height="auto">
+                  <img *ngIf="product.ProductTypeId==4" src="../../../../assets/images/badges/none.png" alt=""
+                    width="25px" height="auto">
+                  &nbsp;&nbsp;{{product.Name }}
+                </span>
+                <div class="col-xl-1">
+                  &#8377; {{(product.UPenabled)? product.UPPrice : product.Price}}
+                </div>
+                <div class="col-xl-2 text-center">
+                  <span *ngIf="product.Available" class="badge badge-success">In
+                    Stock</span><span *ngIf="!product.Available" class="badge badge-danger">Out Of
+                    Stock</span>
+                </div>
+                <div class="col-xl-3 overflow" data-toggle="tooltip" data-placement="top" title="{{product.Category}}">
+                  {{product.Category}}
+                </div>
+              </div>
+            </div>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+
+  </div>
+</div>
