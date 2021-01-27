@@ -7,7 +7,11 @@ const electron = require('electron');
 // const database = require('./database')
 // const find = require('local-devices');
 // const ip = require('ip');
+// const customTitlebar = require('custom-electron-titlebar');
 
+// new customTitlebar.Titlebar({
+// 	backgroundColor: customTitlebar.Color.fromHex('#4b7cf3') 
+// });
 
 
 let mainWindow
@@ -21,12 +25,15 @@ function createWindow() {
         titleBarStyle: "hiddenInset",
         width: 800,
         height: 600,
+        titleBarStyle: "hidden", 
         frame: false,
+        // transparent: true,
         icon: __dirname + `/dist/favicon.png`,
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true
-        }
+        },
+        vibrancy: 'ultra-dark'
     })
 
     mainWindow.loadURL(

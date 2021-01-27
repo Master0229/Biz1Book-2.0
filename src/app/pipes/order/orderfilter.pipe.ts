@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core'
 @Pipe({
   name: 'parentcategory',
 })
-export class OrderfilterPipe implements PipeTransform {
+export class ParentcategoryfilterPipe implements PipeTransform {
   transform(childcategories: any[], parentcategoryid: number): any[] {
     if (!childcategories) return []
 

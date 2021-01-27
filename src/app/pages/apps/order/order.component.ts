@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { OrderModule, OrderItemModule } from './order.moduel'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
-
+import { AuthService } from '../../../auth.service'
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -9,7 +9,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
 })
 export class OrderComponent implements OnInit {
   order: OrderModule
-  categories = []
+  categories: any = []
   parentcategories = []
   childcategories = []
   nodesFiles = [
@@ -20,7 +20,7 @@ export class OrderComponent implements OnInit {
     },
   ]
   activeKey = 0
-  products = []
+  products: any = []
   // Hide and Show
   selectedcategoryid = 0
   public show: boolean = false
@@ -36,7 +36,7 @@ export class OrderComponent implements OnInit {
     { name: 'Pick Up', ordertypeid: 4, class: 'bg-red', icon: 'fa fa-truck' },
     { name: 'Online Orders', ordertypeid: 6, class: 'bg-dark', icon: 'fe fe-globe' },
   ]
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.getcategories()
@@ -48,12 +48,19 @@ export class OrderComponent implements OnInit {
 
   //Hide and Show toggle
   getcategories() {
-    this.categories = JSON.parse(localStorage.getItem('Category'))
-    this.parentcategories = this.categories.filter(x => x.ParentId == 0)
-    this.childcategories = this.categories.filter(x => x.ParentId != 0)
+    // this.categories = JSON.parse(localStorage.getItem('Category'))
+    this.auth.getcategories().subscribe(data => {
+      this.categories = data
+      this.parentcategories = this.categories.filter(x => x.ParentId == 0)
+      this.childcategories = this.categories.filter(x => x.ParentId != 0)
+    })
   }
   getproducts() {
-    this.products = JSON.parse(localStorage.getItem('Product'))
+    // this.products = JSON.parse(localStorage.getItem('Product'))
+
+    this.auth.getproducts().subscribe(data => {
+      this.products = data
+    })
   }
   toggle() {
     this.show = !this.show

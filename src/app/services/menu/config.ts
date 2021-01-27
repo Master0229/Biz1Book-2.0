@@ -41,6 +41,7 @@ export const getMenuData: any[] = [
     title: 'Sell',
     key: 'Sell',
     icon: 'fe fe-shopping-cart',
+    roles: ['admin'],
     url: '/apps/order',
   },
   {
@@ -55,12 +56,12 @@ export const getMenuData: any[] = [
     icon: 'fe fe-users',
     url: '/apps/customer',
   },
-  {
-    title: 'Expenses',
-    key: 'Expenses',
-    icon: 'fe fe-package',
-    url: '/apps/expenses',
-  },
+  // {
+  //   title: 'Expenses',
+  //   key: 'Expenses',
+  //   icon: 'fe fe-package',
+  //   url: '/apps/expenses',
+  // },
   {
     title: 'Price Book',
     key: 'book',
@@ -98,11 +99,11 @@ export const getMenuData: any[] = [
   //       key: 'appsCart',
   //       url: '/apps/messaging',
   //     },
-  //     {
-  //       title: 'Mail',
-  //       key: 'appsMail',
-  //       url: '/apps/mail',
-  //     },
+  // {
+  //   title: 'Mail',
+  //   key: 'appsMail',
+  //   url: '/apps/mail',
+  // },
   //     // {
   //     //   title: 'Sell',
   //     //   key: 'Sell',
@@ -211,7 +212,7 @@ export const getMenuData: any[] = [
   //       key: 'extraAppsHelpdeskDashboard',
   //       url: '/apps/helpdesk-dashboard',
   //     },
-     
+
   //   ],
   // },
   // {
@@ -305,9 +306,19 @@ export const getMenuData: any[] = [
     title: 'Reports',
     key: 'Report',
     icon: 'fe fe-file-text',
-    url: '/apps/report',
+    children: [
+      {
+        title: 'Support Chat',
+        key: 'authLogin',
+        url: '/apps/report',
+      },
+      {
+        title: 'Issue History',
+        key: 'appsMail',
+        url: '/apps/mail',
+      },
+    ],
   },
-
 
   {
     title: 'AboutUs',

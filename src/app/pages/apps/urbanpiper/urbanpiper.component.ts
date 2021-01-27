@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core'
+import { Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core'
 import { NzFormatEmitEvent, NzTreeNodeOptions, NzTreeComponent } from 'ng-zorro-antd/tree'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { AuthService } from 'src/app/auth.service'
@@ -89,6 +89,7 @@ export class UrbanpiperComponent implements OnInit {
   }
 
   @ViewChild('nzTreeComponent') nzTreeComponent: NzTreeComponent
+  @ViewChild('content') modal: TemplateRef<any>
   defaultCheckedKeys = ['10020']
   defaultSelectedKeys = ['10010']
   defaultExpandedKeys = ['100', '1001']
@@ -235,12 +236,7 @@ export class UrbanpiperComponent implements OnInit {
             BrandName: brand.Name,
             categories: Object.assign([], categories),
           }
-          // obj.categories.forEach(cat => {
-          //   cat.items = 0;
-          //   cat.subcategories.forEach(subcat => {
-          //     cat.items = cat.items + response.Products.filter(x => x.CategoryId == subcat.Id && x.BrandId == brand.Id).length;
-          //   });
-          // });
+          //
           console.log(obj)
           this.BrandProducts.push(Object.assign({}, obj))
           console.log(document.getElementsByClassName('subcategory'))
@@ -866,6 +862,7 @@ export class UrbanpiperComponent implements OnInit {
           this.actionresponse = data['message']
           this.GetUPProducts()
           this.loading = false
+          this.modalService.open(this.modal)
         },
         error => {
           // console.log(error);
@@ -941,10 +938,10 @@ export class UrbanpiperComponent implements OnInit {
   //   }
   // }
   console(e) {
-    console.log(this.BrandProducts[e.index])
-    this.tempstore = this.upstoredata.filter(
-      x => x.BrandId == this.BrandProducts[e.index].BrandId,
-    )[0]
+    // console.log(this.BrandProducts[e.index])
+    console.log(e)
+
+    this.tempstore = this.upstoredata.filter(x => x.BrandId == this.BrandProducts[e].BrandId)[0]
     console.log(this.tempstore)
   }
 
