@@ -1,5 +1,5 @@
-<div class="row" *ngIf="!show">
-    <a class="col-xl-3 col-lg-3" *ngFor="let card of cards" (click)="createorder(card.ordertypeid)">
+<div class="row" *ngIf="sectionid == 0">
+    <!-- <a class="col-xl-3 col-lg-3" *ngFor="let card of cards" (click)="createorder(card.ordertypeid)">
         <div class="card">
             <div class="card-body">
                 <div class="item mb-xl-0 mb-3">
@@ -9,94 +9,403 @@
                     <div class="desc">
                         <span class="title">{{card.name}}</span>
                         <p>Waiting for review</p>
-                    </div>
+                    </div
                     <div class="line {{card.class}}"></div>
                 </div>
             </div>
         </div>
-    </a>
-    <button class="btn btn-primary mb-3 mr-3" (click)="openCustomClass(vertical)">Vertically centered modal</button>
-</div>
-<div *ngIf="show" class="row text-center">
-    <div class="col-sm-2 max-h-70">
-        <ul class="list-group">
-            <div *ngFor="let pcat of parentcategories">
-                <a href="javascript:void(0);" (click)="selectedcategoryid = pcat.Id"
-                    [class.cat-active]="selectedcategoryid == pcat.Id"
-                    class="list-group-item-action list-group-item pcat"><code>[#]</code>{{pcat.Category}}
-                </a>
-                <ul class="list-group">
-                    <a href="javascript:void(0);" (click)="selectedcategoryid = ccat.Id"
-                        *ngFor="let ccat of childcategories | parentcategory: pcat.Id"
-                        [class.cat-active]="selectedcategoryid == ccat.Id"
-                        class="list-group-item-action list-group-item">{{ccat.Category}}</a>
-                </ul>
+    </a> -->
+    <a class="col-xl-3 col-lg-3" (click)="createorder(5)">
+        <div class="card">
+            <div class="card-body">
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fe fe-zap"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Quick Order</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-success"></div>
+                </div>
             </div>
-        </ul>
-    </div>
-    <div class="col-sm row max-h-70">
-        <div class="col-sm-6" *ngFor="let product of products | productfilter: selectedcategoryid"
-            (click)="addProduct(product)">
-            <a>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="prod-item mb-xl-0 mb-3">
-                            <div class="desc">
-                                <span class="title">{{product.Product}}</span>
-                                <p>&#8377;{{product.Price}}</p>
-                            </div>
-                            <div [ngClass]="{'bg-success': product.ProductTypeId == 1, 'bg-danger': product.ProductTypeId == 2, 'bg-warning': product.ProductTypeId == 3, 'bg-gray-6': product.ProductTypeId == 4}"
-                                class="line"></div>
-                        </div>
+        </div>
+    </a>
+    <a class="col-xl-3 col-lg-3" (click)="vieworderlist(1)">
+        <div class="card">
+            <div class="card-body">
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fa fa-cutlery"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Dine In</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-primary"></div>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="col-xl-3 col-lg-3" (click)="vieworderlist(2)">
+        <div class="card">
+            <div class="card-body">
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fe fe-briefcase"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Take Away</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-warning"></div>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="col-xl-3 col-lg-3" (click)="vieworderlist(3)">
+        <div class="card">
+            <div class="card-body">
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fa fa-send-o"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Delivery</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-gray-6"></div>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="col-xl-3 col-lg-3" (click)="vieworderlist(4)">
+        <div class="card">
+            <div class="card-body">
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fa fa-truck"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Pick Up</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-red"></div>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="col-xl-3 col-lg-3" (click)="vieworderlist(6)">
+        <div class="card">
+            <div class="card-body">
+                <div class="item mb-xl-0 mb-3">
+                    <span class="icon">
+                        <i class="fe fe-globe"></i>
+                    </span>
+                    <div class="desc">
+                        <span class="title">Online Orders</span>
+                        <p>Waiting for review</p>
+                    </div>
+                    <div class="line bg-dark"></div>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+
+<div *ngIf="sectionid == 1">
+    <!-- <div>
+        <div class="headleft" style="float: left;">
+
+        </div>
+        <div class="headright" style="float: right;">
+          
+        </div>
+    </div> -->
+    <div *ngIf="orderpageid == 1">
+
+        <div>
+            <div class="headleft" style="float: left;">
+                <h2>
+                    Dine In
+                </h2>
+            </div>
+            <div class="headright" style="float: right;">
+                <button type="button" class="btn btn-danger" (click)="sectionid = 0">Back</button>
+            </div>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="card card-body">
+            <div>
+                <div style="float: left;" class="left">
+                    <div class="d-inline-block mb-3 mr-3">
+                        <nz-select style="width: 120px;" [(ngModel)]="selectedValue" nzAllowClear
+                            nzPlaceHolder="Choose">
+                            <nz-option nzValue="gf" nzLabel="Ground Floor"></nz-option>
+                            <nz-option nzValue="1f" nzLabel="1 Floor"></nz-option>
+                        </nz-select>
                     </div>
                 </div>
-            </a>
+                <div style="float: right;" class="right">
+                    <div class="btn-group mr-2 mb-2">
+                        <button type="button" class="btn btn-rounded">All Table</button>
+                        <button type="button" class="btn">Empty</button>
+                        <button type="button" class="btn btn-rounded">Seated</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-    <div class="col-sm max-h-70">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th class="text-left" scope="col">Product</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of order.Items; index as i">
-                    <td class="text-left">{{item.Name}}</td>
-                    <td>
-                        {{ item.Quantity }}
-                    </td>
-                    <td>{{ item.TotalAmount | number }}</td>
-                    <td>
-                        <a href="javascript: void(0);" class="btn btn-sm btn-link"><i class="fe fe-edit-2"></i></a>
-                        <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger"><i
-                                class="fe fe-trash-2"></i></a>
-                    </td>
-                </tr>
-                <tr *ngIf="order.Items == 0">
-                    <td colspan="4">Cart is Empty!</td>
-                </tr>
-            </tbody>
-        </table>
+    <div *ngIf="orderpageid == 2 || orderpageid == 3 || orderpageid == 4">
+        {{(orderpageid == 2)? 'Take Away' : ''}}
+        {{(orderpageid == 3)? 'Delivery' : ''}}
+        {{(orderpageid == 4)? 'PickUp' : ''}}
+    </div>
+    <div *ngIf="orderpageid == 6">
+        Online Orders
     </div>
 </div>
 
-<ng-template #vertical let-modal>
+<div *ngIf="sectionid == 2">
+    <div class="row">
+        <a style="padding-left: 1%;">
+
+            <div class="card-body px-0 py-0 pt-0 pb-2">
+                <div class="prod-item mb-xl-0 mb-3">
+                    <div class="desc">
+                        <span class="title">Quick Order</span>
+                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                    </div>
+                    <!-- <div class="line bg-success"></div> -->
+                </div>
+            </div>
+
+        </a>
+        <a style="padding-left: 1%;">
+
+            <div class="card-body px-0 py-0 pt-0 pb-2">
+                <div class="prod-item mb-xl-0 mb-3">
+                    <div class="desc">
+                        <span class="title">Dine In</span>
+                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                    </div>
+                    <!-- <div class="line bg-success"></div> -->
+                </div>
+            </div>
+
+        </a>
+        <a style="padding-left: 1%;">
+
+            <div class="card-body px-0 py-0 pt-0 pb-2">
+                <div class="prod-item mb-xl-0 mb-3">
+                    <div class="desc">
+                        <span class="title">Takeaway</span>
+                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                    </div>
+                    <!-- <div class="line bg-success"></div> -->
+                </div>
+            </div>
+
+        </a>
+        <a style="padding-left: 1%;">
+
+            <div class="card-body px-0 py-0 pt-0 pb-2">
+                <div class="prod-item mb-xl-0 mb-3">
+                    <div class="desc">
+                        <span class="title">Advance Order</span>
+                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                    </div>
+                    <!-- <div class="line bg-success"></div> -->
+                </div>
+            </div>
+
+        </a>
+        <a style="padding-left: 1%;">
+
+            <div class="card-body px-0 py-0 pt-0 pb-2">
+                <div class="prod-item mb-xl-0 mb-3">
+                    <div class="desc">
+                        <span class="title">Current Order</span>
+                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                    </div>
+                    <!-- <div class="line bg-success"></div> -->
+                </div>
+            </div>
+
+        </a>
+        <a style="padding-left: 1%;">
+
+            <div class="card-body px-0 py-0 pt-0 pb-2">
+                <div class="prod-item mb-xl-0 mb-3">
+                    <div class="desc">
+                        <span class="title">Online Orders</span>
+                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                    </div>
+                    <!-- <div class="line bg-success"></div> -->
+                </div>
+            </div>
+
+        </a>
+
+        <div style="float: right; padding-left: 50%;">
+            <button type="button" class="btn btn-danger" (click)="sectionid = 0"
+                style=" text-align: right;">Back</button>
+        </div>
+
+    </div>
+
+    <div class="row text-center">
+        <div class="col-sm-2 max-h-70">
+            <ul class="list-group">
+                <a href="javascript:void(0);" (click)="selectedcategoryid = 0"
+                    [class.cat-active]="selectedcategoryid==0" class="list-group-item-action list-group-item"
+                    style="background-color:#4b7cf3;">All
+                </a>
+                <div *ngFor="let pcat of parentcategories">
+                    <a href="javascript:void(0);" (click)="selectedcategoryid = pcat.Id"
+                        [class.cat-active]="selectedcategoryid == pcat.Id"
+                        class="list-group-item-action list-group-item pcat"><code>[#]</code>{{pcat.Category}}
+                    </a>
+                    <ul class="list-group">
+                        <a href="javascript:void(0);" (click)="selectedcategoryid = ccat.Id"
+                            *ngFor="let ccat of childcategories | parentcategory: pcat.Id"
+                            [class.cat-active]="selectedcategoryid == ccat.Id"
+                            class="list-group-item-action list-group-item">{{ccat.Category}}</a>
+                    </ul>
+                </div>
+            </ul>
+        </div>
+        <div class="col-sm  max-h-70">
+            <div style="padding-left: 7%;" style="position: fixed; z-index: 555;">
+                <div class="row">
+                    <!-- Search filter  -->
+                    <div style="width: 70%; padding-left: 15%;">
+                        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                            <input type="text" nz-input placeholder="Search Product..." [(ngModel)]="inputValue"
+                                (input)="onInput($event.target?.value)" [nzAutocomplete]="auto" />
+                        </nz-input-group>
+                        <ng-template #suffixIconButton>
+                            <button nz-button nzType="default" nzSearch (click)="inputValue=''"><i nz-icon
+                                    nzType="close" nzTheme="outline"></i></button>
+                        </ng-template>
+                        <nz-autocomplete nzBackfill #auto (selectionChange)="fieldselect($event);">
+                            <nz-auto-option *ngFor="let product of autocompleteproducts" [nzValue]="product.Product"
+                                id="{{product.Id}}">
+                                {{ product.Product }}
+                            </nz-auto-option>
+                        </nz-autocomplete>
+                    </div>
+                    <!-- Quantity -->
+                    <div style="width: 30%;">
+                        <div class="input-group">
+                            <nz-input-group nzSearch [nzAddOnAfter]="Quantity">
+                                <input type="number" nz-input placeholder="Quantity" />
+                            </nz-input-group>
+                            <ng-template #Quantity>
+                                <button nz-button nzType="default" nzSearch><i nz-icon nzType="plus"
+                                        nzTheme="outline"></i></button>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-sm-6" *ngFor="let product of products | productfilter: selectedcategoryid"
+                    (click)="addProduct(product)">
+                    <a>
+                        <div class="card">
+                            <div class="card-body px-0 py-0 pt-2">
+                                <div class="prod-item mb-xl-0 mb-3">
+                                    <div class="desc">
+                                        <span class="title">{{product.Product}}</span>
+                                        <p>&#8377;{{product.Price}}</p>
+                                    </div>
+                                    <div [ngClass]="{'bg-success': product.ProductTypeId == 1, 'bg-danger': product.ProductTypeId == 2, 'bg-warning': product.ProductTypeId == 3, 'bg-gray-6': product.ProductTypeId == 4}"
+                                        class="line"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm max-h-70">
+            <div class="cart-div">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-left" scope="col">Product</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of order.Items; index as i">
+                            <td class="text-left">{{item.Name}}</td>
+                            <td>
+                                {{ item.Quantity }}
+                            </td>
+                            <td>{{ item.TotalAmount | number }}</td>
+                            <td>
+                                <a href="javascript: void(0);" class="btn btn-sm btn-link" (click)="open(content)"><i
+                                        class="fe fe-edit-2"></i></a>
+                                <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger"
+                                    (click)="removeItem(item);order.OrderTypeId == 5&&order.PaidAmount = 0;"><i
+                                        class="fe fe-trash-2"></i></a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="order.Items == 0">
+                            <td colspan="4">Cart is Empty!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="paymenttypes">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Payment Types</h5>
+                        <a>
+                            <span class="sp-margin-top20" *ngFor="let item of paymentType" name="payment"
+                                (click)="order.PaymentTypeId != 5 && payment(item.Id)">
+                                <span class="sp-option-detail sp-no-user-select" id="{{item.Id}}">
+                                    <span *ngIf="item.Price > 0" class="glyphicon glyphicon-ok sp-option-selected">
+                                    </span>{{item.Description}}
+                                    <span *ngIf="order.PaymentTypeId == 5 && item.Price > 0">Rs.{{item.Price}}
+                                        /-
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Model of Edit Order -->
+
+<ng-template #content let-modal>
     <div class="modal-header">
-        <h5 class="modal-title" id="modal-basic-title">Vertically centered modal</h5>
+        <!-- <h5 class="modal-title">{{order.CurrentItem.Product}}</h5> -->
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+        dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo
         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
         pariatur.
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Cancel</button>
