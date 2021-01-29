@@ -157,7 +157,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <div *ngIf="orderpageid == 2 || orderpageid == 3 || orderpageid == 4">
@@ -336,7 +335,7 @@
         </div>
         <div class="col-sm max-h-70">
             <div class="cart-div">
-                <table class="table table-striped">
+                <table class="table">
                     <thead>
                         <tr>
                             <th class="text-left" scope="col">Product</th>
@@ -392,7 +391,7 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <!-- <h5 class="modal-title">{{order.CurrentItem.Product}}</h5> -->
+        <h5 class="modal-title">{{order.CurrentItem.Product}}</h5>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
