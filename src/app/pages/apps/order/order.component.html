@@ -114,16 +114,7 @@
 </div>
 
 <div *ngIf="sectionid == 1">
-    <!-- <div>
-        <div class="headleft" style="float: left;">
-
-        </div>
-        <div class="headright" style="float: right;">
-          
-        </div>
-    </div> -->
     <div *ngIf="orderpageid == 1">
-
         <div>
             <div class="headleft" style="float: left;">
                 <h2>
@@ -134,10 +125,7 @@
                 <button type="button" class="btn btn-danger" (click)="sectionid = 0">Back</button>
             </div>
         </div>
-
-        <br>
-        <br>
-
+        <br><br>
         <div class="card card-body">
             <div>
                 <div style="float: left;" class="left">
@@ -157,6 +145,25 @@
                     </div>
                 </div>
             </div>
+
+            <br><br>
+
+            <a class="col-xl-3 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="item mb-xl-0 mb-3">
+                            <span class="icon">
+                               <img src="../../../../assets/images/Extra/table-biz12.0.png" alt="" width="25%">
+                            </span>
+                            <div class="desc">
+                                <span class="title">Counter</span>
+                                <p>Table</p>
+                            </div>
+                            <div class="line bg-success"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
     <div *ngIf="orderpageid == 2 || orderpageid == 3 || orderpageid == 4">
@@ -391,7 +398,7 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h5 class="modal-title">{{order.CurrentItem.Product}}</h5>
+        <!-- <h5 class="modal-title">{{order.CurrentItem.Product}}</h5> -->
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
