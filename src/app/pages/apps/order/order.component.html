@@ -1,3 +1,4 @@
+<!-- Sell Page Main cards -->
 <div class="row" *ngIf="sectionid == 0">
     <!-- <a class="col-xl-3 col-lg-3" *ngFor="let card of cards" (click)="createorder(card.ordertypeid)">
         <div class="card">
@@ -113,6 +114,7 @@
     </a>
 </div>
 
+<!-- Dine In page -->
 <div *ngIf="sectionid == 1">
     <div *ngIf="orderpageid == 1">
         <div>
@@ -139,9 +141,9 @@
                 </div>
                 <div style="float: right;" class="right">
                     <div class="btn-group mr-2 mb-2">
-                        <button type="button" class="btn btn-rounded">All Table</button>
+                        <button type="button" class="btn">All Table</button>
                         <button type="button" class="btn">Empty</button>
-                        <button type="button" class="btn btn-rounded">Seated</button>
+                        <button type="button" class="btn">Seated</button>
                     </div>
                 </div>
             </div>
@@ -151,14 +153,16 @@
             <a class="col-xl-3 col-lg-3">
                 <div class="card">
                     <div class="card-body">
+                        <!-- <label style="padding-left: 10%;">TABLE</label> -->
                         <div class="item mb-xl-0 mb-3">
-                            <label>Table:</label>
                             <span class="icon">
-                                <img src="../../../../assets/images/Extra/table-2.0.png" alt="" width="25%">
+                                <img src="./assets/images/Extra/table-2.0.png" alt="" width="35%">
                             </span>
-                            <div class="desc">
-                                <span class="title">Counter</span>
+                            <br>
+                            <div class="desc" style="padding-left: 25%;">
+                                <span class="title" style="font-size: large;">Counter</span>
                             </div>
+                            <br>
                             <div class="line bg-success"></div>
                         </div>
                     </div>
@@ -167,12 +171,98 @@
         </div>
     </div>
     <div *ngIf="orderpageid == 2 || orderpageid == 3 || orderpageid == 4">
-        {{(orderpageid == 2)? 'Take Away' : ''}}
-        {{(orderpageid == 3)? 'Delivery' : ''}}
-        {{(orderpageid == 4)? 'PickUp' : ''}}
+
+
+        <div>
+            <div class="headleft" style="float: left;">
+                <h2>{{(orderpageid == 2)? 'Take Away' : ''}}</h2>
+                <h2> {{(orderpageid == 3)? 'Delivery' : ''}}</h2>
+                <h2>{{(orderpageid == 4)? 'PickUp' : ''}}</h2>
+            </div>
+            <div class="headright" style="float: right;">
+                <button type="button" class="btn btn-danger" (click)="sectionid = 0">Back</button>
+            </div>
+        </div>
+        <br><br><br>
+        <div class="card card-body">
+            <div>
+                <div style="float: left;" class="left">
+                    <div class="d-inline-block mb-3 mr-3">
+                        <button nz-button nzType="default" [nzSize]="size" class="mr-3 mb-3" (click)="createorder(5)"><i
+                                nz-icon nzType="plus" nzTheme="outline"></i>New {{(orderpageid == 2)? 'Take Away' : ''}}
+                            {{(orderpageid == 3)?
+                            'Delivery' : ''}} {{(orderpageid == 4)? 'PickUp' : ''}}</button>
+                    </div>
+                </div>
+                <div style="float: right;" class="right">
+                    <div class="btn-group mr-2 mb-2">
+                        <button type="button" class="btn">All</button>
+                        <button type="button" class="btn">Pending</button>
+                        <button type="button" class="btn">Completed</button>
+                        <button type="button" class="btn">Cancelled</button>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+
+
+        </div>
+
     </div>
     <div *ngIf="orderpageid == 6">
-        Online Orders
+        <div>
+            <div class="headleft" style="float: left;">
+                <h2>
+                    Aggregator Orders
+                </h2>
+            </div>
+            <div class="headright" style="float: right;">
+                <div class="btn-group">
+                    <button nz-button nzType="link"><i nz-icon nzType="sound" nzTheme="outline"></i></button>
+                    <button type="button" class="btn btn-danger" (click)="sectionid = 0">Back</button>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="card card-body">
+            <div class="btn-group mr-2 mb-2">
+                <button type="button" class="btn">PLACED <span class="badge badge-secondary">0</span></button>
+                <button type="button" class="btn">IN PROGRESS <span class="badge badge-secondary">0</span></button>
+                <button type="button" class="btn">COMPLETED <span class="badge badge-secondary">0</span></button>
+                <button type="button" class="btn">CANCELLED <span class="badge badge-secondary">0</span></button>
+            </div>
+            <br>
+            <nz-table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Ordered @</th>
+                        <th>Amount</th>
+                        <th>Delivery Type</th>
+                        <th>Prep Time</th>
+                        <th>Rider</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger">
+                                <i class="fe fe-trash-2"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
     </div>
 </div>
 
@@ -257,7 +347,7 @@
 
         </a>
 
-        <div style="float: right; padding-left: 50%;">
+        <div class="pl-50" style="float: right;">
             <button type="button" class="btn btn-danger" (click)="sectionid = 0"
                 style=" text-align: right;">Back</button>
         </div>

@@ -25,8 +25,8 @@ function createWindow() {
         titleBarStyle: "hiddenInset",
         width: 800,
         height: 600,
-        titleBarStyle: "hidden", 
-        frame: false,
+        // titleBarStyle: "hidden", 
+        // frame: false,
         // transparent: true,
         icon: __dirname + `/dist/favicon.png`,
         webPreferences: {
