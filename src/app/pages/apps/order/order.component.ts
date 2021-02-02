@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core'
 import { OrderModule, OrderItemModule } from './order.moduel'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
 import { AuthService } from '../../../auth.service'
@@ -9,7 +9,7 @@ import { NzModalService } from 'ng-zorro-antd/modal'
   styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
-  // Auto complete
+  // Auto complete+
   inputValue: string
   options: string[] = []
   // Modal for Order edit
@@ -85,6 +85,7 @@ export class OrderComponent implements OnInit {
 
     this.auth.getproducts().subscribe(data => {
       this.products = data
+      console.log(this.products)
     })
   }
   toggle() {
@@ -99,12 +100,22 @@ export class OrderComponent implements OnInit {
     this.sectionid = 2
     console.log(this.order)
   }
+
+  // Option Group
+  @ViewChild('prod_details', { static: false }) public prod_detail_modal: TemplateRef<any>
+
+  currentitem = null
   addProduct(product) {
     var options = {
       quantity: 1,
       key: '',
     }
-    this.order.additem(product, options)
+    if (product.OptionGroup && product.OptionGroup.length > 0) {
+      this.currentitem = product
+      this.modalService.open(this.prod_detail_modal, { centered: true, size: 'xl' })
+    } else {
+      this.order.additem(product, options)
+    }
   }
   nzClick(event) {
     console.log(event)
