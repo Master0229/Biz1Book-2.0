@@ -51,6 +51,8 @@ export class OrderModule {
   UPOrderId: number
   UserId: number
   WaiterId: number
+  TaxAmount: number
+  additionalchargearray = []
   constructor(ordertypeid) {
     this.OrderTypeId = ordertypeid
     this.BillAmount = 0
@@ -81,6 +83,116 @@ export class OrderModule {
     var key = ''
     key = product.Id.toString()
     return key
+  }
+  setbillamount() {
+    var extracharge = 0
+    this.BillAmount = 0
+    this.Tax1 = 0
+    this.Tax2 = 0
+    this.Tax3 = 0
+    this.AllItemDisc = 0
+    this.AllItemTaxDisc = 0
+    this.AllItemTotalDisc = 0
+
+    var isdiscinclusivoftax
+
+    var item = []
+
+    var subtotal = 0
+
+    item.forEach(item => {
+      var optionprice = 0
+      if (item.DiscAmount == null) item.DiscAmount = 0
+      //if(item.DiscPercent > 0) item.DiscAmount = (item.Price*item.Quantity)*item.DiscPercent/100;
+      item.OptionGroup.forEach(opg => {
+        opg.Option.forEach(option => {
+          optionprice = optionprice + option.Price
+        })
+      })
+
+      if (item.IsTaxInclusive) {
+        item.TotalPrice =
+          (item.Price / ((item.Tax1 + item.Tax2 + item.Tax2) / 100 + 1) + optionprice) *
+          item.Quantity
+      } else {
+        item.TotalPrice = (item.Price + optionprice) * item.Quantity
+      }
+
+      item.TaxAmount1 = item.Tax1 * item.TotalPrice
+      item.TaxAmount2 = item.Tax2 * item.TotalPrice
+      item.TaxAmount3 = item.Tax3 * item.TotalPrice
+      item.TaxAmount = item.TaxAmount1 + item.TaxAmount2 + item.TaxAmount3
+      if (item.DiscAmount || item.DiscPercent) {
+        if (item.DiscPercent == 0) {
+          if (isdiscinclusivoftax) {
+            item.DiscPercent = (item.DiscAmount * 100) / (item.TotalPrice + item.TaxAmount)
+          } else {
+            item.DiscPercent = (item.DiscAmount * 100) / item.TotalPrice
+          }
+        }
+        item.ItemDiscount = (item.TotalPrice * item.DiscPercent) / 100
+        item.TotalPrice = item.TotalPrice - (item.TotalPrice * item.DiscPercent) / 100
+
+        item.TaxAmount1 -= (item.TaxAmount1 * item.DiscPercent) / 100
+        item.TaxAmount2 -= (item.TaxAmount2 * item.DiscPercent) / 100
+        item.TaxAmount3 -= (item.TaxAmount3 * item.DiscPercent) / 100
+
+        item.TaxItemDiscount =
+          (item.TaxAmount1 * item.DiscPercent) / 100 +
+          (item.TaxAmount2 * item.DiscPercent) / 100 +
+          (item.TaxAmount3 * item.DiscPercent) / 100
+
+        item.TaxAmount = item.TaxAmount1 + item.TaxAmount2 + item.TaxAmount3
+      }
+      this.BillAmount += item.TotalPrice
+      this.Tax1 += item.TaxAmount1
+      this.Tax2 += item.TaxAmount2
+      this.Tax3 += item.TaxAmount3
+
+      this.AllItemDisc += item.ItemDiscount
+      this.AllItemTaxDisc += item.TaxItemDiscount
+      this.AllItemTotalDisc += item.ItemDiscount + item.TaxItemDiscount
+    })
+
+    this.TaxAmount = this.Tax1 + this.Tax2 + this.Tax3
+    this.additionalchargearray.forEach(charge => {
+      if (charge.ChargeType == 2) {
+        charge.ChargeAmount = Number((subtotal / 100) * charge.ChargeValue)
+      } else {
+        charge.ChargeAmount = Number(charge.ChargeValue)
+      }
+      extracharge += charge.ChargeAmount
+    })
+    this.BillAmount += extracharge
+
+    if (this.DiscAmount || this.DiscAmount) {
+      if (this.DiscAmount == 0) {
+        if (isdiscinclusivoftax) {
+          this.DiscPercent = (this.DiscAmount * 100) / (this.BillAmount + this.TaxAmount)
+        } else {
+          this.DiscPercent = (this.DiscAmount * 100) / this.BillAmount
+        }
+      }
+      this.BillAmount -= (this.BillAmount * this.DiscPercent) / 100
+      this.Tax1 -= (this.Tax1 * this.DiscPercent) / 100
+      this.Tax2 -= (this.Tax2 * this.DiscPercent) / 100
+      this.Tax3 -= (this.Tax3 * this.DiscPercent) / 100
+      this.TaxAmount = this.Tax1 + this.Tax2 + this.Tax3
+
+      this.OrderDiscount = (this.BillAmount * this.DiscPercent) / 100
+      this.OrderTaxDisc =
+        (this.Tax1 * this.DiscPercent) / 100 +
+        (this.Tax2 * this.DiscPercent) / 100 +
+        (this.Tax3 * this.DiscPercent) / 100
+      this.OrderTotDisc = this.OrderDiscount + this.OrderTaxDisc
+    }
+
+    item.forEach(item => {
+      item.OrderDiscount = (item.TotalPrice * this.OrderDiscount) / this.BillAmount
+      item.TaxOrderDiscount = (item.TaxAmount * this.OrderTaxDisc) / this.TaxAmount
+    })
+
+    this.BillAmount += this.TaxAmount
   }
 }
 

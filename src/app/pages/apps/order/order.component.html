@@ -359,7 +359,7 @@
             <ul class="list-group">
                 <a href="javascript:void(0);" (click)="selectedcategoryid = 0"
                     [class.cat-active]="selectedcategoryid==0" class="list-group-item-action list-group-item"
-                    style="background-color:#4b7cf3;">All
+                    style="background-color:#4b7cf3; position: sticky; z-index: 555; top: 0;">All
                 </a>
                 <div *ngFor="let pcat of parentcategories">
                     <a href="javascript:void(0);" (click)="selectedcategoryid = pcat.Id"
@@ -376,108 +376,112 @@
             </ul>
         </div>
         <div class="col-sm  max-h-70">
-            <div style="padding-left: 7%;" style="position: fixed; z-index: 555;">
-                <div class="row">
-                    <!-- Search filter  -->
-                    <div style="width: 70%; padding-left: 15%;">
-                        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                            <input type="text" nz-input placeholder="Search Product..." [(ngModel)]="inputValue"
-                                (input)="onInput($event.target?.value)" [nzAutocomplete]="auto" />
-                        </nz-input-group>
-                        <ng-template #suffixIconButton>
-                            <button nz-button nzType="default" nzSearch (click)="inputValue=''"><i nz-icon
-                                    nzType="close" nzTheme="outline"></i></button>
-                        </ng-template>
-                        <nz-autocomplete nzBackfill #auto (selectionChange)="fieldselect($event);">
-                            <nz-auto-option *ngFor="let product of autocompleteproducts" [nzValue]="product.Product"
-                                id="{{product.Id}}">
-                                {{ product.Product }}
-                            </nz-auto-option>
-                        </nz-autocomplete>
-                    </div>
-                    <!-- Quantity -->
-                    <div style="width: 30%;">
-                        <div class="input-group">
-                            <nz-input-group nzSearch [nzAddOnAfter]="Quantity">
-                                <input type="number" nz-input placeholder="Quantity" />
+            <div class="card card-body pt-0">
+                <div style="position: sticky; top: 0; z-index: 555;">
+                    <div class="row">
+                        <!-- Search filter  -->
+                        <div style="width: 70%;">
+                            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                                <input type="text" nz-input placeholder="Search Product..." [(ngModel)]="inputValue"
+                                    (input)="onInput($event.target?.value)" [nzAutocomplete]="auto" />
                             </nz-input-group>
-                            <ng-template #Quantity>
-                                <button nz-button nzType="default" nzSearch><i nz-icon nzType="plus"
-                                        nzTheme="outline"></i></button>
+                            <ng-template #suffixIconButton>
+                                <button nz-button nzType="default" nzSearch (click)="inputValue=''"><i nz-icon
+                                        nzType="close" nzTheme="outline"></i></button>
                             </ng-template>
+                            <nz-autocomplete nzBackfill #auto (selectionChange)="fieldselect($event);">
+                                <nz-auto-option *ngFor="let product of autocompleteproducts" [nzValue]="product.Product"
+                                    id="{{product.Id}}">
+                                    {{ product.Product }}
+                                </nz-auto-option>
+                            </nz-autocomplete>
+                        </div>
+                        <!-- Quantity -->
+                        <div style="width: 30%;">
+                            <div class="input-group">
+                                <nz-input-group nzSearch [nzAddOnAfter]="Quantity">
+                                    <input type="number" nz-input placeholder="Quantity" />
+                                </nz-input-group>
+                                <ng-template #Quantity>
+                                    <button nz-button nzType="default" nzSearch><i nz-icon nzType="plus"
+                                            nzTheme="outline"></i></button>
+                                </ng-template>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br><br>
-            <div class="row">
-                <div class="col-sm-6" *ngFor="let product of products | productfilter: selectedcategoryid"
-                    (click)="addProduct(product )">
-                    <a>
-                        <div class="card" [ngClass]="{'text-info' : item.OptionGroup != undefined}">
-                            <div class="card-body px-0 py-0 pt-2">
-                                <div class="prod-item mb-xl-0 mb-3">
-                                    <div class="desc">
-                                        <span class="title">{{product.Product}}</span>
-                                        <p>&#8377;{{product.Price}}</p>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6" *ngFor="let product of products | productfilter: selectedcategoryid"
+                        (click)="addProduct(product )">
+                        <a>
+                            <div class="card" [ngClass]="{'text-info' : item.OptionGroup != undefined}">
+                                <div class="card-body px-0 py-0 pt-2">
+                                    <div class="prod-item mb-xl-0 mb-3">
+                                        <div class="desc">
+                                            <span class="title">{{product.Product}}</span>
+                                            <p>&#8377;{{product.Price}}</p>
+                                        </div>
+                                        <div [ngClass]="{'bg-success': product.ProductTypeId == 1, 'bg-danger': product.ProductTypeId == 2, 'bg-warning': product.ProductTypeId == 3, 'bg-gray-6': product.ProductTypeId == 4}"
+                                            class="line"></div>
                                     </div>
-                                    <div [ngClass]="{'bg-success': product.ProductTypeId == 1, 'bg-danger': product.ProductTypeId == 2, 'bg-warning': product.ProductTypeId == 3, 'bg-gray-6': product.ProductTypeId == 4}"
-                                        class="line"></div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm max-h-70">
-            <div class="cart-div">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th class="text-left" scope="col">Product</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of order.Items; index as i">
-                            <td class="text-left">{{item.Name}}</td>
-                            <td>
-                                {{ item.Quantity }}
-                            </td>
-                            <td>{{ item.TotalAmount | number }}</td>
-                            <td>
-                                <a href="javascript: void(0);" class="btn btn-sm btn-link" (click)="open(content)"><i
-                                        class="fe fe-edit-2"></i></a>
-                                <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger"
-                                    (click)="removeItem(item);order.OrderTypeId == 5&&order.PaidAmount = 0;"><i
-                                        class="fe fe-trash-2"></i></a>
-                            </td>
-                        </tr>
-                        <tr *ngIf="order.Items == 0">
-                            <td colspan="4">Cart is Empty!</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="paymenttypes">
-                <div class="card">
-                    <div class="card-body">
-                        <h5>Payment Types</h5>
-                        <a>
-                            <span class="sp-margin-top20" *ngFor="let item of paymentType" name="payment"
-                                (click)="order.PaymentTypeId != 5 && payment(item.Id)">
-                                <span class="sp-option-detail sp-no-user-select" id="{{item.Id}}">
-                                    <span *ngIf="item.Price > 0" class="glyphicon glyphicon-ok sp-option-selected">
-                                    </span>{{item.Description}}
-                                    <span *ngIf="order.PaymentTypeId == 5 && item.Price > 0">Rs.{{item.Price}}
-                                        /-
+        <div class="col-sm max-h-69">
+            <div class="card card-body">
+                <div class="cart-div">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-left" scope="col">Product</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of order.Items; index as i">
+                                <td class="text-left">{{item.Name}}</td>
+                                <td>
+                                    {{ item.Quantity }}
+                                </td>
+                                <td>{{ item.TotalAmount | number }}</td>
+                                <td>
+                                    <a href="javascript: void(0);" class="btn btn-sm btn-link"
+                                        (click)="open(content)"><i class="fe fe-edit-2"></i></a>
+                                    <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger"
+                                        (click)="removeItem(item);order.OrderTypeId == 5&&order.PaidAmount = 0;"><i
+                                            class="fe fe-trash-2"></i></a>
+                                </td>
+                            </tr>
+                            <tr *ngIf="order.Items == 0">
+                                <td colspan="4">Cart is Empty!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="paymenttypes">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Payment Types</h5>
+                            <a>
+                                <span class="sp-margin-top20" *ngFor="let item of paymentType" name="payment"
+                                    (click)="order.PaymentTypeId != 5 && payment(item.Id)">
+                                    <span class="sp-option-detail sp-no-user-select" id="{{item.Id}}">
+                                        <span *ngIf="item.Price > 0" class="glyphicon glyphicon-ok sp-option-selected">
+                                        </span>{{item.Description}}
+                                        <span *ngIf="order.PaymentTypeId == 5 && item.Price > 0">Rs.{{item.Price}}
+                                            /-
+                                        </span>
                                     </span>
                                 </span>
-                            </span>
-                        </a>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -512,45 +516,36 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="height: 70vh ; overflow: auto; ">
         <div class="row">
             <div class="col-sm-12 mb-10">
-                TYPES :
+                <b>TYPES : </b>
                 <span class="badge"
-                    [ngClass]="{ 'badge-success': currentitem.ProductTypeId == 1, 'badge-danger': currentitem.ProductTypeId == 2,'badge-warning': currentitem.ProductTypeId == 3 }">{{currentitem.ProductTypeId
-                    == 1? 'veg' : currentitem.ProductTypeId == 2? 'non-veg' : 'egg'}}</span>
+                    [ngClass]="{ 'badge-success': currentitem.ProductTypeId == 1, 'badge-danger': currentitem.ProductTypeId == 2,'badge-warning': currentitem.ProductTypeId == 3 }"><b>{{currentitem.ProductTypeId
+                        == 1? 'veg' : currentitem.ProductTypeId == 2? 'non-veg' : 'egg'}}</b></span>
             </div>
-            <div class="col-sm-3 ml-3">
-                VARIANTS
+            <br>
+            <div class="col-sm-6 ml-3">
+                <b>VARIANTS</b>
                 <div *ngFor="let item of currentitem.OptionGroup">
                     <div *ngIf="item.OptionGroupType==1">
-                        <label style="color: black;">{{item.Name}}</label>
-                        <div *ngFor="let option of item.Option">
+                        <label style="color: black;"><b>{{item.Name}}</b></label>
+                        <div *ngFor="let option of item.Option" class="ml-4">
                             <input class="form-check-input" type="radio" value="option.Id" name="{{item.name}}"
-                                id="{{option.Name}}">
+                                id="{{option.Name}}" [checked]="option.selected==1"
+                                (click)="SetOptionValue(item,option);">
                             <label class="form-check-lable" for="{{option.Name}}">{{option.Name}} - </label>
                             <span> {{option.Price}}</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-sm3">
-                V.PRICE
-                <div *ngFor="let item of currentitem.OptionGroup">
-
-                    <label>PRICE</label>
-                    <div *ngFor="let option of item.Option">
-                        <span> {{option.Price}}</span>
-                    </div>
-
-                </div>
-            </div> -->
-            <div class="col-sm-3">
-                ADDONS
+            <div class="col-sm-5 ml-2">
+                <b>ADDONS</b>
                 <div *ngFor="let item of currentitem.OptionGroup">
                     <div *ngIf="item.OptionGroupType==2">
-                        <label style="color: black;">{{item.Name}}</label>
-                        <div *ngFor="let option of item.Option">
+                        <label style="color: black;"><b>{{item.Name}}</b></label>
+                        <div *ngFor="let option of item.Option" class="ml-4">
                             <input class="form-check-input" type="checkbox" name="{{option.Id}}" [value]="option.Id"
                                 id="{{option.Id}}">
                             <label class="form-check-lable" for="{{option.Id}}">{{option.Name}}</label>
@@ -558,53 +553,55 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label style="color: black;" for="note">NOTE</label>
-                    <textarea class="form-control" id="note" rows="3" name="NOTE" type="text"></textarea>
+
+        </div>
+        <div>
+            <div class="form-group" style="margin-bottom: 0%;">
+                <label style="color: black;" for="note"><b>NOTE</b></label>
+                <textarea class="form-control" id="note" rows="3" name="NOTE" type="text"></textarea>
+            </div>
+            <br>
+            <label style="color: black;"><b>QUANTITY</b></label>
+            <div class="input-group">
+                <input min="1" max="100" step="1" type="number" class="form-control">
+            </div>
+            <br>
+            <label style="color: black;"><b>FREE QUANTITY</b></label>
+            <br>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" aria-label="Checkbox for following text input" #freeqty
+                            (change)="$event.target.checked">
+                    </div>
                 </div>
-                <br>
-                <label style="color: black;">QUANTITY</label>
-                <div class="input-group">
-                    <input placeholder="Amount" min="1" max="100" step="1" type="number" class="form-control">
-                </div>
-                <br>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" #freeqty (change)="$event.target.checked">
-                    <label style="color: black;" class="float-left form-check-label">FREE QUANTITY</label>
-                </div>
-                <br>
                 <input [disabled]=!freeqty.checked type="number" class="form-control">
-                <br>
-                <label style="color: black;">DISCOUNT</label>
-                <br>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-
-                        <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input" #cashdiscount
-                                (change)="$event.target.checked">
-                        </div>
+            </div>
+            <br>
+            <label style="color: black;"><b>DISCOUNT</b></label>
+            <br>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="radio" aria-label="Radio button for following text input" #cashdiscount
+                            (change)="$event.target.checked" name="discount" id="discount1" checked>
                     </div>
-                    <input [disabled]=!cashdiscount.checked type="number" class="form-control" placeholder="CASH">
                 </div>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-
-                        <div class="input-group-text">
-                            <input type="checkbox" aria-label="Radio button for following text input" #percentdiscount
-                                (change)="$event.target.checked">
-                        </div>
+                <input [disabled]=!cashdiscount.checked type="number" class="form-control" placeholder="CASH">
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="radio" aria-label="Radio button for following text input" #percentdiscount
+                            (change)="$event.target.checked" name="discount" id="discount2">
                     </div>
-                    <input [disabled]=!percentdiscount.checked type="number" class="form-control"
-                        placeholder="PERCENTAGE">
                 </div>
-                <br>
-                <label style="color: black;">EXTRA</label>
-                <div class="input-group">
-                    <input min="1" max="100" step="1" type="number" class="form-control">
-                </div>
-
+                <input [disabled]=!percentdiscount.checked type="number" class="form-control" placeholder="PERCENTAGE">
+            </div>
+            <br>
+            <label style="color: black;"><b>EXTRA</b></label>
+            <div class="input-group">
+                <input min="1" max="100" step="1" type="number" class="form-control">
             </div>
         </div>
     </div>
@@ -612,7 +609,7 @@
         <!-- <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Cancel</button> -->
         <div class="mr-auto">
             <h5 class="float-left"> Price : </h5>
-            <h5 class="float-right"> {{currentitem.Price}} </h5>
+            <h5 class="float-right ml-1"><b> {{currentitem.Price}} </b></h5>
         </div>
         <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Save Changes</button>
     </div>

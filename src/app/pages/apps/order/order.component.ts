@@ -112,9 +112,35 @@ export class OrderComponent implements OnInit {
     }
     if (product.OptionGroup && product.OptionGroup.length > 0) {
       this.currentitem = product
-      this.modalService.open(this.prod_detail_modal, { centered: true, size: 'xl' })
+      this.modalService.open(this.prod_detail_modal, { centered: true })
     } else {
       this.order.additem(product, options)
+    }
+  }
+
+  SetOptionValue(OptionGroup, Option) {
+    OptionGroup.Option.forEach(element => {
+      element.selected = 0
+    })
+    if (OptionGroup.selected != Option.Id) {
+      OptionGroup.selected = Option.Id
+      Option.selected = 1
+    } else {
+      OptionGroup.selected = 0
+      Option.selected = 0
+    }
+  }
+  SetAddonValue(OptionGroup, Option, check) {
+    if (check) {
+      Option.selected = 1
+    } else {
+      OptionGroup.selected = 0
+      Option.selected = 0
+    }
+    if (OptionGroup.Option.some(x => x.selected > 0)) {
+      OptionGroup.selected = 1
+    } else {
+      OptionGroup.selected = 0
     }
   }
   nzClick(event) {
