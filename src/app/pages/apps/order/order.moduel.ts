@@ -68,7 +68,15 @@ export class OrderModule {
     this.Tax2 = 0
     this.Tax3 = 0
     this.Items = []
+    this.AllItemDisc = 0
+    this.AllItemTaxDisc = 0
+    this.AllItemTotalDisc = 0
+    this.OrderDiscount = 0
+    this.OrderTaxDisc = 0
+    this.OrderTotDisc = 0
   }
+
+  // ADD PRODDUCT
   additem(product, options) {
     var productkey = this.productkeygenerator(product)
     console.log(product, productkey)
@@ -78,12 +86,15 @@ export class OrderModule {
       options.key = productkey
       this.Items.push(new OrderItemModule(product, options))
     }
+    this.setbillamount()
   }
   productkeygenerator(product) {
     var key = ''
     key = product.Id.toString()
     return key
   }
+
+  // BILL AMOUNT CALCULATION LOGIC
   setbillamount() {
     var extracharge = 0
     this.BillAmount = 0
@@ -93,45 +104,46 @@ export class OrderModule {
     this.AllItemDisc = 0
     this.AllItemTaxDisc = 0
     this.AllItemTotalDisc = 0
+    this.Charges = 0
+    this.TaxAmount = 0
+    var isdiscinclusivoftax = false
 
-    var isdiscinclusivoftax
-
-    var item = []
-
-    var subtotal = 0
-
-    item.forEach(item => {
+    this.Items.forEach(item => {
+      item.TaxAmount1 = 0
+      item.TaxAmount2 = 0
+      item.TaxAmount3 = 0
+      item.TaxAmount = 0
       var optionprice = 0
       if (item.DiscAmount == null) item.DiscAmount = 0
       //if(item.DiscPercent > 0) item.DiscAmount = (item.Price*item.Quantity)*item.DiscPercent/100;
-      item.OptionGroup.forEach(opg => {
-        opg.Option.forEach(option => {
+      item.OptionGroups.forEach(opg => {
+        opg.Options.forEach(option => {
           optionprice = optionprice + option.Price
         })
       })
 
       if (item.IsTaxInclusive) {
-        item.TotalPrice =
+        item.TotalAmount =
           (item.Price / ((item.Tax1 + item.Tax2 + item.Tax2) / 100 + 1) + optionprice) *
           item.Quantity
       } else {
-        item.TotalPrice = (item.Price + optionprice) * item.Quantity
+        item.TotalAmount = (item.Price + optionprice) * item.Quantity
       }
 
-      item.TaxAmount1 = item.Tax1 * item.TotalPrice
-      item.TaxAmount2 = item.Tax2 * item.TotalPrice
-      item.TaxAmount3 = item.Tax3 * item.TotalPrice
+      item.TaxAmount1 = (item.Tax1 * item.TotalAmount) / 100
+      item.TaxAmount2 = (item.Tax2 * item.TotalAmount) / 100
+      item.TaxAmount3 = (item.Tax3 * item.TotalAmount) / 100
       item.TaxAmount = item.TaxAmount1 + item.TaxAmount2 + item.TaxAmount3
       if (item.DiscAmount || item.DiscPercent) {
         if (item.DiscPercent == 0) {
           if (isdiscinclusivoftax) {
-            item.DiscPercent = (item.DiscAmount * 100) / (item.TotalPrice + item.TaxAmount)
+            item.DiscPercent = (item.DiscAmount * 100) / (item.TotalAmount + item.TaxAmount)
           } else {
-            item.DiscPercent = (item.DiscAmount * 100) / item.TotalPrice
+            item.DiscPercent = (item.DiscAmount * 100) / item.TotalAmount
           }
         }
-        item.ItemDiscount = (item.TotalPrice * item.DiscPercent) / 100
-        item.TotalPrice = item.TotalPrice - (item.TotalPrice * item.DiscPercent) / 100
+        item.ItemDiscount = (item.TotalAmount * item.DiscPercent) / 100
+        item.TotalAmount = item.TotalAmount - (item.TotalAmount * item.DiscPercent) / 100
 
         item.TaxAmount1 -= (item.TaxAmount1 * item.DiscPercent) / 100
         item.TaxAmount2 -= (item.TaxAmount2 * item.DiscPercent) / 100
@@ -144,7 +156,7 @@ export class OrderModule {
 
         item.TaxAmount = item.TaxAmount1 + item.TaxAmount2 + item.TaxAmount3
       }
-      this.BillAmount += item.TotalPrice
+      this.BillAmount += item.TotalAmount
       this.Tax1 += item.TaxAmount1
       this.Tax2 += item.TaxAmount2
       this.Tax3 += item.TaxAmount3
@@ -155,15 +167,6 @@ export class OrderModule {
     })
 
     this.TaxAmount = this.Tax1 + this.Tax2 + this.Tax3
-    this.additionalchargearray.forEach(charge => {
-      if (charge.ChargeType == 2) {
-        charge.ChargeAmount = Number((subtotal / 100) * charge.ChargeValue)
-      } else {
-        charge.ChargeAmount = Number(charge.ChargeValue)
-      }
-      extracharge += charge.ChargeAmount
-    })
-    this.BillAmount += extracharge
 
     if (this.DiscAmount || this.DiscAmount) {
       if (this.DiscAmount == 0) {
@@ -187,8 +190,19 @@ export class OrderModule {
       this.OrderTotDisc = this.OrderDiscount + this.OrderTaxDisc
     }
 
-    item.forEach(item => {
-      item.OrderDiscount = (item.TotalPrice * this.OrderDiscount) / this.BillAmount
+    this.additionalchargearray.forEach(charge => {
+      if (charge.ChargeType == 2) {
+        charge.ChargeAmount = Number((this.BillAmount / 100) * charge.ChargeValue)
+      } else {
+        charge.ChargeAmount = Number(charge.ChargeValue)
+      }
+      extracharge += charge.ChargeAmount
+      this.Charges += charge.ChargeAmount
+    })
+    this.BillAmount += extracharge
+
+    this.Items.forEach(item => {
+      item.OrderDiscount = (item.TotalAmount * this.OrderDiscount) / this.BillAmount
       item.TaxOrderDiscount = (item.TaxAmount * this.OrderTaxDisc) / this.TaxAmount
     })
 
@@ -231,7 +245,11 @@ export class OrderItemModule {
   TaxItemDiscount: number
   TaxOrderDiscount: number
   TotalAmount: number
-
+  TaxAmount1: number
+  TaxAmount2: number
+  TaxAmount3: number
+  TaxAmount: number
+  IsTaxInclusive: number
   constructor(product, options) {
     this.Id = 0
     this.CategoryId = product.CategoryId
@@ -258,9 +276,9 @@ export class OrderItemModule {
     this.Price = product.Price
     this.Quantity = options.quantity
     this.StatusId = 0
-    this.tax1_p = product.Tax1
-    this.tax2_p = product.Tax2
-    this.tax3_p = product.Tax3
+    this.Tax1 = product.Tax1
+    this.Tax2 = product.Tax2
+    this.Tax3 = product.Tax3
     this.TaxGroupId = product.TaxGroupId
     this.TaxItemDiscount = 0
     this.TaxOrderDiscount = 0

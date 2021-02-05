@@ -951,10 +951,10 @@ export class AuthService {
   }
 
   getproducts() {
-    return this.http.get('http://192.168.0.113:8081/products')
+    return this.http.get('http://192.168.0.102:8081/products')
   }
 
   getcategories() {
-    return this.http.get('http://192.168.0.113:8081/categories')
+    return this.http.get('http://192.168.0.102:8081/categories')
   }
 }

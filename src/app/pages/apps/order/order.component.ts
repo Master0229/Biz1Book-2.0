@@ -116,6 +116,7 @@ export class OrderComponent implements OnInit {
     } else {
       this.order.additem(product, options)
     }
+    console.log(this.order)
   }
 
   SetOptionValue(OptionGroup, Option) {

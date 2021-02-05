@@ -113,7 +113,6 @@
         </div>
     </a>
 </div>
-
 <!-- Dine In page -->
 <div *ngIf="sectionid == 1">
     <div *ngIf="orderpageid == 1">
@@ -147,9 +146,7 @@
                     </div>
                 </div>
             </div>
-
             <br><br>
-
             <a class="col-xl-3 col-lg-3">
                 <div class="card">
                     <div class="card-body">
@@ -171,8 +168,6 @@
         </div>
     </div>
     <div *ngIf="orderpageid == 2 || orderpageid == 3 || orderpageid == 4">
-
-
         <div>
             <div class="headleft" style="float: left;">
                 <h2>{{(orderpageid == 2)? 'Take Away' : ''}}</h2>
@@ -203,12 +198,8 @@
                     </div>
                 </div>
             </div>
-
             <br><br>
-
-
         </div>
-
     </div>
     <div *ngIf="orderpageid == 6">
         <div>
@@ -269,7 +260,6 @@
 <div *ngIf="sectionid == 2">
     <div class="row">
         <a style="padding-left: 1%;">
-
             <div class="card-body px-0 py-0 pt-0 pb-2">
                 <div class="prod-item mb-xl-0 mb-3">
                     <div class="desc">
@@ -279,10 +269,8 @@
                     <!-- <div class="line bg-success"></div> -->
                 </div>
             </div>
-
         </a>
         <a style="padding-left: 1%;">
-
             <div class="card-body px-0 py-0 pt-0 pb-2">
                 <div class="prod-item mb-xl-0 mb-3">
                     <div class="desc">
@@ -292,10 +280,8 @@
                     <!-- <div class="line bg-success"></div> -->
                 </div>
             </div>
-
         </a>
         <a style="padding-left: 1%;">
-
             <div class="card-body px-0 py-0 pt-0 pb-2">
                 <div class="prod-item mb-xl-0 mb-3">
                     <div class="desc">
@@ -305,10 +291,8 @@
                     <!-- <div class="line bg-success"></div> -->
                 </div>
             </div>
-
         </a>
         <a style="padding-left: 1%;">
-
             <div class="card-body px-0 py-0 pt-0 pb-2">
                 <div class="prod-item mb-xl-0 mb-3">
                     <div class="desc">
@@ -318,10 +302,8 @@
                     <!-- <div class="line bg-success"></div> -->
                 </div>
             </div>
-
         </a>
         <a style="padding-left: 1%;">
-
             <div class="card-body px-0 py-0 pt-0 pb-2">
                 <div class="prod-item mb-xl-0 mb-3">
                     <div class="desc">
@@ -334,7 +316,6 @@
 
         </a>
         <a style="padding-left: 1%;">
-
             <div class="card-body px-0 py-0 pt-0 pb-2">
                 <div class="prod-item mb-xl-0 mb-3">
                     <div class="desc">
@@ -346,14 +327,11 @@
             </div>
 
         </a>
-
         <div class="pl-50" style="float: right;">
             <button type="button" class="btn btn-danger" (click)="sectionid = 0"
                 style=" text-align: right;">Back</button>
         </div>
-
     </div>
-
     <div class="row text-center">
         <div class="col-sm-2 max-h-70">
             <ul class="list-group">
@@ -450,7 +428,7 @@
                                 <td>
                                     {{ item.Quantity }}
                                 </td>
-                                <td>{{ item.TotalAmount | number }}</td>
+                                <td>{{ item.TotalAmount }}</td>
                                 <td>
                                     <a href="javascript: void(0);" class="btn btn-sm btn-link"
                                         (click)="open(content)"><i class="fe fe-edit-2"></i></a>
@@ -458,6 +436,18 @@
                                         (click)="removeItem(item);order.OrderTypeId == 5&&order.PaidAmount = 0;"><i
                                             class="fe fe-trash-2"></i></a>
                                 </td>
+                            </tr>
+                            <tr *ngIf="order.OrderTotDisc">
+                                <td class="text-left" colspan="2">OrderDiscount</td>
+                                <td class="text-left" colspan="2">-{{order.OrderTotDisc}}</td>
+                            </tr>
+                            <tr *ngIf="order.Charges">
+                                <td class="text-left" colspan="2">Additional Charges</td>
+                                <td class="text-left" colspan="2">+{{order.Charges}}</td>
+                            </tr>
+                            <tr *ngIf="order.TaxAmount">
+                                <td class="text-left" colspan="2">Taxes</td>
+                                <td class="text-left" colspan="2">+{{order.TaxAmount}}</td>
                             </tr>
                             <tr *ngIf="order.Items == 0">
                                 <td colspan="4">Cart is Empty!</td>
@@ -488,8 +478,8 @@
         </div>
     </div>
 </div>
-<!-- Model of Edit Order -->
 
+<!-- Model of Edit Order -->
 <ng-template #content let-modal>
     <div class="modal-header">
         <!-- <h5 class="modal-title">{{order.CurrentItem.Product}}</h5> -->
@@ -507,8 +497,6 @@
         <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Do Something</button>
     </div>
 </ng-template>
-
-
 <ng-template #prod_details let-modal>
     <div class="modal-header">
         <h5 class="modal-title">{{currentitem.Product}}</h5>
@@ -532,8 +520,7 @@
                         <label style="color: black;"><b>{{item.Name}}</b></label>
                         <div *ngFor="let option of item.Option" class="ml-4">
                             <input class="form-check-input" type="radio" value="option.Id" name="{{item.name}}"
-                                id="{{option.Name}}" [checked]="option.selected==1"
-                                (click)="SetOptionValue(item,option);">
+                                id="{{option.Name}}" [checked]="option.selected==1">
                             <label class="form-check-lable" for="{{option.Name}}">{{option.Name}} - </label>
                             <span> {{option.Price}}</span>
                         </div>
