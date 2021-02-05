@@ -3,6 +3,7 @@ import { OrderModule, OrderItemModule } from './order.moduel'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
 import { AuthService } from '../../../auth.service'
 import { NzModalService } from 'ng-zorro-antd/modal'
+import { ElectronService } from 'ngx-electron'
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -46,6 +47,7 @@ export class OrderComponent implements OnInit {
   public buttonName: any = 'Back'
   autocompleteproducts = []
   hide = true
+  count = 10
   cards = [
     { name: 'Quick Order', ordertypeid: 5, class: 'bg-success', icon: 'fe fe-zap' },
     { name: 'Dine In', ordertypeid: 1, class: 'bg-primary', icon: 'fa fa-cutlery' },
@@ -60,6 +62,7 @@ export class OrderComponent implements OnInit {
     private modalService: NgbModal,
     private auth: AuthService,
     private modalService1: NzModalService,
+    private electronservice: ElectronService,
   ) {}
 
   ngOnInit(): void {
@@ -207,5 +210,8 @@ export class OrderComponent implements OnInit {
   vieworderlist(type) {
     this.sectionid = 1
     this.orderpageid = type
+  }
+  print() {
+    this.electronservice.remote.getGlobal('testPrint')(this.count)
   }
 }
