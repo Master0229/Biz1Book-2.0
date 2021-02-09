@@ -14,127 +14,127 @@ const { PosPrinter } = require("electron-pos-printer");
 // });
 
 // Print
-global.testPrint = function (count) {
+global.testPrint = function (count, printer, template) {
 
     const options = {
         preview: false,                                 // Preview in window or print
         width: '300px',                                 //  width of content body
         margin: '0 0 0 0',                              // margin of content body
         copies: 1,                                      // Number of copies to print
-        printerName: 'EPSON TM-T82 ReceiptSA4',         // printerName: string, check it at webContent.getPrinters()
+        printerName: printer,         // printerName: string, check it at webContent.getPrinters()
         timeOutPerLine: 400,
         silent: true
     }
     console.log(options)
-    var template =
-        `<div class="header">
-    <p style="text-align: center;font-family: Helvetica;font-size: medium;"><strong>FB Cakes n Sweets</strong></p>
-    <p style="text-align: center;font-family: Helvetica;font-size: small;">
-    Test, Test, 9600888834<br>
-    GSTIN:Q4A5D8W6ASD<br>
-    Counter Invoice: 2220210205/1<br>
-    Feb 5, 2021 12:37 PM</p>
-    <hr>
-    </div>
-    <div hidden>
-      <p style="text-align: left;font-family: Helvetica;font-weight: bold;">Customer Address</p>
-      <p style="text-align: center;">,</p>
-      <p style="text-align: center;"></p>
-      <hr>
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 100px;"><strong>ITEM</strong></th>
-                <th><strong>PRICE</strong></th>
-                <th><strong>QTY</strong></th>
-                <th style="text-align: right;padding-right:20px"><strong>AMOUNT</strong></th>
-            </tr>
-        </thead>
-        <tbody><tr>
-      <td style="width: 100px;">BLACK FOREST PASTRY</td>
-      <td>50</td>
-      <td>1</td>
-      <td style="text-align: right;padding-right:20px">50.00</td>
-      </tr><tr>
-      <td style="width: 100px;">PINEAPPLE PASTRY</td>
-      <td>50</td>
-      <td>1</td>
-      <td style="text-align: right;padding-right:20px">50.00</td>
-      </tr>
-    </tbody>
-    </table>
-    <hr>
-    <table>
-        <tbody>
-            <tr>
-                <td style="width: 100px;"><strong>Subtotal</strong></td>
-                <td></td>
-                <td></td>
-                <td style="text-align: right;padding-right:20px">100.00</td>
-            </tr><tr>
-      <td style="width: 100px;"><strong>CGST</strong></td>
-      <td></td>
-      <td></td>
-      <td style="text-align: right;padding-right:20px">9.00</td>
-  </tr><tr>
-      <td style="width: 100px;"><strong>SGST</strong></td>
-      <td></td>
-      <td></td>
-      <td style="text-align: right;padding-right:20px">9.00</td>
-  </tr>
-            <tr hidden>
-                <td style="width: 100px;">Extra</td>
-                <td></td>
-                <td></td>
-                <td style="text-align: right;padding-right:20px"><strong>0.00</strong></td>
-            </tr>
-            <tr>
-                <td style="width: 100px;">Total</td>
-                <td></td>
-                <td></td>
-                <td style="text-align: right;padding-right:20px"><strong>118.00</strong></td>
-            </tr>
-            <tr >
-                <td style="width: 100px;">Paid</td>
-                <td></td>
-                <td></td>
-                <td style="text-align: right;padding-right:20px"><strong>118.00</strong></td>
-            </tr>
-            <tr hidden>
-                <td style="width: 100px;">Balance</td>
-                <td></td>
-                <td></td>
-                <td style="text-align: right;padding-right:20px"><strong>0.00</strong></td>
-            </tr>
-        </tbody>
-    </table>
-    <hr hidden>
-    <p hidden style="text-align: center;font-family: Helvetica;">undefined</p>
-    <hr>
-    <p style="text-align: center;">Thankyou. Visit again.&#128521;</p>
-  </div>
-  <style>
-  table, p{
-    empty-cells: inherit;
-    font-family: Helvetica;
-    font-size: small;
-    width: 290px;
-    padding-left: 0px;
-  }
-  th{
-    text-align: left 
-  }
-  hr{
-    border-top: 1px dashed black;
-    margin-top: 0.5em ;
-    margin-bottom: 0.5em;
-  }
-  tr.bordered {
-    border-top: 100px solid #000;
-    border-top-color: black;
-  }
-  </style>`;
+//     var template =
+//         `<div class="header">
+//     <p style="text-align: center;font-family: Helvetica;font-size: medium;"><strong>FB Cakes n Sweets</strong></p>
+//     <p style="text-align: center;font-family: Helvetica;font-size: small;">
+//     Test, Test, 9600888834<br>
+//     GSTIN:Q4A5D8W6ASD<br>
+//     Counter Invoice: 2220210205/1<br>
+//     Feb 5, 2021 12:37 PM</p>
+//     <hr>
+//     </div>
+//     <div hidden>
+//       <p style="text-align: left;font-family: Helvetica;font-weight: bold;">Customer Address</p>
+//       <p style="text-align: center;">,</p>
+//       <p style="text-align: center;"></p>
+//       <hr>
+//     </div>
+//     <table>
+//         <thead>
+//             <tr>
+//                 <th style="width: 100px;"><strong>ITEM</strong></th>
+//                 <th><strong>PRICE</strong></th>
+//                 <th><strong>QTY</strong></th>
+//                 <th style="text-align: right;padding-right:20px"><strong>AMOUNT</strong></th>
+//             </tr>
+//         </thead>
+//         <tbody><tr>
+//       <td style="width: 100px;">BLACK FOREST PASTRY</td>
+//       <td>50</td>
+//       <td>1</td>
+//       <td style="text-align: right;padding-right:20px">50.00</td>
+//       </tr><tr>
+//       <td style="width: 100px;">PINEAPPLE PASTRY</td>
+//       <td>50</td>
+//       <td>1</td>
+//       <td style="text-align: right;padding-right:20px">50.00</td>
+//       </tr>
+//     </tbody>
+//     </table>
+//     <hr>
+//     <table>
+//         <tbody>
+//             <tr>
+//                 <td style="width: 100px;"><strong>Subtotal</strong></td>
+//                 <td></td>
+//                 <td></td>
+//                 <td style="text-align: right;padding-right:20px">100.00</td>
+//             </tr><tr>
+//       <td style="width: 100px;"><strong>CGST</strong></td>
+//       <td></td>
+//       <td></td>
+//       <td style="text-align: right;padding-right:20px">9.00</td>
+//   </tr><tr>
+//       <td style="width: 100px;"><strong>SGST</strong></td>
+//       <td></td>
+//       <td></td>
+//       <td style="text-align: right;padding-right:20px">9.00</td>
+//   </tr>
+//             <tr hidden>
+//                 <td style="width: 100px;">Extra</td>
+//                 <td></td>
+//                 <td></td>
+//                 <td style="text-align: right;padding-right:20px"><strong>0.00</strong></td>
+//             </tr>
+//             <tr>
+//                 <td style="width: 100px;">Total</td>
+//                 <td></td>
+//                 <td></td>
+//                 <td style="text-align: right;padding-right:20px"><strong>118.00</strong></td>
+//             </tr>
+//             <tr >
+//                 <td style="width: 100px;">Paid</td>
+//                 <td></td>
+//                 <td></td>
+//                 <td style="text-align: right;padding-right:20px"><strong>118.00</strong></td>
+//             </tr>
+//             <tr hidden>
+//                 <td style="width: 100px;">Balance</td>
+//                 <td></td>
+//                 <td></td>
+//                 <td style="text-align: right;padding-right:20px"><strong>0.00</strong></td>
+//             </tr>
+//         </tbody>
+//     </table>
+//     <hr hidden>
+//     <p hidden style="text-align: center;font-family: Helvetica;">undefined</p>
+//     <hr>
+//     <p style="text-align: center;">Thankyou. Visit again.&#128521;</p>
+//   </div>
+//   <style>
+//   table, p{
+//     empty-cells: inherit;
+//     font-family: Helvetica;
+//     font-size: small;
+//     width: 290px;
+//     padding-left: 0px;
+//   }
+//   th{
+//     text-align: left 
+//   }
+//   hr{
+//     border-top: 1px dashed black;
+//     margin-top: 0.5em ;
+//     margin-bottom: 0.5em;
+//   }
+//   tr.bordered {
+//     border-top: 100px solid #000;
+//     border-top-color: black;
+//   }
+//   </style>`;
     var obj = {
         type: 'text',                                       // 'text' | 'barCode' | 'qrCode' | 'image'
         value: `${template}`,

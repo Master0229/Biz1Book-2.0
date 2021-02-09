@@ -16,8 +16,19 @@
     "tslint": "tslint \"src/**/*.{ts}\"",
     "stylelint": "stylelint \"src/**/*.{scss,less}\"",
     "postinstall": "ngcc",
-    "electron-build": "ng build --prod && electron .",
-    "electron": "electron ."
+    "electron-r": "ng build --base-href ./",
+    "electron-l": "ng build --base-href ./ && electron .",
+    "electron": "electron .",
+    "electron-build": "electron-packager . --win32",
+    "electron-build-all": "electron-packager ./ --platform=all --arch=ia32",
+    "electron-build-win": "electron-packager ./ --platform=win32 --arch=ia32 --overwrite",
+    "electron-help": "electron-packager --help",
+    "electron-packer": "ng build --base-href ./ && tsc --p electron && electron electron/dist/main.js",
+    "build:package": "electron-packager . MyAwesomeApp --platform=win32 --arch=x64 --out=release/package",
+    "build:winstaller": "node ./build.js",
+    "assemble": "npm run electron-r && npm run electron-build-win && npm run genexe",
+    "asarpck": "cd biz1book-win32-ia32/resources && asar p app app.asar && rmdir /s /q app && npm run genexe",
+    "genexe": "node D:/Angular/EXE/gen-installer/genexe.js"
   },
   "husky": {
     "hooks": {
@@ -69,6 +80,7 @@
     "custom-electron-titlebar": "^3.2.5",
     "electron": "^11.1.1",
     "electron-acrylic-window": "^0.5.5",
+    "electron-packager": "^15.2.0",
     "electron-pos-printer": "^1.2.4",
     "firebase": "^7.14.4",
     "hammerjs": "^2.0.8",

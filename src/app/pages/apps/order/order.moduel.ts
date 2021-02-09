@@ -250,6 +250,7 @@ export class OrderItemModule {
   TaxAmount3: number
   TaxAmount: number
   IsTaxInclusive: number
+  Product: string
   constructor(product, options) {
     this.Id = 0
     this.CategoryId = product.CategoryId
@@ -266,6 +267,7 @@ export class OrderItemModule {
     this.Message = ''
     this.MinimumQty = product.MinimumQty
     this.Name = product.Product
+    this.Product = product.Product
     this.Note = ''
     this.OptionJson = ''
     this.OptionGroups = []

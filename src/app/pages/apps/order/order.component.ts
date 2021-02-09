@@ -47,7 +47,7 @@ export class OrderComponent implements OnInit {
   public buttonName: any = 'Back'
   autocompleteproducts = []
   hide = true
-  count = 10
+
   cards = [
     { name: 'Quick Order', ordertypeid: 5, class: 'bg-success', icon: 'fe fe-zap' },
     { name: 'Dine In', ordertypeid: 1, class: 'bg-primary', icon: 'fa fa-cutlery' },
@@ -58,12 +58,17 @@ export class OrderComponent implements OnInit {
   ]
   orderpageid = 0
   sectionid = 0
+
+  // Test Print
+  // count = 10
+  // printer = '';
+  // template = '';
   constructor(
     private modalService: NgbModal,
     private auth: AuthService,
     private modalService1: NzModalService,
-    private electronservice: ElectronService,
-  ) {}
+  ) // private electronservice: ElectronService,
+  {}
 
   ngOnInit(): void {
     this.getcategories()
@@ -120,6 +125,12 @@ export class OrderComponent implements OnInit {
       this.order.additem(product, options)
     }
     console.log(this.order)
+  }
+
+  itemdetails(product) {
+    console.log(product)
+    this.currentitem = product
+    this.modalService.open(this.prod_detail_modal, { centered: true })
   }
 
   SetOptionValue(OptionGroup, Option) {
@@ -211,7 +222,7 @@ export class OrderComponent implements OnInit {
     this.sectionid = 1
     this.orderpageid = type
   }
-  print() {
-    this.electronservice.remote.getGlobal('testPrint')(this.count)
-  }
+  // print() {
+  //   this.electronservice.remote.getGlobal('testPrint')(this.count, this.printer, this.template)
+  // }
 }

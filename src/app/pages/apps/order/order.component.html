@@ -258,80 +258,81 @@
 </div>
 
 <div *ngIf="sectionid == 2">
-    <div class="row">
-        <a style="padding-left: 1%;">
-            <div class="card-body px-0 py-0 pt-0 pb-2">
-                <div class="prod-item mb-xl-0 mb-3">
-                    <div class="desc">
-                        <span class="title">Quick Order</span>
-                        <!-- <p>&#8377;{{product.Price}}</p> -->
+    <!-- <div class="row">
+                <a style="padding-left: 1%;">
+                    <div class="card-body px-0 py-0 pt-0 pb-2">
+                        <div class="prod-item mb-xl-0 mb-3">
+                            <div class="desc">
+                                <span class="title">Quick Order</span>
+                            </div>
+                        </div>
                     </div>
-                    <!-- <div class="line bg-success"></div> -->
-                </div>
-            </div>
-        </a>
-        <a style="padding-left: 1%;">
-            <div class="card-body px-0 py-0 pt-0 pb-2">
-                <div class="prod-item mb-xl-0 mb-3">
-                    <div class="desc">
-                        <span class="title">Dine In</span>
-                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                </a>
+                <a style="padding-left: 1%;">
+                    <div class="card-body px-0 py-0 pt-0 pb-2">
+                        <div class="prod-item mb-xl-0 mb-3">
+                            <div class="desc">
+                                <span class="title">Dine In</span>
+                            </div>
+                        </div>
                     </div>
-                    <!-- <div class="line bg-success"></div> -->
-                </div>
-            </div>
-        </a>
-        <a style="padding-left: 1%;">
-            <div class="card-body px-0 py-0 pt-0 pb-2">
-                <div class="prod-item mb-xl-0 mb-3">
-                    <div class="desc">
-                        <span class="title">Takeaway</span>
-                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                </a>
+                <a style="padding-left: 1%;">
+                    <div class="card-body px-0 py-0 pt-0 pb-2">
+                        <div class="prod-item mb-xl-0 mb-3">
+                            <div class="desc">
+                                <span class="title">Takeaway</span>
+                            </div>
+                        </div>
                     </div>
-                    <!-- <div class="line bg-success"></div> -->
-                </div>
-            </div>
-        </a>
-        <a style="padding-left: 1%;">
-            <div class="card-body px-0 py-0 pt-0 pb-2">
-                <div class="prod-item mb-xl-0 mb-3">
-                    <div class="desc">
-                        <span class="title">Advance Order</span>
-                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                </a>
+                <a style="padding-left: 1%;">
+                    <div class="card-body px-0 py-0 pt-0 pb-2">
+                        <div class="prod-item mb-xl-0 mb-3">
+                            <div class="desc">
+                                <span class="title">Advance Order</span>
+                            </div>
+                        </div>
                     </div>
-                    <!-- <div class="line bg-success"></div> -->
-                </div>
-            </div>
-        </a>
-        <a style="padding-left: 1%;">
-            <div class="card-body px-0 py-0 pt-0 pb-2">
-                <div class="prod-item mb-xl-0 mb-3">
-                    <div class="desc">
-                        <span class="title">Current Order</span>
-                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                </a>
+                <a style="padding-left: 1%;">
+                    <div class="card-body px-0 py-0 pt-0 pb-2">
+                        <div class="prod-item mb-xl-0 mb-3">
+                            <div class="desc">
+                                <span class="title">Current Order</span>
+                            </div>
+                        </div>
                     </div>
-                    <!-- <div class="line bg-success"></div> -->
-                </div>
-            </div>
 
-        </a>
-        <a style="padding-left: 1%;">
-            <div class="card-body px-0 py-0 pt-0 pb-2">
-                <div class="prod-item mb-xl-0 mb-3">
-                    <div class="desc">
-                        <span class="title">Online Orders</span>
-                        <!-- <p>&#8377;{{product.Price}}</p> -->
+                </a>
+                <a style="padding-left: 1%;">
+                    <div class="card-body px-0 py-0 pt-0 pb-2">
+                        <div class="prod-item mb-xl-0 mb-3">
+                            <div class="desc">
+                                <span class="title">Online Orders</span>
+                            </div>
+                        </div>
                     </div>
-                    <!-- <div class="line bg-success"></div> -->
-                </div>
-            </div>
+                </a>
+            </div> -->
+    <div class="float-right">
+        <!-- <button type="button" class="btn btn-danger" (click)="sectionid = 0"
+                style=" text-align: right;">Back</button> -->
 
-        </a>
-        <div class="pl-50" style="float: right;">
-            <button type="button" class="btn btn-danger" (click)="sectionid = 0"
-                style=" text-align: right;">Back</button>
+        <div class="row">
+            <div class="Vj">
+                <input type="tel" class="form-control" placeholder="Customer Mobile (F8)" />
+            </div>
+            <div>
+                <button type="button" class="btn btn-outline-secondary">
+                    Clear
+                </button>
+            </div>
         </div>
     </div>
+    <br>
+    <br>
+
     <div class="row text-center">
         <div class="col-sm-2 max-h-70">
             <ul class="list-group">
@@ -411,70 +412,81 @@
             </div>
         </div>
         <div class="col-sm max-h-69">
-            <div class="card card-body">
-                <div class="cart-div">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="text-left" scope="col">Product</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of order.Items; index as i">
-                                <td class="text-left">{{item.Name}}</td>
-                                <td>
-                                    {{ item.Quantity }}
-                                </td>
-                                <td>{{ item.TotalAmount }}</td>
-                                <td>
-                                    <a href="javascript: void(0);" class="btn btn-sm btn-link"
-                                        (click)="open(content)"><i class="fe fe-edit-2"></i></a>
-                                    <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger"
-                                        (click)="removeItem(item);order.OrderTypeId == 5&&order.PaidAmount = 0;"><i
-                                            class="fe fe-trash-2"></i></a>
-                                </td>
-                            </tr>
-                            <tr *ngIf="order.OrderTotDisc">
-                                <td class="text-left" colspan="2">OrderDiscount</td>
-                                <td class="text-left" colspan="2">-{{order.OrderTotDisc}}</td>
-                            </tr>
-                            <tr *ngIf="order.Charges">
-                                <td class="text-left" colspan="2">Additional Charges</td>
-                                <td class="text-left" colspan="2">+{{order.Charges}}</td>
-                            </tr>
-                            <tr *ngIf="order.TaxAmount">
-                                <td class="text-left" colspan="2">Taxes</td>
-                                <td class="text-left" colspan="2">+{{order.TaxAmount}}</td>
-                            </tr>
-                            <tr *ngIf="order.Items == 0">
-                                <td colspan="4">Cart is Empty!</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="paymenttypes">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Payment Types</h5>
-                            <a>
-                                <span class="sp-margin-top20" *ngFor="let item of paymentType" name="payment"
-                                    (click)="order.PaymentTypeId != 5 && payment(item.Id)">
-                                    <span class="sp-option-detail sp-no-user-select" id="{{item.Id}}">
-                                        <span *ngIf="item.Price > 0" class="glyphicon glyphicon-ok sp-option-selected">
-                                        </span>{{item.Description}}
-                                        <span *ngIf="order.PaymentTypeId == 5 && item.Price > 0">Rs.{{item.Price}}
-                                            /-
-                                        </span>
+
+            <div class="cart-div">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-left" scope="col">Product</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of order.Items; index as i">
+                            <td class="text-left pl-1">{{item.Name}}</td>
+                            <!-- <td>
+                                {{ item.Quantity }}
+                            </td> -->
+                            <td class="text-center pl-0 pr-0">
+                                <button class="btn btn-xs btn-white btn-outline-light"
+                                    (click)="item.Quantity > 1 && item.Quantity = item.Quantity - 1;">
+                                    -
+                                </button>
+                                <span class="pl-1 pr-1">{{ item.Quantity }}</span>
+                                <button class="btn btn-xs btn-white btn-outline-light"
+                                    (click)="item.Quantity = item.Quantity + 1; ">
+                                    +
+                                </button>
+                            </td>
+                            <td class="pr-0">{{ item.TotalAmount }}</td>
+                            <td>
+                                <a href="javascript: void(0);" class="btn btn-sm btn-link"
+                                    (click)="itemdetails(item)"><i class="fe fe-edit-2"></i></a>
+                                <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger"
+                                    (click)="removeItem(item);order.OrderTypeId == 5&&order.PaidAmount = 0;"><i
+                                        class="fe fe-trash-2"></i></a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="order.OrderTotDisc">
+                            <td class="text-left" colspan="2">OrderDiscount</td>
+                            <td class="text-left" colspan="2">-{{order.OrderTotDisc}}</td>
+                        </tr>
+                        <tr *ngIf="order.Charges">
+                            <td class="text-left" colspan="2">Additional Charges</td>
+                            <td class="text-left" colspan="2">+{{order.Charges}}</td>
+                        </tr>
+                        <tr *ngIf="order.TaxAmount">
+                            <td class="text-left" colspan="2">Taxes</td>
+                            <td class="text-left" colspan="2">+{{order.TaxAmount}}</td>
+                        </tr>
+                        <tr *ngIf="order.Items == 0">
+                            <td colspan="4">Cart is Empty!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="paymenttypes">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Payment Types</h5>
+                        <a>
+                            <span class="sp-margin-top20" *ngFor="let item of paymentType" name="payment"
+                                (click)="order.PaymentTypeId != 5 && payment(item.Id)">
+                                <span class="sp-option-detail sp-no-user-select" id="{{item.Id}}">
+                                    <span *ngIf="item.Price > 0" class="glyphicon glyphicon-ok sp-option-selected">
+                                    </span>{{item.Description}}
+                                    <span *ngIf="order.PaymentTypeId == 5 && item.Price > 0">Rs.{{item.Price}}
+                                        /-
                                     </span>
                                 </span>
-                            </a>
-                        </div>
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -497,6 +509,9 @@
         <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Do Something</button>
     </div>
 </ng-template>
+
+
+<!-- Modal Option Group -->
 <ng-template #prod_details let-modal>
     <div class="modal-header">
         <h5 class="modal-title">{{currentitem.Product}}</h5>
@@ -601,6 +616,7 @@
         <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Save Changes</button>
     </div>
 </ng-template>
-
-<input type="number" [(ngModel)]="count">
-<button (click)="print()">print</button>
+<!-- <input [(ngModel)]="count" type="number">
+<input [(ngModel)]="printer" type="text">
+<textarea [(ngModel)]="template" cols="30" rows="10"></textarea>
+<button (click)="print()">print</button> -->

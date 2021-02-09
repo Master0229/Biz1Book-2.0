@@ -20,7 +20,9 @@ speed-measure-plugin.json
 *.launch
 .settings/
 *.sublime-workspace
-
+/Biz1Book-POS-BizDom-win32-ia32
+/Biz1Book-POS-BizDom-win32-x64
+/Biz1Book-POS-BizDom-win32-ia32.rar
 # IDE - VSCode
 /*.vscode
 .vscode/*

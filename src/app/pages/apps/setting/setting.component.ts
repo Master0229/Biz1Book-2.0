@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { select, Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import * as SettingsActions from 'src/app/store/settings/actions'
 import * as Reducers from 'src/app/store/reducers'
-import { slideFadeinUp, slideFadeinRight, zoomFadein, fadein } from '../../../layouts/router-animations'
-import { AuthService } from "src/app/auth.service";
-import { ElectronService } from 'ngx-electron';
-import * as moment from 'moment';
+import {
+  slideFadeinUp,
+  slideFadeinRight,
+  zoomFadein,
+  fadein,
+} from '../../../layouts/router-animations'
+import { AuthService } from 'src/app/auth.service'
+import { ElectronService } from 'ngx-electron'
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-setting',
@@ -22,7 +27,6 @@ export class SettingComponent implements OnInit {
   value: string
 
   // olf pos
-
 
   settings$: Observable<any>
   isContentMaxWidth: Boolean
@@ -43,7 +47,12 @@ export class SettingComponent implements OnInit {
   touchStartPrev: Number = 0
   touchStartLocked: Boolean = false
 
-  constructor(private store: Store<any>){
+  // Test Print
+  count = 0
+  printer = ''
+  template = ''
+
+  constructor(private store: Store<any>, private electronservice: ElectronService) {
     this.store.pipe(select(Reducers.getSettings)).subscribe(state => {
       this.isContentMaxWidth = state.isContentMaxWidth
       this.isAppMaxWidth = state.isAppMaxWidth
@@ -60,7 +69,6 @@ export class SettingComponent implements OnInit {
       this.isTopbarFixed = state.isTopbarFixed
       this.isGrayTopbar = state.isGrayTopbar
     })
-
   }
 
   // printers = [];
@@ -98,7 +106,6 @@ export class SettingComponent implements OnInit {
   // orderPreferences: any;
   // preferences: any;
 
-
   ngOnInit(): void {
     this.bindMobileSlide()
     // this.orderbackups = JSON.parse(localStorage.getItem('orderbackup'))
@@ -121,7 +128,6 @@ export class SettingComponent implements OnInit {
   changeKeyps(ps) {
     this.pskey = ps
   }
-
 
   // copy setting
 
@@ -272,4 +278,7 @@ export class SettingComponent implements OnInit {
   //   this.orderbackups = [];
   // }
 
+  print() {
+    this.electronservice.remote.getGlobal('testPrint')(this.count, this.printer, this.template)
+  }
 }

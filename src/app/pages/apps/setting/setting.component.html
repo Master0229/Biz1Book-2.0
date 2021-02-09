@@ -19,8 +19,9 @@
                 Order Discount/Tax Settings
             </h3> -->
             <br>
-            <div >
-                <label for="kot-printer"><strong class="text-light">Order Discount/Tax Settings</strong></label><label for="kot-printer"><strong class="text-light">Order Discount/Tax Settings</strong></label>
+            <div>
+                <label for="kot-printer"><strong class="text-light">Order Discount/Tax Settings</strong></label><label
+                    for="kot-printer"><strong class="text-light">Order Discount/Tax Settings</strong></label>
 
 
                 <nz-form-item>
@@ -202,9 +203,13 @@
             </h5>
         </div>
         <div *ngIf="activeKey === 4">
-            <h1>
-                5
-            </h1>
+           <h5>Printer Test</h5>
+                <input nz-input placeholder="Copies" [(ngModel)]="count" type="number">
+                <input nz-input placeholder="Printer Name..." [(ngModel)]="printer" type="text">
+                <br>
+                <textarea [(ngModel)]="template" cols="30" rows="10" class="form-control" id="note"  name="NOTE"></textarea>
+                <button class="btn btn-primary" (click)="print()">Print</button>
+ 
         </div>
         <!-- <div *ngIf="activeKey === 5">
 
