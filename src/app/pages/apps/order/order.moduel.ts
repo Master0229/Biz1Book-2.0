@@ -1,3 +1,6 @@
+import { ɵSafeHtml } from '@angular/core'
+import { SafeHtml } from '@angular/platform-browser'
+
 export class OrderModule {
   Id: number
   AggregatorOrderId: number
@@ -78,22 +81,61 @@ export class OrderModule {
 
   // ADD PRODDUCT
   additem(product, options) {
+    if (product.isorderitem) {
+      this.mergeitem(product, options)
+      this.setbillamount()
+      return
+    }
     var productkey = this.productkeygenerator(product)
-    console.log(product, productkey)
+    var showname = this.getshowname(product)
     if (this.Items.some(x => x.ProductKey == productkey)) {
       this.Items.filter(x => x.ProductKey == productkey)[0].Quantity += options.quantity
     } else {
       options.key = productkey
-      this.Items.push(new OrderItemModule(product, options))
+      this.Items.push(new OrderItemModule(product, options, showname))
     }
     this.setbillamount()
   }
+  mergeitem(product, options) {
+    var oldkey = product.ProductKey
+    var productkey = this.productkeygenerator(product)
+    var showname = this.getshowname(product)
+    var index = this.Items.findIndex(x => x.ProductKey == oldkey)
+    options.key = productkey
+    this.Items[index] = new OrderItemModule(product, options, showname)
+  }
   productkeygenerator(product) {
     var key = ''
-    key = product.Id.toString()
+    key = product.ProductId ? product.ProductId.toString() : product.Id.toString()
+    if (product.OptionGroup) {
+      product.OptionGroup.forEach(opg => {
+        if (opg.selected) {
+          opg.Option.forEach(option => {
+            if (option.selected) {
+              key += '_' + option.Id
+            }
+          })
+        }
+      })
+    }
     return key
   }
-
+  getshowname(product: OrderItemModule) {
+    var name = product.Product
+    if (product.OptionGroup) {
+      product.OptionGroup.forEach(opg => {
+        if (opg.selected) {
+          opg.Option.forEach(option => {
+            if (option.selected) {
+              if (opg.OptionGroupType == 1) name += '/' + option.Name
+              if (opg.OptionGroupType == 2) name += '+' + option.Name
+            }
+          })
+        }
+      })
+    }
+    return name
+  }
   // BILL AMOUNT CALCULATION LOGIC
   setbillamount() {
     var extracharge = 0
@@ -113,13 +155,16 @@ export class OrderModule {
       item.TaxAmount2 = 0
       item.TaxAmount3 = 0
       item.TaxAmount = 0
+      item.TotalAmount = 0
       var optionprice = 0
       if (item.DiscAmount == null) item.DiscAmount = 0
       //if(item.DiscPercent > 0) item.DiscAmount = (item.Price*item.Quantity)*item.DiscPercent/100;
-      item.OptionGroups.forEach(opg => {
-        opg.Options.forEach(option => {
-          optionprice = optionprice + option.Price
-        })
+      item.OptionGroup.forEach(opg => {
+        if (opg.selected) {
+          opg.Option.forEach(option => {
+            if (option.selected) optionprice = optionprice + option.Price
+          })
+        }
       })
 
       if (item.IsTaxInclusive) {
@@ -129,7 +174,7 @@ export class OrderModule {
       } else {
         item.TotalAmount = (item.Price + optionprice) * item.Quantity
       }
-
+      console.log(optionprice, item.TotalAmount)
       item.TaxAmount1 = (item.Tax1 * item.TotalAmount) / 100
       item.TaxAmount2 = (item.Tax2 * item.TotalAmount) / 100
       item.TaxAmount3 = (item.Tax3 * item.TotalAmount) / 100
@@ -216,6 +261,7 @@ export class OrderItemModule {
   ComplementryQty: number
   DiscAmount: number
   DiscPercent: number
+  DiscType: number
   Extra: number
   FreeQtyPercentage: number
   ItemDiscount: number
@@ -226,7 +272,7 @@ export class OrderItemModule {
   MinimumQty: number
   Note: string
   OptionJson: string
-  OptionGroups: Array<OptionGroupModule>
+  OptionGroup: Array<OptionGroupModule>
   OrderDiscount: number
   OrderId: number
   Price: number
@@ -251,13 +297,18 @@ export class OrderItemModule {
   TaxAmount: number
   IsTaxInclusive: number
   Product: string
-  constructor(product, options) {
+  showname: SafeHtml
+  isorderitem: boolean
+  constructor(product, options, showname) {
+    this.isorderitem = true
+    this.showname = showname
     this.Id = 0
     this.CategoryId = product.CategoryId
     this.ComplementryQty = 0
     this.MinimumQty = product.MinimumQty
-    this.DiscAmount = 0
-    this.DiscPercent = 0
+    this.DiscAmount = product.DiscAmount
+    this.DiscPercent = product.DiscPercent
+    this.DiscType = product.DiscType
     this.Extra = 0
     this.FreeQtyPercentage = product.FreeQtyPercentage
     this.ItemDiscount = 0
@@ -270,10 +321,10 @@ export class OrderItemModule {
     this.Product = product.Product
     this.Note = ''
     this.OptionJson = ''
-    this.OptionGroups = []
+    this.OptionGroup = []
     this.OrderDiscount = 0
     this.OrderId = 0
-    this.ProductId = product.Id
+    this.ProductId = product.ProductId
     this.ProductKey = options.key
     this.Price = product.Price
     this.Quantity = options.quantity
@@ -288,6 +339,12 @@ export class OrderItemModule {
 
     if (this.Quantity >= this.MinimumQty) {
       this.ComplementryQty = (this.Quantity * this.FreeQtyPercentage) / 100
+    }
+    if (product.OptionGroup) {
+      product.OptionGroup.forEach(opg => {
+        if (opg.OptionGroupType == 1) opg.selected = true
+        this.OptionGroup.push(new OptionGroupModule(opg))
+      })
     }
   }
 }
@@ -311,11 +368,29 @@ export class OptionGroupModule {
   Id: number
   Name: string
   OptionGroupType: number
-  Options: Array<OptionModule>
+  Option: Array<OptionModule>
   MinimumSelectable: number
   MaximumSelectable: number
   SortOrder: number
-  constructor() {}
+  selected: boolean
+  constructor(optiongroup) {
+    this.Id = optiongroup.Id
+    this.Name = optiongroup.Name
+    this.OptionGroupType = optiongroup.OptionGroupType
+    this.MinimumSelectable = optiongroup.MinimumSelectable
+    this.MaximumSelectable = optiongroup.MaximumSelectable
+    this.SortOrder = optiongroup.SortOrder ? optiongroup.SortOrder : -1
+    this.selected = optiongroup.selected
+    this.Option = []
+    if (this.OptionGroupType == 1) {
+      if (!optiongroup.Option.some(x => x.selected == true)) {
+        optiongroup.Option[0].selected = true
+      }
+    }
+    optiongroup.Option.forEach(option => {
+      this.Option.push(new OptionModule(option))
+    })
+  }
 }
 
 export class OptionModule {
@@ -325,5 +400,117 @@ export class OptionModule {
   Price: number
   selected: number
   TakeawayPrice: number
-  constructor() {}
+  constructor(option) {
+    this.Id = option.Id
+    this.DeliveryPrice = option.DeliveryPrice
+    this.Name = option.Name
+    this.Price = option.Price
+    this.selected = option.selected
+    this.TakeawayPrice = option.TakeawayPrice
+  }
+}
+export class CurrentItemModule {
+  Id: number
+  CategoryId: number
+  ComplementryQty: number
+  DiscAmount: number
+  DiscPercent: number
+  DiscType: number
+  Extra: number
+  FreeQtyPercentage: number
+  ItemDiscount: number
+  KitchenUserId: number
+  KOTGroupId: number
+  KOTId: number
+  Message: string
+  MinimumQty: number
+  Note: string
+  OptionJson: string
+  OptionGroup: Array<OptionGroupModule>
+  OrderDiscount: number
+  OrderId: number
+  Price: number
+  ProductId: number
+  ProductKey: string
+  Name: string
+  Quantity: number
+  StatusId: number
+  tax1_p: number
+  tax2_p: number
+  tax3_p: number
+  Tax1: number
+  Tax2: number
+  Tax3: number
+  TaxGroupId: number
+  TaxItemDiscount: number
+  TaxOrderDiscount: number
+  TotalAmount: number
+  TaxAmount1: number
+  TaxAmount2: number
+  TaxAmount3: number
+  TaxAmount: number
+  IsTaxInclusive: number
+  Product: string
+  showname: string
+  isorderitem: boolean
+  constructor(product) {
+    this.Id = 0
+    this.CategoryId = product.CategoryId
+    this.ComplementryQty = 0
+    this.MinimumQty = product.MinimumQty
+    this.DiscAmount = product.DiscAmount ? product.DiscAmount : 0
+    this.DiscPercent = product.DiscPercent ? product.DiscPercent : 0
+    this.DiscType = product.DiscType ? product.DiscType : 1
+    this.Extra = 0
+    this.FreeQtyPercentage = product.FreeQtyPercentage
+    this.ItemDiscount = 0
+    this.KitchenUserId = null
+    this.KOTGroupId = product.KOTGroupId
+    this.KOTId = 0
+    this.Message = ''
+    this.MinimumQty = product.MinimumQty
+    this.Name = product.Product
+    this.Product = product.Product
+    this.Note = ''
+    this.OptionJson = ''
+    this.OptionGroup = []
+    this.OrderDiscount = 0
+    this.OrderId = 0
+    this.ProductId = product.Id > 0 ? product.Id : product.ProductId
+    this.ProductKey = product.ProductKey ? product.ProductKey : ''
+    this.Price = product.Price
+    this.Quantity = product.Quantity ? product.Quantity : 1
+    this.StatusId = 0
+    this.Tax1 = product.Tax1
+    this.Tax2 = product.Tax2
+    this.Tax3 = product.Tax3
+    this.TaxGroupId = product.TaxGroupId
+    this.TaxItemDiscount = 0
+    this.TaxOrderDiscount = 0
+    this.TotalAmount = 0
+    this.isorderitem = product.isorderitem ? true : false
+    if (this.Quantity >= this.MinimumQty) {
+      this.ComplementryQty = (this.Quantity * this.FreeQtyPercentage) / 100
+    }
+    if (product.OptionGroup) {
+      product.OptionGroup.forEach(opg => {
+        if (opg.OptionGroupType == 1) {
+          opg.selected = true
+          if (!opg.Option.some(x => x.selected == true)) opg.Option[0].selected = true
+        }
+        this.OptionGroup.push(opg)
+      })
+      product.OptionGroup.forEach(opg => {
+        if (opg.selected) {
+          opg.Option.forEach(option => {
+            if (option.selected) {
+              this.TotalAmount += option.Price
+            }
+          })
+        }
+      })
+    }
+    this.TotalAmount += this.Price
+    this.TotalAmount *= this.Quantity
+  }
 }

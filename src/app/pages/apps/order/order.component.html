@@ -113,14 +113,20 @@
         </div>
     </a>
 </div>
-<!-- Dine In page -->
+
 <div *ngIf="sectionid == 1">
+    <!-- Dine In page -->
     <div *ngIf="orderpageid == 1">
         <div>
             <div class="headleft" style="float: left;">
-                <h2>
-                    Dine In
-                </h2>
+                <div class="btn-group mr-2 mb-2">
+                    <button type="button" class="btn" (click)="createorder(5)">Quick Order</button>
+                    <button type="button" class="btn" (click)="vieworderlist(1)">Dine In </button>
+                    <button type="button" class="btn" (click)="vieworderlist(2)">Takeaway </button>
+                    <button type="button" class="btn" (click)="vieworderlist(3)">Advance Order</button>
+                    <!-- <button type="button" class="btn" (click)="vieworderlist(6)">Current Order</button> -->
+                    <button type="button" class="btn" (click)="vieworderlist(6)">Online Order</button>
+                </div>
             </div>
             <div class="headright" style="float: right;">
                 <button type="button" class="btn btn-danger" (click)="sectionid = 0">Back</button>
@@ -167,12 +173,19 @@
             </a>
         </div>
     </div>
+
+    <!-- Take Away Delivery Pickup Page -->
     <div *ngIf="orderpageid == 2 || orderpageid == 3 || orderpageid == 4">
         <div>
             <div class="headleft" style="float: left;">
-                <h2>{{(orderpageid == 2)? 'Take Away' : ''}}</h2>
-                <h2> {{(orderpageid == 3)? 'Delivery' : ''}}</h2>
-                <h2>{{(orderpageid == 4)? 'PickUp' : ''}}</h2>
+                <div class="btn-group mr-2 mb-2">
+                    <button type="button" class="btn" (click)="createorder(5)">Quick Order</button>
+                    <button type="button" class="btn" (click)="vieworderlist(1)">Dine In </button>
+                    <button type="button" class="btn" (click)="vieworderlist(2)">Takeaway </button>
+                    <button type="button" class="btn" (click)="vieworderlist(3)">Advance Order</button>
+                    <!-- <button type="button" class="btn" (click)="vieworderlist(6)">Current Order</button> -->
+                    <button type="button" class="btn" (click)="vieworderlist(6)">Online Order</button>
+                </div>
             </div>
             <div class="headright" style="float: right;">
                 <button type="button" class="btn btn-danger" (click)="sectionid = 0">Back</button>
@@ -198,15 +211,80 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <nz-input-group nzSearch [nzAddOnAfter]="takeaway">
+                        <input type="text" nz-input placeholder="Search By Invoice No. or Customer Details..."
+                            [(ngModel)]="takawayinput" (input)="onInput($event.target?.value)" />
+                    </nz-input-group>
+                    <ng-template #takeaway>
+                        <button nz-button nzType="default" nzSearch (click)="takawayinput=''"><i nz-icon nzType="close"
+                                nzTheme="outline"></i></button>
+                    </ng-template>
+                </div>
+                <div class="d-inline-block mb-3 mr-3 pl-2">
+                    <nz-select style="width: 250px;" nzAllowClear nzPlaceHolder="Sort">
+                        <nz-option nzLabel="Sort By Ordered Date Time"></nz-option>
+                        <nz-option nzLabel="Sort By Delivered Date Time"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="mb-5 pl-1">
+                    <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)"></nz-range-picker>
+                </div>
+            </div>
+            <nz-table>
+                <thead>
+                    <tr>
+                        <th>Order No.</th>
+                        <th>Customer</th>
+                        <th>Ordered Date</th>
+                        <th>Delivery Date</th>
+                        <th>Paid/TotalAmt</th>
+                        <th>Status</th>
+                        <th class="text-center"> Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users">
+                        <td>1111111</td>
+                        <td>111111</td>
+                        <td>1111111</td>
+                        <td>11111</td>
+                        <td>1111111</td>
+                        <td>111111111111111</td>
+                        <td>
+                            <div class="row" style="margin-left: 15%;">
+                                <div>
+                                    <button class="btnstyle"
+                                        [ngClass]="{'btn btn-warning':!user.active, 'btn btn-success':user.active}"
+                                        (click)="click(user)">
+                                        {{user.active ? 'Delivered':'Food Ready '}}
+                                    </button>
+                                </div>
+                                <div style="margin-left: 10%;">
+                                    <button nz-button nzType="danger">Cancel</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
             <br><br>
         </div>
     </div>
+
+    <!-- Online Order Page -->
     <div *ngIf="orderpageid == 6">
         <div>
             <div class="headleft" style="float: left;">
-                <h2>
-                    Aggregator Orders
-                </h2>
+                <div class="btn-group mr-2 mb-2">
+                    <button type="button" class="btn" (click)="createorder(5)">Quick Order</button>
+                    <button type="button" class="btn" (click)="vieworderlist(1)">Dine In </button>
+                    <button type="button" class="btn" (click)="vieworderlist(2)">Takeaway </button>
+                    <button type="button" class="btn" (click)="vieworderlist(3)">Advance Order</button>
+                    <!-- <button type="button" class="btn" (click)="vieworderlist(6)">Current Order</button> -->
+                    <button type="button" class="btn" (click)="vieworderlist(6)">Online Order</button>
+                </div>
             </div>
             <div class="headright" style="float: right;">
                 <div class="btn-group">
@@ -234,11 +312,11 @@
                         <th>Prep Time</th>
                         <th>Rider</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let onlineuser of onlineusers">
                         <td></td>
                         <td></td>
                         <td></td>
@@ -247,8 +325,18 @@
                         <td></td>
                         <td></td>
                         <td>
-                            <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger">
-                                <i class="fe fe-trash-2"></i></a>
+                            <div class="row" style="margin-left: 12%;">
+                                <div>
+                                    <button class="btnstyle"
+                                        [ngClass]="{'btn btn-warning':!onlineuser.onlineactive, 'btn btn-success':onlineuser.onlineactive}"
+                                        (click)="onlineclick(onlineuser)">
+                                        {{onlineuser.onlineactive ? 'Delivered':'Food Ready '}}
+                                    </button>
+                                </div>
+                                <div style="margin-left: 10%;">
+                                    <button nz-button nzType="danger" class="mr-3 mb-3">Cancel</button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -257,82 +345,33 @@
     </div>
 </div>
 
-<div *ngIf="sectionid == 2">
-    <!-- <div class="row">
-                <a style="padding-left: 1%;">
-                    <div class="card-body px-0 py-0 pt-0 pb-2">
-                        <div class="prod-item mb-xl-0 mb-3">
-                            <div class="desc">
-                                <span class="title">Quick Order</span>
-                            </div>
-                        </div>
-                    </div>
+<!-- Main Cart Page -->
+<div *ngIf="sectionid == 2" style="padding-top: 0%;">
+    <div class="row pl-3">
+        <div class="btn-group mr-2 mb-2">
+            <button type="button" class="btn" (click)="createorder(5)">Quick Order</button>
+            <button type="button" class="btn" (click)="vieworderlist(1)">Dine In </button>
+            <button type="button" class="btn" (click)="vieworderlist(2)">Takeaway </button>
+            <button type="button" class="btn" (click)="vieworderlist(3)">Advance Order</button>
+            <button type="button" class="btn" (click)="vieworderlist(6)">Online Order</button>
+        </div>
+        <div class="d-flex flex-row-reverse" style="padding-left:20%;">
+            <div class="row pl-4 pt-1">
+                <a (click)="openCustomClass(bulkdiscount)">
+                    Bulk Discount |
                 </a>
-                <a style="padding-left: 1%;">
-                    <div class="card-body px-0 py-0 pt-0 pb-2">
-                        <div class="prod-item mb-xl-0 mb-3">
-                            <div class="desc">
-                                <span class="title">Dine In</span>
-                            </div>
-                        </div>
-                    </div>
+                <a (click)="openCustomClass(couponcode)">
+                    | Coupon Code |
                 </a>
-                <a style="padding-left: 1%;">
-                    <div class="card-body px-0 py-0 pt-0 pb-2">
-                        <div class="prod-item mb-xl-0 mb-3">
-                            <div class="desc">
-                                <span class="title">Takeaway</span>
-                            </div>
-                        </div>
-                    </div>
+                <a (click)="openCustomClass(Additioncharge)">
+                    | Addition Charge
                 </a>
-                <a style="padding-left: 1%;">
-                    <div class="card-body px-0 py-0 pt-0 pb-2">
-                        <div class="prod-item mb-xl-0 mb-3">
-                            <div class="desc">
-                                <span class="title">Advance Order</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a style="padding-left: 1%;">
-                    <div class="card-body px-0 py-0 pt-0 pb-2">
-                        <div class="prod-item mb-xl-0 mb-3">
-                            <div class="desc">
-                                <span class="title">Current Order</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </a>
-                <a style="padding-left: 1%;">
-                    <div class="card-body px-0 py-0 pt-0 pb-2">
-                        <div class="prod-item mb-xl-0 mb-3">
-                            <div class="desc">
-                                <span class="title">Online Orders</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div> -->
-    <div class="float-right">
-        <!-- <button type="button" class="btn btn-danger" (click)="sectionid = 0"
-                style=" text-align: right;">Back</button> -->
-
-        <div class="row">
-            <div class="Vj">
-                <input type="tel" class="form-control" placeholder="Customer Mobile (F8)" />
             </div>
             <div>
-                <button type="button" class="btn btn-outline-secondary">
-                    Clear
-                </button>
+                <input type="tel" nz-input placeholder="Customer Mobile (F8)" />
             </div>
         </div>
     </div>
-    <br>
-    <br>
-
     <div class="row text-center">
         <div class="col-sm-2 max-h-70">
             <ul class="list-group">
@@ -411,37 +450,44 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm max-h-69">
-
+        <div class="col-sm max-h-65">
             <div class="cart-div">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-left" scope="col">Product</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Actions</th>
+                            <th class="text-left" scope="col"
+                                style="position: sticky; top: 0; z-index: 555; background-color: white;">Product</th>
+                            <th scope="col" class="text-center"
+                                style="position: sticky; top: 0; z-index: 555; background-color: white;">Quantity</th>
+                            <th scope="col" style="position: sticky; top: 0; z-index: 555; background-color: white;">
+                                Amount</th>
+                            <th scope="col" style="position: sticky; top: 0; z-index: 555; background-color: white;"
+                                class="pr-0">
+                                Actions
+                                <a class="pt-0 ml-2">|<i nz-icon nzType="clear" nzTheme="outline"></i>|</a>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of order.Items; index as i">
-                            <td class="text-left pl-1">{{item.Name}}</td>
+                            <td class="text-left pl-1" style="max-width: 80px;">{{item.showname}}</td>
                             <!-- <td>
                                 {{ item.Quantity }}
                             </td> -->
                             <td class="text-center pl-0 pr-0">
                                 <button class="btn btn-xs btn-white btn-outline-light"
-                                    (click)="item.Quantity > 1 && item.Quantity = item.Quantity - 1;">
+                                    (click)="item.Quantity > 1 && item.Quantity = item.Quantity - 1;order.setbillamount();">
                                     -
                                 </button>
-                                <span class="pl-1 pr-1">{{ item.Quantity }}</span>
+                                <span class="pl-1 pr-1">{{ item.Quantity }} {{item.ComplementryQty? '(' + item.ComplementryQty + ')' : ''}}</span>
                                 <button class="btn btn-xs btn-white btn-outline-light"
-                                    (click)="item.Quantity = item.Quantity + 1; ">
+                                    (click)="item.Quantity = item.Quantity + 1;order.setbillamount(); ">
                                     +
                                 </button>
                             </td>
-                            <td class="pr-0">{{ item.TotalAmount }}</td>
+                            <td class="pr-0">{{ item.TotalAmount | number: '0.2'}}</td>
                             <td>
+                                <a href="javascript: void(0);" class="btn btn-sm btn-link" (click)="addfreequantity(item)">+ F</a>
                                 <a href="javascript: void(0);" class="btn btn-sm btn-link"
                                     (click)="itemdetails(item)"><i class="fe fe-edit-2"></i></a>
                                 <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger"
@@ -459,7 +505,7 @@
                         </tr>
                         <tr *ngIf="order.TaxAmount">
                             <td class="text-left" colspan="2">Taxes</td>
-                            <td class="text-left" colspan="2">+{{order.TaxAmount}}</td>
+                            <td class="text-left" colspan="2">+{{order.TaxAmount | number: '0.2'}}</td>
                         </tr>
                         <tr *ngIf="order.Items == 0">
                             <td colspan="4">Cart is Empty!</td>
@@ -468,21 +514,32 @@
                 </table>
             </div>
             <div class="paymenttypes">
-                <div class="card">
-                    <div class="card-body">
-                        <h5>Payment Types</h5>
-                        <a>
-                            <span class="sp-margin-top20" *ngFor="let item of paymentType" name="payment"
-                                (click)="order.PaymentTypeId != 5 && payment(item.Id)">
-                                <span class="sp-option-detail sp-no-user-select" id="{{item.Id}}">
-                                    <span *ngIf="item.Price > 0" class="glyphicon glyphicon-ok sp-option-selected">
-                                    </span>{{item.Description}}
-                                    <span *ngIf="order.PaymentTypeId == 5 && item.Price > 0">Rs.{{item.Price}}
-                                        /-
-                                    </span>
-                                </span>
-                            </span>
-                        </a>
+                <div class="card card-body">
+                    <div>
+                        <div class="float-left" style="width: 80%; height: 100%;">
+                            <button nz-button nzType="primary" class="mr-3 mb-3"
+                                (click)="openCustomClass(Rightside)">Cash</button>
+                            <button nz-button nzType="primary" class="mr-3 mb-3">Credit/Debit</button>
+                            <button nz-button nzType="primary" class="mr-3 mb-3">Others</button>
+                            <button nz-button nzType="primary" class="mr-3 mb-3">Online Payment</button>
+                            <button nz-button nzType="primary" class="mr-3 mb-3"
+                                (click)="openCustomClass(vertical)">Split
+                                Payment</button>
+                        </div>
+                        <div class="float-right" style=" width: 20%; height: 100%;">
+                            <a href="#" class="btn btn-squared-default btn-success">
+                                <i class="fa fa-rupee"></i>
+                                <br />
+                                {{order.BillAmount | number: '0.2'}}
+                                <br />
+                                Receive
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <button nz-button nzType="default" nzBlock class="mr-5 mb-5"
+                            style="background-color: #52c41a; color: white;" (click)="opendrawer()">
+                            <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>Charge</button>
                     </div>
                 </div>
             </div>
@@ -510,8 +567,7 @@
     </div>
 </ng-template>
 
-
-<!-- Modal Option Group -->
+<!-- Modal for Option Group -->
 <ng-template #prod_details let-modal>
     <div class="modal-header">
         <h5 class="modal-title">{{currentitem.Product}}</h5>
@@ -535,7 +591,8 @@
                         <label style="color: black;"><b>{{item.Name}}</b></label>
                         <div *ngFor="let option of item.Option" class="ml-4">
                             <input class="form-check-input" type="radio" value="option.Id" name="{{item.name}}"
-                                id="{{option.Name}}" [checked]="option.selected==1">
+                                id="{{option.Name}}" [checked]="option.selected==1"
+                                (change)="setvariantvalue(item,option)">
                             <label class="form-check-lable" for="{{option.Name}}">{{option.Name}} - </label>
                             <span> {{option.Price}}</span>
                         </div>
@@ -546,16 +603,16 @@
                 <b>ADDONS</b>
                 <div *ngFor="let item of currentitem.OptionGroup">
                     <div *ngIf="item.OptionGroupType==2">
-                        <label style="color: black;"><b>{{item.Name}}</b></label>
+                        <label style="color: black;"><b>{{item.Name}} - {{item.selected}} </b></label>
                         <div *ngFor="let option of item.Option" class="ml-4">
-                            <input class="form-check-input" type="checkbox" name="{{option.Id}}" [value]="option.Id"
-                                id="{{option.Id}}">
+                            <input class="form-check-input" type="checkbox" name="{{option.Id}}"
+                                [(ngModel)]="option.selected" id="{{option.Id}}"
+                                (change)="SetAddonValue(item,option,$event.target.checked)">
                             <label class="form-check-lable" for="{{option.Id}}">{{option.Name}}</label>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
         <div>
             <div class="form-group" style="margin-bottom: 0%;">
@@ -565,7 +622,8 @@
             <br>
             <label style="color: black;"><b>QUANTITY</b></label>
             <div class="input-group">
-                <input min="1" max="100" step="1" type="number" class="form-control">
+                <input min="1" max="100" step="1" type="number" (input)="setcurrentitemprice()"
+                    [(ngModel)]="currentitem.Quantity" class="form-control">
             </div>
             <br>
             <label style="color: black;"><b>FREE QUANTITY</b></label>
@@ -580,26 +638,36 @@
                 <input [disabled]=!freeqty.checked type="number" class="form-control">
             </div>
             <br>
-            <label style="color: black;"><b>DISCOUNT</b></label>
+            <!-- ----------------------------------DISCOUNT-------------------------------------- -->
+            <label style="color: black;"><b>DISCOUNT {{currentitem.DiscType}} </b></label>
             <br>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <input type="radio" aria-label="Radio button for following text input" #cashdiscount
-                            (change)="$event.target.checked" name="discount" id="discount1" checked>
+                            [(ngModel)]="currentitem.DiscType" [value]="1"
+                            (change)="$event.target.checked&&currentitem.DiscPercent = 0; setcurrentitemprice()"
+                            name="discount" id="discount1" [checked]="currentitem.DiscType == 1">
+                        <!-- <label class="form-check-lable">CASH </label> -->
                     </div>
                 </div>
-                <input [disabled]=!cashdiscount.checked type="number" class="form-control" placeholder="CASH">
+                <input [disabled]="currentitem.DiscType == 2" (input)="setcurrentitemprice()"
+                    [(ngModel)]="currentitem.DiscAmount" type="number" class="form-control" placeholder="CASH">
             </div>
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <input type="radio" aria-label="Radio button for following text input" #percentdiscount
-                            (change)="$event.target.checked" name="discount" id="discount2">
+                            [(ngModel)]="currentitem.DiscType" [value]="2"
+                            (change)="$event.target.checked&&currentitem.DiscAmount = 0; setcurrentitemprice()"
+                            name="discount" id="discount2" [checked]="currentitem.DiscType == 2">
+                        <!-- <label class="form-check-lable">PERCENTAGE </label> -->
                     </div>
                 </div>
-                <input [disabled]=!percentdiscount.checked type="number" class="form-control" placeholder="PERCENTAGE">
+                <input [disabled]="currentitem.DiscType == 1" (input)="setcurrentitemprice()"
+                    [(ngModel)]="currentitem.DiscPercent" type="number" class="form-control" placeholder="PERCENTAGE">
             </div>
+            <!-- ----------------------------------/DISCOUNT-------------------------------------- -->
             <br>
             <label style="color: black;"><b>EXTRA</b></label>
             <div class="input-group">
@@ -611,11 +679,229 @@
         <!-- <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Cancel</button> -->
         <div class="mr-auto">
             <h5 class="float-left"> Price : </h5>
-            <h5 class="float-right ml-1"><b> {{currentitem.Price}} </b></h5>
+            <h5 class="float-right ml-1"><b> {{currentitem.TotalAmount}} </b></h5>
         </div>
+        <button type="button" class="btn btn-primary" (click)="addcurrentitem()">Save Changes</button>
+    </div>
+</ng-template>
+
+
+<!-- Take Away Right side Drawer -->
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Payment :" (nzOnClose)="close()"
+    [nzWidth]="720">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <label style="color: black;"><b>Customer Name</b></label>
+                <div class="input-group">
+                    <input class="form-control" type="text">
+                </div>
+                <br>
+                <label style="color: black;"><b>Customer Mobile No</b></label>
+                <div class="input-group">
+                    <nz-input-number class="form-control"></nz-input-number>
+                </div>
+                <br>
+                <label style="color: black;"><b>Customer Email</b></label>
+                <div class="input-group">
+                    <input class="form-control" type="text">
+                </div>
+                <br>
+                <label style="color: black;" for="note"><b>Address</b></label>
+                <textarea class="form-control" id="note" rows="4" name="NOTE" type="text"></textarea>
+                <br>
+                <label style="color: black;"><b>City</b></label>
+                <div class="input-group">
+                    <input class="form-control" type="text">
+                </div>
+            </div>
+            <div class="col-sm">
+                <label style="color: black;" for="note"><b>Booking Note</b></label>
+                <textarea class="form-control" id="note" rows="4" name="NOTE" type="text"></textarea>
+                <br>
+                <label style="color: black;"><b>Payment Types</b></label>
+                <div class="input-group">
+                    <button nz-button nzType="primary" class="mr-3 mb-3"
+                        (click)="openCustomClass(Rightside)">Cash</button>
+                    <button nz-button nzType="primary" class="mr-3 mb-3">Credit/Debit</button>
+                    <button nz-button nzType="primary" class="mr-3 mb-3">Others</button>
+                    <button nz-button nzType="primary" class="mr-3 mb-3">Online Payment</button>
+                    <button nz-button nzType="primary" class="mr-3 mb-3" (click)="openCustomClass(vertical)">Split
+                        Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <nz-footer class="float-right">
+        <button nz-button nzType="" class="mr-3 mb-3" (click)="close()"
+            style="background-color: red; color: white;">Back</button>
+        <button nz-button nzType="" class="mr-3 mb-3"
+            style="background-color: rgb(255, 174, 0); color: white;">Unpaid</button>
+        <button nz-button nzType="" class="mr-3 mb-3" style="background-color: #52c41a; color: white;">Receive</button>
+    </nz-footer>
+</nz-drawer>
+
+<!-- Modal for Split Payment -->
+<ng-template #vertical let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Split Payment</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <label style="color: black;"><b>CASH</b></label>
+        <div class="input-group">
+            <nz-input-number min="1" max="100" step="1" class="form-control"></nz-input-number>
+        </div>
+        <br>
+        <label style="color: black;"><b>Credit/Debit</b></label>
+        <div class="input-group">
+            <nz-input-number min="1" max="100" step="1" type="number" class="form-control"></nz-input-number>
+        </div>
+        <br>
+        <label style="color: black;"><b>Other</b></label>
+        <div class="input-group">
+            <nz-input-number min="1" max="100" step="1" class="form-control"></nz-input-number>
+        </div>
+        <br>
+        <label style="color: black;"><b>Online Payment</b></label>
+        <div class="input-group">
+            <nz-input-number min="1" max="100" step="1" class="form-control"></nz-input-number>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="mr-auto">
+            <h5 class="float-left"> Rs : </h5>
+            <h5 class="float-right ml-1"><b> </b></h5>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template>
+
+<!-- Modal for Cash balance receive -->
+<ng-template #Rightside let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">CASH</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <label style="color: black;"><b>CASH</b></label>
+        <div class="input-group">
+            <nz-input-number min="1" max="100" step="1" class="form-control"></nz-input-number>
+        </div>
+        <label style="color: black;"><b>Balance</b></label>
+        <div class="input-group">
+            <nz-input-number min="1" max="100" step="1" class="form-control"></nz-input-number>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="mr-auto">
+            <h5 class="float-left"> Rs : </h5>
+            <h5 class="float-right ml-1"><b> </b></h5>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template>
+
+<!-- Bulk Discount Modal-->
+<ng-template #bulkdiscount let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Bulk Discount
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <label style="color: black;"><b>DISCOUNT</b></label>
+        <br>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Radio button for following text input" #bulkcashdiscount
+                        (change)="$event.target.checked" name="discount" id="discount1" checked>
+                </div>
+            </div>
+            <input [disabled]=!bulkcashdiscount.checked type="number" class="form-control" placeholder="CASH">
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Radio button for following text input" #bulkpercentdiscount
+                        (change)="$event.target.checked" name="discount" id="discount2">
+                </div>
+            </div>
+            <input [disabled]=!bulkpercentdiscount.checked type="number" class="form-control" placeholder="PERCENTAGE">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Apply</button>
+    </div>
+</ng-template>
+
+<!-- Coupon Code Modal -->
+<ng-template #couponcode let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Coupon
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <label style="color: black;"><b>Enter Coupon Code</b></label>
+        <br>
+        <div class="input-group">
+            <input type="text" nz-input class="form-control">
+        </div>
+    </div>
+    <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Save Changes</button>
     </div>
 </ng-template>
+
+<!-- Addition Charges Modal-->
+<ng-template #Additioncharge let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Additional Charge
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <label style="color: black;"><b>Packaging Charge %</b></label>
+        <br>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="checkbox" aria-label="Checkbox for following text input">
+                </div>
+            </div>
+            <input type="number" class="form-control">
+        </div>
+        <br>
+        <label style="color: black;"><b>Delivery Charge %</b></label>
+        <br>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="checkbox" aria-label="Checkbox for following text input">
+                </div>
+            </div>
+            <input type="number" class="form-control">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Save Changes</button>
+    </div>
+</ng-template>
+
+<!-- Test Print -->
 <!-- <input [(ngModel)]="count" type="number">
 <input [(ngModel)]="printer" type="text">
 <textarea [(ngModel)]="template" cols="30" rows="10"></textarea>

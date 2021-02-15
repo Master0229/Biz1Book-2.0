@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core'
-import { OrderModule, OrderItemModule } from './order.moduel'
+import { OrderModule, OrderItemModule, CurrentItemModule } from './order.moduel'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
 import { AuthService } from '../../../auth.service'
 import { NzModalService } from 'ng-zorro-antd/modal'
@@ -10,6 +10,14 @@ import { ElectronService } from 'ngx-electron'
   styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
+  // Take Away Filter
+  takawayinput: string
+  // Date Picker Take Away
+  dateRange = []
+
+  // Drawer Take Away
+  visible = false
+
   // Auto complete+
   inputValue: string
   options: string[] = []
@@ -66,9 +74,8 @@ export class OrderComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private auth: AuthService,
-    private modalService1: NzModalService,
-  ) // private electronservice: ElectronService,
-  {}
+    private modalService1: NzModalService, // private electronservice: ElectronService,
+  ) {}
 
   ngOnInit(): void {
     this.getcategories()
@@ -78,7 +85,13 @@ export class OrderComponent implements OnInit {
   changeKey(key) {
     this.activeKey = key
   }
-
+  addfreequantity(item: OrderItemModule) {
+    if (item.Quantity > 0) {
+      item.Quantity--
+      item.ComplementryQty++
+    }
+    this.order.setbillamount()
+  }
   //Hide and Show toggle
   getcategories() {
     // this.categories = JSON.parse(localStorage.getItem('Category'))
@@ -112,51 +125,80 @@ export class OrderComponent implements OnInit {
   // Option Group
   @ViewChild('prod_details', { static: false }) public prod_detail_modal: TemplateRef<any>
 
-  currentitem = null
+  currentitem: OrderItemModule = null
   addProduct(product) {
     var options = {
       quantity: 1,
       key: '',
     }
     if (product.OptionGroup && product.OptionGroup.length > 0) {
-      this.currentitem = product
+      this.currentitem = new CurrentItemModule(product)
       this.modalService.open(this.prod_detail_modal, { centered: true })
     } else {
       this.order.additem(product, options)
     }
-    console.log(this.order)
   }
-
+  addcurrentitem() {
+    var options = {
+      quantity: this.currentitem.Quantity,
+      key: '',
+    }
+    this.order.additem(this.currentitem, options)
+    this.modalService.dismissAll()
+  }
+  console() {
+    console.log('qqqqqqqqqqqqq')
+  }
   itemdetails(product) {
-    console.log(product)
-    this.currentitem = product
+    this.currentitem = new CurrentItemModule(product)
     this.modalService.open(this.prod_detail_modal, { centered: true })
   }
 
-  SetOptionValue(OptionGroup, Option) {
+  setvariantvalue(OptionGroup, Option) {
     OptionGroup.Option.forEach(element => {
-      element.selected = 0
+      element.selected = false
     })
     if (OptionGroup.selected != Option.Id) {
       OptionGroup.selected = Option.Id
-      Option.selected = 1
+      Option.selected = true
     } else {
-      OptionGroup.selected = 0
-      Option.selected = 0
+      OptionGroup.selected = false
+      Option.selected = false
+    }
+    this.setcurrentitemprice()
+  }
+  setcurrentitemprice() {
+    this.currentitem.TotalAmount = 0
+    this.currentitem.OptionGroup.forEach(opg => {
+      if (opg.selected) {
+        opg.Option.forEach(option => {
+          if (option.selected) {
+            this.currentitem.TotalAmount += option.Price
+          }
+        })
+      }
+    })
+    this.currentitem.TotalAmount += this.currentitem.Price
+    this.currentitem.TotalAmount *= this.currentitem.Quantity
+    if (this.currentitem.DiscType == 1) {
+      this.currentitem.TotalAmount -= this.currentitem.DiscAmount
+    } else if (this.currentitem.DiscType == 2) {
+      this.currentitem.TotalAmount -=
+        (this.currentitem.TotalAmount * this.currentitem.DiscPercent) / 100
     }
   }
   SetAddonValue(OptionGroup, Option, check) {
     if (check) {
-      Option.selected = 1
+      Option.selected = true
     } else {
-      OptionGroup.selected = 0
-      Option.selected = 0
+      Option.selected = false
     }
-    if (OptionGroup.Option.some(x => x.selected > 0)) {
-      OptionGroup.selected = 1
+    if (OptionGroup.Option.some(x => x.selected == true)) {
+      OptionGroup.selected = true
     } else {
-      OptionGroup.selected = 0
+      OptionGroup.selected = false
     }
+    this.setcurrentitemprice()
   }
   nzClick(event) {
     console.log(event)
@@ -225,4 +267,41 @@ export class OrderComponent implements OnInit {
   // print() {
   //   this.electronservice.remote.getGlobal('testPrint')(this.count, this.printer, this.template)
   // }
+
+  // Drawer for Take Away
+  opendrawer(): void {
+    this.visible = true
+  }
+
+  close(): void {
+    this.visible = false
+  }
+
+  // Date Picker Take Away
+
+  onChange(result: Date): void {
+    console.log('onChange: ', result)
+  }
+
+  // Take Away Button Text CHange Function
+  users: Array<any> = [
+    {
+      active: false,
+    },
+  ]
+
+  click(user) {
+    user.active = !user.active
+  }
+
+  // Online Order page BUtton text change function
+  onlineusers: Array<any> = [
+    {
+      onlineactive: false,
+    },
+  ]
+
+  onlineclick(onlineuser) {
+    onlineuser.onlineactive = !onlineuser.onlineactive
+  }
 }
