@@ -41,7 +41,7 @@ export const getMenuData: any[] = [
     title: 'Sell',
     key: 'Sell',
     icon: 'fe fe-shopping-cart',
-    roles: ['admin'],
+    // roles: ['admin'],
     url: '/apps/order',
   },
   {

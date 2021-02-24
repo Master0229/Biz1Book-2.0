@@ -13,6 +13,7 @@ import english from './locales/en-US'
 import french from './locales/fr-FR'
 import russian from './locales/ru-RU'
 import chinese from './locales/zh-CN'
+import { SignalRService } from './services/signal-r/signal-r.service'
 
 const locales = {
   'en-US': english,
@@ -38,6 +39,7 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     private store: Store<any>,
     translate: TranslateService,
+    public signal_r: SignalRService,
   ) {
     Object.keys(locales).forEach(locale => {
       translate.setTranslation(locale, locales[locale])
@@ -58,6 +60,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    //start signal-R
+    this.startSignalR()
     // set page title from router data variable
     this.router.events
       .pipe(
@@ -195,5 +199,9 @@ export class AppComponent implements OnInit {
         }),
       )
     }
+  }
+
+  startSignalR() {
+    this.signal_r.startConnection()
   }
 }

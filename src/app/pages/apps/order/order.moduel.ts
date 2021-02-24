@@ -1,5 +1,6 @@
 import { ɵSafeHtml } from '@angular/core'
 import { SafeHtml } from '@angular/platform-browser'
+import moment from 'moment'
 
 export class OrderModule {
   Id: number
@@ -22,6 +23,7 @@ export class OrderModule {
   DiningTableId: number
   DiscAmount: number
   DiscPercent: number
+  DiscType: number
   FoodReady: boolean
   InvoiceNo: string
   IsAdvanceOrder: boolean
@@ -40,6 +42,7 @@ export class OrderModule {
   OrderTaxDisc: number
   OrderTotDisc: number
   OrderTypeId: number
+  OrderName: string
   PaidAmount: number
   PreviousStatusId: number
   RefundAmount: number
@@ -56,6 +59,8 @@ export class OrderModule {
   WaiterId: number
   TaxAmount: number
   additionalchargearray = []
+  subtotal: number
+  extra: number
   constructor(ordertypeid) {
     this.OrderTypeId = ordertypeid
     this.BillAmount = 0
@@ -71,12 +76,14 @@ export class OrderModule {
     this.Tax2 = 0
     this.Tax3 = 0
     this.Items = []
+    this.KOTS = []
     this.AllItemDisc = 0
     this.AllItemTaxDisc = 0
     this.AllItemTotalDisc = 0
     this.OrderDiscount = 0
     this.OrderTaxDisc = 0
     this.OrderTotDisc = 0
+    this.subtotal = 0
   }
 
   // ADD PRODDUCT
@@ -148,6 +155,8 @@ export class OrderModule {
     this.AllItemTotalDisc = 0
     this.Charges = 0
     this.TaxAmount = 0
+    this.extra = 0
+    this.subtotal = 0
     var isdiscinclusivoftax = false
 
     this.Items.forEach(item => {
@@ -156,6 +165,7 @@ export class OrderModule {
       item.TaxAmount3 = 0
       item.TaxAmount = 0
       item.TotalAmount = 0
+      item.baseprice = 0
       var optionprice = 0
       if (item.DiscAmount == null) item.DiscAmount = 0
       //if(item.DiscPercent > 0) item.DiscAmount = (item.Price*item.Quantity)*item.DiscPercent/100;
@@ -166,7 +176,7 @@ export class OrderModule {
           })
         }
       })
-
+      item.baseprice = item.Price + optionprice
       if (item.IsTaxInclusive) {
         item.TotalAmount =
           (item.Price / ((item.Tax1 + item.Tax2 + item.Tax2) / 100 + 1) + optionprice) *
@@ -201,7 +211,12 @@ export class OrderModule {
 
         item.TaxAmount = item.TaxAmount1 + item.TaxAmount2 + item.TaxAmount3
       }
+      if (item.DiscType == 1) {
+        item.DiscPercent = 0
+      }
+      this.extra += item.Extra
       this.BillAmount += item.TotalAmount
+      this.subtotal += item.TotalAmount
       this.Tax1 += item.TaxAmount1
       this.Tax2 += item.TaxAmount2
       this.Tax3 += item.TaxAmount3
@@ -251,7 +266,26 @@ export class OrderModule {
       item.TaxOrderDiscount = (item.TaxAmount * this.OrderTaxDisc) / this.TaxAmount
     })
 
-    this.BillAmount += this.TaxAmount
+    this.BillAmount += this.TaxAmount + this.extra
+    if (this.DiscType == 1) {
+      this.DiscPercent = 0
+    }
+    this.setkotquantity()
+  }
+  setkotquantity() {
+    this.Items.forEach(item => {
+      var key = item.ProductKey
+      item.kotquantity = 0
+      this.KOTS.forEach(kot => {
+        kot.Items.forEach(kitem => {
+          if (kitem.ProductKey == key) item.kotquantity += kitem.Quantity
+        })
+      })
+    })
+  }
+
+  addkot(items, kotno) {
+    this.KOTS.push(new KOTModule(items, kotno))
   }
 }
 
@@ -299,6 +333,8 @@ export class OrderItemModule {
   Product: string
   showname: SafeHtml
   isorderitem: boolean
+  kotquantity: number
+  baseprice: number
   constructor(product, options, showname) {
     this.isorderitem = true
     this.showname = showname
@@ -309,11 +345,11 @@ export class OrderItemModule {
     this.DiscAmount = product.DiscAmount
     this.DiscPercent = product.DiscPercent
     this.DiscType = product.DiscType
-    this.Extra = 0
+    this.Extra = product.Extra ? product.Extra : 0
     this.FreeQtyPercentage = product.FreeQtyPercentage
     this.ItemDiscount = 0
     this.KitchenUserId = null
-    this.KOTGroupId = product.KOTGroupId
+    this.KOTGroupId = product.KOTGroupId ? product.KOTGroupId : 0
     this.KOTId = 0
     this.Message = ''
     this.MinimumQty = product.MinimumQty
@@ -361,7 +397,34 @@ export class KOTModule {
   CompanyId: number
   StoreId: number
   KOTGroupId: number
-  constructor() {}
+  added: Array<OrderItemModule>
+  removed: Array<OrderItemModule>
+  isprinted: boolean
+  constructor(items: Array<OrderItemModule>, kotno) {
+    this.KOTStatusId = 0
+    this.Instruction = ''
+    this.KOTNo = kotno
+    this.OrderId = null
+    this.CreatedDate = moment().format('YY-MM-DD HH:MM A')
+    this.Items = []
+    this.ModifiedDate = moment().format('YY-MM-DD HH:MM A')
+    this.CompanyId = 3
+    this.StoreId = 4
+    this.KOTGroupId = items[0].KOTGroupId
+    var options = {
+      key: '',
+      quantity: 0,
+      iskotitem: true,
+    }
+    items.forEach(item => {
+      options.key = item.ProductKey
+      options.quantity = item.Quantity - item.kotquantity
+      item.kotquantity += options.quantity
+      this.Items.push(new OrderItemModule(item, options, item.showname))
+    })
+    this.added = this.Items.filter(x => x.Quantity > 0)
+    this.removed = this.Items.filter(x => x.Quantity < 0)
+  }
 }
 
 export class OptionGroupModule {
@@ -453,6 +516,8 @@ export class CurrentItemModule {
   Product: string
   showname: string
   isorderitem: boolean
+  kotquantity: number
+  baseprice: number
   constructor(product) {
     this.Id = 0
     this.CategoryId = product.CategoryId
@@ -465,7 +530,7 @@ export class CurrentItemModule {
     this.FreeQtyPercentage = product.FreeQtyPercentage
     this.ItemDiscount = 0
     this.KitchenUserId = null
-    this.KOTGroupId = product.KOTGroupId
+    this.KOTGroupId = product.KOTGroupId ? product.KOTGroupId : 0
     this.KOTId = 0
     this.Message = ''
     this.MinimumQty = product.MinimumQty
@@ -488,6 +553,7 @@ export class CurrentItemModule {
     this.TaxItemDiscount = 0
     this.TaxOrderDiscount = 0
     this.TotalAmount = 0
+    this.kotquantity = 0
     this.isorderitem = product.isorderitem ? true : false
     if (this.Quantity >= this.MinimumQty) {
       this.ComplementryQty = (this.Quantity * this.FreeQtyPercentage) / 100
@@ -497,6 +563,11 @@ export class CurrentItemModule {
         if (opg.OptionGroupType == 1) {
           opg.selected = true
           if (!opg.Option.some(x => x.selected == true)) opg.Option[0].selected = true
+        }
+        if (opg.OptionGroupType == 2 && !this.isorderitem) {
+          opg.Option.forEach(option => {
+            option.selected = false
+          })
         }
         this.OptionGroup.push(opg)
       })
@@ -512,5 +583,10 @@ export class CurrentItemModule {
     }
     this.TotalAmount += this.Price
     this.TotalAmount *= this.Quantity
+    if (this.DiscType == 1) {
+      this.TotalAmount -= this.DiscAmount
+    } else if (this.DiscType == 2) {
+      this.TotalAmount -= (this.TotalAmount * this.DiscPercent) / 100
+    }
   }
 }

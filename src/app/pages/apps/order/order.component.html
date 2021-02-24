@@ -296,47 +296,79 @@
         <br><br>
         <div class="card card-body">
             <div class="btn-group mr-2 mb-2">
-                <button type="button" class="btn">PLACED <span class="badge badge-secondary">0</span></button>
-                <button type="button" class="btn">IN PROGRESS <span class="badge badge-secondary">0</span></button>
-                <button type="button" class="btn">COMPLETED <span class="badge badge-secondary">0</span></button>
-                <button type="button" class="btn">CANCELLED <span class="badge badge-secondary">0</span></button>
+                <button (click)="onlinestatusid = [0]; filteronlineorders();" type="button" class="btn"
+                    [class.active]="onlinestatusid.toString() == [0]">PLACED <span
+                        class="badge badge-secondary">{{onlineorderscount.placed}}</span></button>
+                <button (click)="onlinestatusid = [1,3,4]; filteronlineorders();" type="button" class="btn"
+                    [class.active]="onlinestatusid.toString() == [1,3,4]">IN PROGRESS
+                    <span class="badge badge-secondary">{{onlineorderscount.inprogress}}</span></button>
+                <button (click)="onlinestatusid = [5]; filteronlineorders();" type="button" class="btn"
+                    [class.active]="onlinestatusid.toString() == [5]">COMPLETED <span
+                        class="badge badge-secondary">{{onlineorderscount.completed}}</span></button>
+                <button (click)="onlinestatusid = [-1]; filteronlineorders();" type="button" class="btn"
+                    [class.active]="onlinestatusid.toString() == [-1]">CANCELLED <span
+                        class="badge badge-secondary">{{onlineorderscount.cancelled}}</span></button>
             </div>
             <br>
-            <nz-table>
+            <nz-table #basicTable [nzData]="filteredonlineorders">
                 <thead>
                     <tr>
-                        <th>Order ID</th>
-                        <th>Ordered @</th>
-                        <th>Amount</th>
-                        <th>Delivery Type</th>
-                        <th>Prep Time</th>
-                        <th>Rider</th>
-                        <th>Status</th>
+                        <th class="text-center">Order ID</th>
+                        <th class="text-center">Ordered @</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center">Delivery Type</th>
+                        <th class="text-center">Prep Time</th>
+                        <th class="text-center">Rider</th>
+                        <th class="text-center">Status</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let onlineuser of onlineusers">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <div class="row" style="margin-left: 12%;">
-                                <div>
-                                    <button class="btnstyle"
-                                        [ngClass]="{'btn btn-warning':!onlineuser.onlineactive, 'btn btn-success':onlineuser.onlineactive}"
-                                        (click)="onlineclick(onlineuser)">
-                                        {{onlineuser.onlineactive ? 'Delivered':'Food Ready '}}
-                                    </button>
-                                </div>
-                                <div style="margin-left: 10%;">
-                                    <button nz-button nzType="danger" class="mr-3 mb-3">Cancel</button>
-                                </div>
+                    <tr *ngFor="let order of basicTable.data">
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-link"
+                                (click)="viewonlineorder(order.upOrderId)">{{order.order_details.order.details.ext_platforms[0].id}}</button>
+                        </td>
+                        <td class="text-center">{{order.order_details.order.details.created | date: 'MMM d, h:mm a'}}
+                        </td>
+                        <td class="text-center">{{order.order_details.order.details.order_total}}</td>
+                        <td class="text-center">{{order.order_details.order.details.ext_platforms[0].delivery_type}}
+                        </td>
+                        <td class="text-center"></td>
+                        <td class="text-center">
+                            <span *ngIf="order.rider_details">
+                                <span class="btn btn-sm btn-light">
+                                    {{order.rider_details.delivery_info.current_state}}
+                                </span> <br>
+                                {{order.rider_details.delivery_info.delivery_person_details.name}} <br>
+                                {{order.rider_details.delivery_info.delivery_person_details.phone}}
+                            </span>
+                            <span *ngIf="!order.rider_details">
+                                --------
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <nz-badge *ngIf="order.orderStatusId == 0" nzStatus="success" nzText="New Order"></nz-badge>
+                            <span *ngIf="order.orderStatusId == 1" class="text-success">Accepted</span>
+                            <span *ngIf="order.orderStatusId == 3" class="text-warning">Food Ready</span>
+                            <span *ngIf="order.orderStatusId == 4" class="text-purple">Dispatched</span>
+                            <span *ngIf="order.orderStatusId == 5" class="text-success">Delivered</span>
+                            <span *ngIf="order.orderStatusId == -1" class="text-danger">Cancelled</span>
+                        </td>
+                        <td class="text-center">
+                            <div *ngIf="order.orderStatusId == 0" class="row">
+                                <button type="button" class="btn btn-sm btn-success mr-2 mb-2"
+                                    (click)="onlineorderstatuschange(order.upOrderId, 1)">Accept</button>
+                                <button type="button" class="btn btn-sm btn-danger mr-2 mb-2"
+                                    (click)="cancelonlineorder(order.upOrderId)">Cancel</button>
                             </div>
+                            <div *ngIf="order.orderStatusId == 1" class="row">
+                                <button type="button" class="btn btn-sm btn-warning mr-2 mb-2"
+                                    (click)="onlineorderstatuschange(order.upOrderId, 3)">Food Ready</button>
+                            </div>
+                            <a *ngIf="[-1,5].includes(order.orderStatusId)" href="javascript: void(0);"
+                                class="btn btn-sm btn-link text-danger" (click)="deleteAggOrder(order.upOrderId)">
+                                <i class="fe fe-trash-2"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -346,7 +378,7 @@
 </div>
 
 <!-- Main Cart Page -->
-<div *ngIf="sectionid == 2" style="padding-top: 0%;">
+<div [hidden]="sectionid != 2" style="padding-top: 0%;">
     <div class="row pl-3">
         <div class="btn-group mr-2 mb-2">
             <button type="button" class="btn" (click)="createorder(5)">Quick Order</button>
@@ -399,26 +431,24 @@
                     <div class="row">
                         <!-- Search filter  -->
                         <div style="width: 70%;">
-                            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                                <input type="text" nz-input placeholder="Search Product..." [(ngModel)]="inputValue"
-                                    (input)="onInput($event.target?.value)" [nzAutocomplete]="auto" />
-                            </nz-input-group>
-                            <ng-template #suffixIconButton>
-                                <button nz-button nzType="default" nzSearch (click)="inputValue=''"><i nz-icon
-                                        nzType="close" nzTheme="outline"></i></button>
+                            <ng-template class="w-100" #rt let-r="result" let-t="term">
+                                <ngb-highlight [result]="r.Product" [term]="t"></ngb-highlight>
                             </ng-template>
-                            <nz-autocomplete nzBackfill #auto (selectionChange)="fieldselect($event);">
-                                <nz-auto-option *ngFor="let product of autocompleteproducts" [nzValue]="product.Product"
-                                    id="{{product.Id}}">
-                                    {{ product.Product }}
-                                </nz-auto-option>
-                            </nz-autocomplete>
+                            <div style="height: 84%; position: relative;">
+                                <input id="typeahead-template" style="height: 100%;" #instance="ngbTypeahead" type="text"
+                                    class="form-control" [(ngModel)]="model" placeholder="Search Product..."
+                                    [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter"
+                                    (selectItem)="selectedItem($event.item)" />
+                                <span *ngIf="model != ''" class="search-clear" aria-hidden="true"
+                                    (click)="model = ''">×</span>
+                            </div>
                         </div>
                         <!-- Quantity -->
                         <div style="width: 30%;">
                             <div class="input-group">
                                 <nz-input-group nzSearch [nzAddOnAfter]="Quantity">
-                                    <input type="number" nz-input placeholder="Quantity" />
+                                    <input type="number" (keyup.enter)="addproductbyautocomplete()" nz-input
+                                        placeholder="Quantity" #quantityref />
                                 </nz-input-group>
                                 <ng-template #Quantity>
                                     <button nz-button nzType="default" nzSearch><i nz-icon nzType="plus"
@@ -450,7 +480,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm max-h-65">
+        <div *ngIf="sectionid == 2" class="col-sm max-h-65">
             <div class="cart-div">
                 <table class="table">
                     <thead>
@@ -469,7 +499,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of order.Items; index as i">
+                        <tr *ngFor="let item of order.Items; index as i" [hidden]="item.Quantity == 0">
                             <td class="text-left pl-1" style="max-width: 80px;">{{item.showname}}</td>
                             <!-- <td>
                                 {{ item.Quantity }}
@@ -479,19 +509,18 @@
                                     (click)="item.Quantity > 1 && item.Quantity = item.Quantity - 1;order.setbillamount();">
                                     -
                                 </button>
-                                <span class="pl-1 pr-1">{{ item.Quantity }} {{item.ComplementryQty? '(' + item.ComplementryQty + ')' : ''}}</span>
+                                <span class="pl-1 pr-1">{{ item.Quantity }}</span>
                                 <button class="btn btn-xs btn-white btn-outline-light"
-                                    (click)="item.Quantity = item.Quantity + 1;order.setbillamount(); ">
+                                    (click)="item.Quantity = item.Quantity + 1;order.setbillamount();">
                                     +
                                 </button>
                             </td>
-                            <td class="pr-0">{{ item.TotalAmount | number: '0.2'}}</td>
+                            <td class="pr-0">{{ item.TotalAmount }}</td>
                             <td>
-                                <a href="javascript: void(0);" class="btn btn-sm btn-link" (click)="addfreequantity(item)">+ F</a>
                                 <a href="javascript: void(0);" class="btn btn-sm btn-link"
                                     (click)="itemdetails(item)"><i class="fe fe-edit-2"></i></a>
                                 <a href="javascript: void(0);" class="btn btn-sm btn-link text-danger"
-                                    (click)="removeItem(item);order.OrderTypeId == 5&&order.PaidAmount = 0;"><i
+                                    (click)="item.Quantity = 0; order.setbillamount();"><i
                                         class="fe fe-trash-2"></i></a>
                             </td>
                         </tr>
@@ -505,9 +534,22 @@
                         </tr>
                         <tr *ngIf="order.TaxAmount">
                             <td class="text-left" colspan="2">Taxes</td>
-                            <td class="text-left" colspan="2">+{{order.TaxAmount | number: '0.2'}}</td>
+                            <td class="text-left" colspan="2">+{{order.TaxAmount}}</td>
                         </tr>
-                        <tr *ngIf="order.Items == 0">
+                        <!-- <tr *ngIf="order.BillAmount">
+                            <td class="text-left" colspan="2">BillAmount</td>
+                            <td class="text-left" colspan="2">{{order.BillAmount | number: '0.2'}}</td>
+                        </tr> -->
+                        <tr *ngIf="order.Items.length > 0">
+                            <td colspan="2">
+                                <button type="button" class="btn btn-outline-secondary w-100"
+                                    (click)="generatekot()">Print Ticket</button>
+                            </td>
+                            <td colspan="2">
+                                <button type="button" class="btn btn-outline-secondary w-100" (click)="printreceipt()">Receive</button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="order.Items.length == 0">
                             <td colspan="4">Cart is Empty!</td>
                         </tr>
                     </tbody>
@@ -527,7 +569,7 @@
                                 Payment</button>
                         </div>
                         <div class="float-right" style=" width: 20%; height: 100%;">
-                            <a href="#" class="btn btn-squared-default btn-success">
+                            <a href="javascript:void(0)" (click)="printreceipt()" class="btn btn-squared-default btn-success">
                                 <i class="fa fa-rupee"></i>
                                 <br />
                                 {{order.BillAmount | number: '0.2'}}
@@ -536,11 +578,11 @@
                             </a>
                         </div>
                     </div>
-                    <div class="mb-5">
+                    <!-- <div class="mb-5">
                         <button nz-button nzType="default" nzBlock class="mr-5 mb-5"
                             style="background-color: #52c41a; color: white;" (click)="opendrawer()">
                             <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>Charge</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -567,7 +609,8 @@
     </div>
 </ng-template>
 
-<!-- Modal for Option Group -->
+
+<!-- Modal Option Group -->
 <ng-template #prod_details let-modal>
     <div class="modal-header">
         <h5 class="modal-title">{{currentitem.Product}}</h5>
@@ -639,7 +682,7 @@
             </div>
             <br>
             <!-- ----------------------------------DISCOUNT-------------------------------------- -->
-            <label style="color: black;"><b>DISCOUNT {{currentitem.DiscType}} </b></label>
+            <label style="color: black;"><b>DISCOUNT</b></label>
             <br>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -687,7 +730,7 @@
 
 
 <!-- Take Away Right side Drawer -->
-<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Payment :" (nzOnClose)="close()"
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Payment :" (nzOnClose)="modalclose()"
     [nzWidth]="720">
     <div class="container">
         <div class="row">
@@ -734,7 +777,7 @@
     </div>
     <br>
     <nz-footer class="float-right">
-        <button nz-button nzType="" class="mr-3 mb-3" (click)="close()"
+        <button nz-button nzType="" class="mr-3 mb-3" (click)="modalclose()"
             style="background-color: red; color: white;">Back</button>
         <button nz-button nzType="" class="mr-3 mb-3"
             style="background-color: rgb(255, 174, 0); color: white;">Unpaid</button>
@@ -901,7 +944,316 @@
     </div>
 </ng-template>
 
-<!-- Test Print -->
+<!-- Online Order Modal -->
+<ng-template #cancelreason_modal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">#{{temponlineorder.order_details.order.details.ext_platforms[0].id}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" style="height: 70vh ; overflow: auto; ">
+        <ul class="list-group">
+            <a href="javascript:void(0);" (click)="cancelreason = reason" *ngFor="let reason of cancelreasons"
+                [class.active]="cancelreason.id == reason.id"
+                class="list-group-item-action list-group-item">{{reason.message}}</a>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Back</button>
+        <button type="button" class="btn btn-primary"
+            (click)="onlineorderstatuschange(temponlineorder.upOrderId, -1)">Reject</button>
+    </div>
+</ng-template>
+
+<ng-template #viewonlineorder_modal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">#{{temponlineorder.order_details.order.details.ext_platforms[0].id}}</h5>
+        <!-- printonlineorderkot() -->
+        <button type="button" class="close" aria-label="Close" (click)="printonlineorderreceipt()">
+            receipt print
+        </button>
+        <button type="button" class="close" aria-label="Close" (click)="printonlineorderkot()">
+            kot print
+        </button>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" style="height: 80vh ; overflow: auto; ">
+        <strong>Delivery Partner:</strong> {{temponlineorder.order_details.order.details.ext_platforms[0].name}}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col" class="text-right">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of temponlineorder.order_details.order.items; index as i">
+                    <td><img src="{{item.image_url}}" alt="" width="100" height="auto"></td>
+                    <td>
+                        {{ item.title }} <br>
+                        <span *ngFor="let tax of item.taxes; index as j"> {{tax.title}} ({{tax.rate}}%) - {{tax.value}}
+                            {{(j==item.taxes.length - 1)? '' : '|'}}</span>
+                    </td>
+                    <td>{{ item.quantity | number }}</td>
+                    <td class="text-right">{{ item.total | number: "0.2" }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <th>SubTotal</th>
+                    <td class="text-right">{{temponlineorder.order_details.order.details.order_subtotal | number:
+                        "0.2"}}</td>
+                </tr>
+                <tr *ngFor="let charge of temponlineorder.order_details.order.details.charges">
+                    <td colspan="2"></td>
+                    <th>{{charge.title}}</th>
+                    <td class="text-right">{{charge.value | number: "0.2"}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <th>Discount</th>
+                    <td class="text-right text-danger">-{{temponlineorder.order_details.order.details.discount | number:
+                        "0.2"}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <th>Taxes</th>
+                    <td class="text-right">{{temponlineorder.order_details.order.details.total_taxes | number: "0.2"}}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <th>Total</th>
+                    <th class="text-right text-success">{{temponlineorder.order_details.order.details.order_total |
+                        number: "0.2"}}
+                    </th>
+                </tr>
+                <tr *ngIf="temponlineorder.order_details.order.details.coupon">
+                    <td colspan="2"></td>
+                    <th>Coupon Applied</th>
+                    <th class="text-right text-danger">"{{temponlineorder.order_details.order.details.coupon}}"</th>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <div class="col-xl-12">
+            <strong>Note:</strong> {{temponlineorder.order_details.order.details.instructions}} <br>
+            <strong>Coupon Applied:</strong> <span
+                class="text-right text-danger">"{{temponlineorder.order_details.order.details.coupon}}"</span>
+        </div>
+        <hr>
+        <div class="col-xl-12 row">
+            <div class="col-xl-6">
+                <strong>Customer details:</strong><br>
+                {{temponlineorder.order_details.customer.name}}<br>
+                {{temponlineorder.order_details.customer.address.line_1}}<br>
+                {{temponlineorder.order_details.customer.phone}} | {{temponlineorder.order_details.customer.email}}<br>
+            </div>
+            <div class="col-xl-6">
+                <strong>Payment details:</strong><br>
+                <span></span>
+                <table class="table">
+                    <tbody>
+                        <tr *ngFor="let payment of temponlineorder.order_details.order.payment">
+                            <th>{{payment.option}}</th>
+                            <th class="text-right text-success">{{payment.amount}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Cancel</button>
+        <button type="button" class="btn btn-primary"
+            (click)="onlineorderstatuschange(temponlineorder.upOrderId, -1)">Reject</button>
+    </div> -->
+</ng-template>
+
+<div *ngIf="order" id="rprintelcontainer">
+    <div id="printelement">
+        <div class="header">
+            <h3>FB CakeHouse</h3>
+            <p>
+                Kpkm, 60, RGM Complex, 8056550010<br>
+                GSTIN:33CZXPM4328M1ZM<br>
+                Receipt: 3820210215/22<br>
+                Feb 15, 2021 2:12 PM
+            </p>
+        </div>
+        <hr>
+        <table class="item-table">
+            <thead class="nb">
+                <th class="text-left" style="width: 100px;">ITEM</th>
+                <th>PRICE</th>
+                <th>QTY</th>
+                <th class="text-right">AMOUNT</th>
+            </thead>
+            <tbody>
+                <tr class="nb" *ngFor="let item of order.Items">
+                    <td class="text-left">{{item.showname}}</td>
+                    <td>{{item.baseprice}}</td>
+                    <td>{{item.Quantity}}</td>
+                    <td class="text-right">{{item.TotalAmount | number: "0.2"}}</td>
+                </tr>
+                <tr class="bt">
+                    <td class="text-left"><strong>Sub Total</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{order.subtotal | number: "0.2"}}</td>
+                </tr>
+                <tr class="nb">
+                    <td class="text-left"><strong>Discount</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{order.OrderTotDisc + order.AllItemTotalDisc | number: "0.2"}}</td>
+                </tr>
+                <tr class="nb">
+                    <td class="text-left"><strong>CGST</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{order.Tax1 | number: "0.2"}}</td>
+                </tr>
+                <tr class="nb">
+                    <td class="text-left"><strong>SGST</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{order.Tax2 | number: "0.2"}}</td>
+                </tr>
+                <tr class="nb">
+                    <td class="text-left"><strong>Extra</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{order.extra | number: "0.2"}}</td>
+                </tr>
+                <tr class="nb">
+                    <td class="text-left"><strong>Total</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{order.BillAmount | number: "0.2"}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <div class="text-center">
+            <p>Powered By Biz1Book.</p>
+        </div>
+    </div>
+</div>
+<div *ngIf="tempkotobj" id="kprintelcontainer">
+    <div id="printelement">
+        <div class="header">
+            <h3>ORDER TICKET #{{tempkotobj.KOTNo}}</h3>
+            <table class="item-table">
+                <tbody>
+                    <tr class="nb">
+                        <td class="text-left">{{order.InvoiceNo}}</td>
+                        <td class="text-right">{{order.OrderName}}</td>
+                    </tr>
+                    <tr class="nb">
+                        <td class="text-left">Time</td>
+                        <td class="text-right">{{tempkotobj.ModifiedDate}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <div *ngIf="tempkotobj.added.length" class="text-center">ADDED ITEMS</div>
+        <table *ngIf="tempkotobj.added.length" class="item-table">
+            <thead class="nb">
+                <th class="text-left">ITEM</th>
+                <th class="text-right">QTY</th>
+            </thead>
+            <tbody>
+                <tr class="nb" *ngFor="let item of tempkotobj.added">
+                    <td class="text-left">{{item.showname}}</td>
+                    <td class="text-right">+{{item.Quantity}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr *ngIf="tempkotobj.added.length">
+        <div *ngIf="tempkotobj.removed.length" class="text-center">REMOVED ITEMS</div>
+        <table *ngIf="tempkotobj.removed.length" class="item-table">
+            <thead class="nb">
+                <th class="text-left">ITEM</th>
+                <th class="text-right">QTY</th>
+            </thead>
+            <tbody>
+                <tr class="nb" *ngFor="let item of tempkotobj.removed">
+                    <td class="text-left">{{item.showname}}</td>
+                    <td class="text-right">-{{item.Quantity}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr *ngIf="tempkotobj.removed.length">
+        <div class="text-center">
+            <p>Powered By Biz1Book.</p>
+        </div>
+    </div>
+</div>
+<div *ngIf="temponlineorder" id="onlineorderreceipt">
+    <div id="printelement">
+        <div class="header">
+            <h3>FB CakeHouse</h3>
+            <p>
+                Kpkm, 60, RGM Complex, 8056550010<br>
+                GSTIN:33CZXPM4328M1ZM<br>
+                Receipt: {{temponlineorder.invoiceno}}<br>
+                {{temponlineorder.order_details.order.details.created | date: 'mediumDate'}} {{temponlineorder.order_details.order.details.created | date: 'shortTime'}}
+            </p>
+        </div>
+        <hr>
+        <table class="item-table">
+            <thead class="nb">
+                <th class="text-left" style="width: 100px;">ITEM</th>
+                <th>PRICE</th>
+                <th>QTY</th>
+                <th class="text-right">AMOUNT</th>
+            </thead>
+            <tbody>
+                <tr class="nb" *ngFor="let item of temponlineorder.order_details.order.items">
+                    <td class="text-left">{{item.showname}}</td>
+                    <td>{{item.baseprice}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td class="text-right">{{item.total | number: "0.2"}}</td>
+                </tr>
+                <tr class="bt">
+                    <td class="text-left"><strong>Sub Total</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{temponlineorder.order_details.order.details.order_subtotal | number: "0.2"}}</td>
+                </tr>
+                <tr class="nb">
+                    <td class="text-left"><strong>Discount</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{temponlineorder.order_details.order.details.total_external_discount | number: "0.2"}}</td>
+                </tr>
+                <tr class="nb">
+                    <td class="text-left"><strong>CGST</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{temponlineorder.order_details.order.details.total_taxes/2 | number: "0.2"}}</td>
+                </tr>
+                <tr class="nb">
+                    <td class="text-left"><strong>SGST</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{temponlineorder.order_details.order.details.total_taxes/2 | number: "0.2"}}</td>
+                </tr>
+                <tr class="nb" *ngFor="let charge of temponlineorder.order_details.order.details.charges">
+                    <td class="text-left"><strong>{{charge.title}}</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{charge.value | number: "0.2"}}</td>
+                </tr>
+                <tr class="nb">
+                    <td class="text-left"><strong>Total</strong></td>
+                    <td colspan="2"></td>
+                    <td class="text-right">{{temponlineorder.order_details.order.details.order_total | number: "0.2"}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <div class="text-center">
+            <p>Powered By Biz1Book.</p>
+        </div>
+    </div>
+</div>
+
 <!-- <input [(ngModel)]="count" type="number">
 <input [(ngModel)]="printer" type="text">
 <textarea [(ngModel)]="template" cols="30" rows="10"></textarea>

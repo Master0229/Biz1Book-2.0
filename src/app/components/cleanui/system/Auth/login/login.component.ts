@@ -1,25 +1,37 @@
-import { Component } from '@angular/core'
+import { Component, ElementRef, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { select, Store } from '@ngrx/store'
 import * as Reducers from 'src/app/store/reducers'
 import * as UserActions from 'src/app/store/user/actions'
 import * as SettingsActions from 'src/app/store/settings/actions'
-
+import { AuthService } from 'src/app/auth.service'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { NzNotificationService } from 'ng-zorro-antd'
+import { Router } from '@angular/router'
 @Component({
   selector: 'cui-system-login',
   templateUrl: './login.component.html',
   styleUrls: ['../style.component.scss'],
 })
 export class LoginComponent {
+  @ViewChild('storelist', { static: false }) private storelistmodal: ElementRef
   form: FormGroup
   logo: String
   authProvider: string = 'firebase'
   loading: boolean = false
-
-  constructor(private fb: FormBuilder, private store: Store<any>) {
+  stores: any = []
+  responsedata: any
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<any>,
+    private auth: AuthService,
+    private modalService: NgbModal,
+    private notification: NzNotificationService,
+    private router: Router,
+  ) {
     this.form = fb.group({
-      email: ['demo@sellpixels.com', [Validators.required, Validators.minLength(4)]],
-      password: ['demo123', [Validators.required]],
+      email: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required]],
     })
     this.store.pipe(select(Reducers.getSettings)).subscribe(state => {
       this.logo = state.logo
@@ -46,10 +58,86 @@ export class LoginComponent {
       return
     }
     const payload = {
-      email: this.email.value,
+      emailId: this.email.value,
       password: this.password.value,
     }
+    this.loading = true
+    this.auth.LogIn(payload).subscribe(data => {
+      this.loading = false
+      console.log(data)
+      if (data['status'] == 200) {
+        this.stores = data['data']
+        this.responsedata = data
+        this.modalService.open(this.storelistmodal)
+        this.store.dispatch(new UserActions.LoginSuccessful({}))
+      } else {
+        this.notification.error('Login Failed!', data['msg'])
+      }
+    })
+  }
+  oldlogin() {
+    const payload = {
+      email: 'demo@sellpixels.com',
+      password: 'demo123',
+    }
+
     this.store.dispatch(new UserActions.Login(payload))
+  }
+  storeselect(storeid) {
+    this.loading = true
+    this.modalService.dismissAll()
+    var storedata = {}
+    var orderno = this.responsedata.OrderNo.filter(x => x.StoreId == storeid)[0]?.OrderNo
+    var kotno = this.responsedata.KotNo.filter(x => x.StoreId == storeid)[0]?.KotNo
+    var store = this.stores.filter(x => x.Id == storeid)[0]
+    storedata['orderkey'] = {
+      orderno: orderno ? orderno : 1,
+      GSTno: store.GSTno,
+      kotno: kotno ? kotno : 1,
+      timestamp: new Date().getTime(),
+    }
+    storedata['preferences'] = this.responsedata.preferences.filter(x => x.StoreId == storeid)[0]
+    storedata['storeusers'] = store.StoreUsers
+    storedata['loginfo'] = {
+      StoreId: store.Id,
+      Store: store.Name,
+      OpeningTime: store.OpeningTime,
+      ClosingTime: store.ClosingTime,
+      CompanyId: store.CompanyId,
+      Address: store.Address,
+      City: store.City,
+      ContactNo: store.ContactNo,
+      Company: store.Company,
+      AutoAcceptTime: store.AutoAcceptTime,
+      FoodPrepTime: store.FoodPrepTime,
+    }
+    localStorage.setItem('token', this.responsedata.token.Value.token.Value)
+    this.auth.getStoreData(store.CompanyId, store.Id).subscribe(data => {
+      console.log(data)
+      console.log(JSON.stringify(Object.keys(data)))
+      storedata['product'] = data['Product']
+      storedata['category'] = data['Category']
+      storedata['customers'] = data['Customers']
+      storedata['kotgroups'] = data['KotGroups']
+      storedata['diningarea'] = data['DiningArea']
+      storedata['diningtable'] = data['DiningTable']
+      storedata['paymenttypes'] = data['StorePaymentTypes']
+      storedata['discountrule'] = data['DiscountRule']
+      storedata['additionalcharges'] = data['AdditionalCharge']
+      storedata['pendingorders'] = []
+      data['PendingOrders'].forEach(oj => {
+        if (oj.OrderJson) {
+          storedata['pendingorders'].push(JSON.parse(oj.OrderJson))
+        }
+      })
+      this.auth.storeselect(storedata).subscribe(data1 => {
+        console.log(data1)
+        this.router.navigateByUrl('/auth/lockpage')
+      })
+      // ["<Category>","<TaxGroup>","<Product>","<DiningArea>","<DiningTable>","<DiscountRule>","<AdditionalCharge>",
+      // "<OrderType>","<Customers>","<PaymentType>","<KotGroups>","PendingOrders","<StorePaymentTypes>",
+      // "<OrderStatus>","<ItemStatus>","<KOTStatus>","<PaymentStatus>","<TableStatus>","<TransType>","<Aggregators>"]
+    })
   }
 
   setProvider(authProvider) {

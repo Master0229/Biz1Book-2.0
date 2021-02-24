@@ -13,6 +13,7 @@ export class AuthService {
   //base_url = "http://192.168.2.66:8000/";
   base_url1 = 'https://localhost:44383/api/'
   base_url = 'https://biz1pos.azurewebsites.net/api/'
+  dburl = 'http://localhost:8081/'
   //base_url=URL+'att';
   get isLoggedIn() {
     return this.loggedStatus
@@ -49,6 +50,12 @@ export class AuthService {
   LogIn(formdata) {
     let body = this.toFormData(formdata)
     return this.http.post(this.base_url + 'LogIn/LogIn', body)
+  }
+  storeselect(body) {
+    return this.http.post(this.dburl + 'storeselect', body)
+  }
+  unlock(pin) {
+    return this.http.get(this.dburl + 'unlock?pin=' + pin)
   }
   saveOrder(formdata) {
     let body = this.toFormData(formdata)
@@ -810,9 +817,7 @@ export class AuthService {
     )
   }
   ///////URBAN_PIPER////////
-  UPOrderStatusChange(orderId, statusdata, orderstatusid) {
-    var companyid = JSON.parse(localStorage.getItem('logInfo')).CompanyId
-    var storeid = JSON.parse(localStorage.getItem('logInfo')).StoreId
+  UPOrderStatusChange(orderId, statusdata, orderstatusid, storeid, companyid) {
     return this.http.get(
       this.base_url +
         'UrbanPiper/OrderStatus?orderId=' +
@@ -824,11 +829,14 @@ export class AuthService {
         '&storeid=' +
         storeid +
         '&orderstatusid=' +
-        orderstatusid,
+        orderstatusid +
+        '&needjwt=1',
     )
   }
   deleteAggOrder(uporderid) {
-    return this.http.get(this.base_url + 'UrbanPiper/DeleteUPOrder?uporderid=' + uporderid)
+    return this.http.get(
+      this.base_url + 'UrbanPiper/DeleteUPOrder?uporderid=' + uporderid + '&needjwt=1',
+    )
   }
   Getitem(storeId, CompanyId) {
     // console.log(storeId);
@@ -951,10 +959,19 @@ export class AuthService {
   }
 
   getproducts() {
-    return this.http.get('http://192.168.0.110:8081/products')
+    return this.http.get('http://localhost:8081/products')
   }
 
   getcategories() {
-    return this.http.get('http://192.168.0.110:8081/categories')
+    return this.http.get('http://localhost:8081/categories')
+  }
+
+  print(body) {
+    return this.http.post('http://localhost:8000/print', body)
+  }
+
+  ////////////////////////////////////NEDB/////////////////////////////
+  getdbdata(dbnames) {
+    return this.http.post('http://localhost:8081/getdbdata', dbnames)
   }
 }

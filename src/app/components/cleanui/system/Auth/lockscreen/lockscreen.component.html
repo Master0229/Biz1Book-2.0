@@ -1,34 +1,34 @@
 <div>
   <div class="card boxContainer">
     <div class="text-dark text-center font-size-24 mb-4">
-      <strong>Account Locked</strong>
+      <strong>Enter PIN !</strong>
     </div>
     <div class="text-center">
       <div class="kit__utils__avatar kit__utils__avatar--size64 d-inline-block mb-2">
-        <img src="assets/images/avatars/2.jpg" alt="Mary Stanform" />
+        <img src="assets/images/avatars/avatar-2.png" alt="Mary Stanform" />
       </div>
       <div class="font-size-18 text-dark mb-4">
-        <strong>Mary Stanform</strong>
+        <strong>{{loginfo?.Store}}</strong>@<strong>{{loginfo?.Company}}</strong>
       </div>
     </div>
     <form nz-form [nzLayout]="'vertical'">
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your Password!">
-          <input type="password" nz-input nzSize="large" placeholder="Password" />
+          <input type="password" [(ngModel)]="pin" [ngModelOptions]="{standalone: true}" nz-input nzSize="large" placeholder="Enter Pin" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control>
-          <button nz-button nzType="primary" [nzSize]="'large'" class="text-center w-100">
+          <button nz-button nzType="primary" (click)="unlock()" [nzSize]="'large'" class="text-center w-100">
             <strong>Unlock Account</strong>
           </button>
         </nz-form-control>
       </nz-form-item>
     </form>
+    <!-- routerLink="/auth/login" -->
     <div class="text-center pt-2 mb-auto">
-      <span class="mr-2">Already have an account?</span>
-      <a routerLink="/auth/login" class="kit__utils__link font-size-16">
-        Sign in
+      <a href="javascript:void(0)" (click)="logout()" class="kit__utils__link font-size-16">
+        SignIn with different Account
       </a>
     </div>
   </div>

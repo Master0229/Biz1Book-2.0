@@ -24,7 +24,7 @@ import { jwtAuthService } from './services/jwt'
 import { MockHttpCallInterceptor } from './services/fakeApi'
 
 // Electron
-import { ElectronService, NgxElectronModule } from 'ngx-electron';
+import { ElectronService, NgxElectronModule } from 'ngx-electron'
 
 // Pipe
 // import { FilterPipe, CategoryPipe, MultiFilterPipe, ExcludeFilterPipe } from './shared/order.filter.pipe';
@@ -34,6 +34,7 @@ import { ElectronService, NgxElectronModule } from 'ngx-electron';
 import { registerLocaleData } from '@angular/common'
 import { default as localeEn } from '@angular/common/locales/en'
 import { NZ_I18N, en_US as localeZorro } from 'ng-zorro-antd'
+import { JwtInterceptor } from './services/interceptors/jwt.interceptor'
 const LOCALE_PROVIDERS = [
   { provide: LOCALE_ID, useValue: 'en' },
   { provide: NZ_I18N, useValue: localeZorro },
@@ -41,10 +42,7 @@ const LOCALE_PROVIDERS = [
 registerLocaleData(localeEn, 'en')
 
 @NgModule({
-  declarations: [
-    AppComponent
-
-  ],
+  declarations: [AppComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -93,6 +91,7 @@ registerLocaleData(localeEn, 'en')
 
     // firestore settings
     { provide: SETTINGS, useValue: {} },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

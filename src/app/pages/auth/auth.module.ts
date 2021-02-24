@@ -11,6 +11,7 @@ import { LockscreenPage } from './lockscreen/lockscreen.component'
 import { ForgotPasswordPage } from './forgot-password/forgot-password.component'
 import { Error500Page } from './500/500.component'
 import { Error404Page } from './404/404.component'
+import { LockpageComponent } from './lockpage/lockpage.component'
 
 const COMPONENTS = [
   LoginPage,
@@ -19,6 +20,7 @@ const COMPONENTS = [
   ForgotPasswordPage,
   Error500Page,
   Error404Page,
+  LockpageComponent,
 ]
 
 @NgModule({

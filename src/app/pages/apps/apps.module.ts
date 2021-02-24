@@ -40,7 +40,10 @@ import { ElectronService } from 'ngx-electron'
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material'
 import { FilterPipe } from '../../pipes/filter/filter.pipe'
 import { ProductfilterPipe, ParentcategoryfilterPipe } from '../../pipes/order/orderfilter.pipe'
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http'
+import { JwtInterceptor } from 'src/app/services/interceptors/jwt.interceptor'
+import { AutocompleteLibModule } from 'angular-ng-autocomplete'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 const COMPONENTS = [
   AppsMessagingComponent,
   AppsCalendarComponent,
@@ -75,6 +78,8 @@ const COMPONENTS = [
     SortablejsModule,
     NestableModule,
     NgxDaterangepickerMd.forRoot(),
+    AutocompleteLibModule,
+    NgbModule,
   ],
   declarations: [
     ...COMPONENTS,
@@ -89,6 +94,9 @@ const COMPONENTS = [
     AboutusComponent,
     ReportComponent,
   ],
-  providers: [ElectronService],
+  providers: [
+    ElectronService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
 })
 export class AppsModule {}

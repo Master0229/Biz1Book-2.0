@@ -1,0 +1,40 @@
+{"Id":2,"Description":"Packaging Charge","ChargeType":2,"ChargeValue":10,"TaxGroupId":8,"_id":"67CTBlUByNGFhfrr"}
+{"Id":6,"Description":"Delivery Charge","ChargeType":2,"ChargeValue":20,"TaxGroupId":8,"_id":"svgnUhALuZZN1UWS"}
+{"$$deleted":true,"_id":"67CTBlUByNGFhfrr"}
+{"$$deleted":true,"_id":"svgnUhALuZZN1UWS"}
+{"Id":2,"Description":"Packaging Charge","ChargeType":2,"ChargeValue":10,"TaxGroupId":8,"_id":"EYqICPxBgrFJhBl0"}
+{"Id":6,"Description":"Delivery Charge","ChargeType":2,"ChargeValue":20,"TaxGroupId":8,"_id":"XwIUxzw1bE9b2RiF"}
+{"$$deleted":true,"_id":"EYqICPxBgrFJhBl0"}
+{"$$deleted":true,"_id":"XwIUxzw1bE9b2RiF"}
+{"Id":2,"Description":"Packaging Charge","ChargeType":2,"ChargeValue":10,"TaxGroupId":8,"_id":"BgfJhGSVf1DkAiP0"}
+{"Id":6,"Description":"Delivery Charge","ChargeType":2,"ChargeValue":20,"TaxGroupId":8,"_id":"Ldx81Le3KuBELAhI"}
+{"$$deleted":true,"_id":"BgfJhGSVf1DkAiP0"}
+{"$$deleted":true,"_id":"Ldx81Le3KuBELAhI"}
+{"Id":2,"Description":"Packaging Charge","ChargeType":2,"ChargeValue":10,"TaxGroupId":8,"_id":"OUGdZHD4FUsARPMP"}
+{"Id":6,"Description":"Delivery Charge","ChargeType":2,"ChargeValue":20,"TaxGroupId":8,"_id":"g4zF55d8sJgpZLj4"}
+{"$$deleted":true,"_id":"OUGdZHD4FUsARPMP"}
+{"$$deleted":true,"_id":"g4zF55d8sJgpZLj4"}
+{"Id":2,"Description":"Packaging Charge","ChargeType":2,"ChargeValue":10,"TaxGroupId":8,"_id":"9Tl5HQ5Ll2FCDRN7"}
+{"Id":6,"Description":"Delivery Charge","ChargeType":2,"ChargeValue":20,"TaxGroupId":8,"_id":"2a7qbTV8qEPVtxLC"}
+{"$$deleted":true,"_id":"2a7qbTV8qEPVtxLC"}
+{"$$deleted":true,"_id":"9Tl5HQ5Ll2FCDRN7"}
+{"Id":2,"Description":"Packaging Charge","ChargeType":2,"ChargeValue":10,"TaxGroupId":8,"_id":"YQu4y6uEQxNBnvnl"}
+{"Id":6,"Description":"Delivery Charge","ChargeType":2,"ChargeValue":20,"TaxGroupId":8,"_id":"ylOFZwEkw3WkCYKn"}
+{"$$deleted":true,"_id":"YQu4y6uEQxNBnvnl"}
+{"$$deleted":true,"_id":"ylOFZwEkw3WkCYKn"}
+{"Id":2,"Description":"Packaging Charge","ChargeType":2,"ChargeValue":10,"TaxGroupId":8,"_id":"FHZ0nYv1wUO7lxCP"}
+{"Id":6,"Description":"Delivery Charge","ChargeType":2,"ChargeValue":20,"TaxGroupId":8,"_id":"8nfiFQvdvUOpCWUG"}
+{"$$deleted":true,"_id":"8nfiFQvdvUOpCWUG"}
+{"$$deleted":true,"_id":"FHZ0nYv1wUO7lxCP"}
+{"Id":2,"Description":"Packaging Charge","ChargeType":2,"ChargeValue":10,"TaxGroupId":8,"_id":"yqBFq4JGfrsTyu6I"}
+{"Id":6,"Description":"Delivery Charge","ChargeType":2,"ChargeValue":20,"TaxGroupId":8,"_id":"FomovN6K0We1pHYH"}
+{"$$deleted":true,"_id":"FomovN6K0We1pHYH"}
+{"$$deleted":true,"_id":"yqBFq4JGfrsTyu6I"}
+{"Id":14,"Description":"Packaging Charges","ChargeType":1,"ChargeValue":20,"TaxGroupId":40,"_id":"r2LPDfERReBJZIc2"}
+{"$$deleted":true,"_id":"r2LPDfERReBJZIc2"}
+{"Id":2,"Description":"Packaging Charge","ChargeType":2,"ChargeValue":10,"TaxGroupId":8,"_id":"JYfCM8UUp3YV7aLX"}
+{"Id":6,"Description":"Delivery Charge","ChargeType":2,"ChargeValue":20,"TaxGroupId":8,"_id":"SaddcVrrBy2bu20Q"}
+{"$$deleted":true,"_id":"JYfCM8UUp3YV7aLX"}
+{"$$deleted":true,"_id":"SaddcVrrBy2bu20Q"}
+{"Id":2,"Description":"Packaging Charge","ChargeType":2,"ChargeValue":10,"TaxGroupId":8,"_id":"6fBqhVmTIQRTP6Yi"}
+{"Id":6,"Description":"Delivery Charge","ChargeType":2,"ChargeValue":20,"TaxGroupId":8,"_id":"hkHzDtb3WozMMImB"}
