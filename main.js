@@ -1,8 +1,4 @@
 const { app, BrowserWindow, Menu } = require('electron')
-var express = require('express');
-var api = express();
-var cors = require('cors')
-const bodyParser = require('body-parser');
 const url = require("url");
 const path = require("path");
 const electron = require('electron');
@@ -293,48 +289,3 @@ global.testPrint = function (count, printer, template) {
             console.error(error);
         });
 }
-api.use(bodyParser.urlencoded({ extended: true }));
-api.use(bodyParser.json());
-api.use(bodyParser.raw());
-api.use(cors());
-
-api.post('/print', function (req, res) {
-    console.log(req.body.count, req.body.printer, mainWindow.webContents.getPrinters()[5].name)
-    const options = {
-        preview: false,               // Preview in window or print
-        width: '300px',               //  width of content body
-        margin: '0 0 0 0',            // margin of content body
-        copies: req.body.count,                // Number of copies to print
-        printerName: mainWindow.webContents.getPrinters()[5].name,         // printerName: string, check with webContent.getPrinters()
-        timeOutPerLine: 5000,
-        silent: true
-        // pageSize: { height: 301000, width: 71000 }  // page size
-    }
-    const data = [
-        {
-            type: 'text',             // 'text' | 'barCode' | 'qrCode' | 'image' | 'table
-            value: req.body.template,
-            style: ``,
-            css: {}
-        }
-    ]
-    var response = {data: null}
-    PosPrinter.print(data, options)
-        .then(() => {
-            console.log("Print Successfull")
-            response.data = "Print Successfull"
-            res.send(response)
-        })
-        .catch((error) => {
-            console.error(error);
-            response.data = error
-            res.send(response)
-        });
-});
-
-var server = api.listen(8000, function () {
-    var host = server.address().address
-    var port = server.address().port
-    console.log("Example api listening at http://%s:%s", host, port)
-    api.emit('appstarted', server.address())
-});

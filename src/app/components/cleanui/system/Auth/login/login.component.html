@@ -66,8 +66,8 @@
         <nz-list-item>
           <nz-list-item-meta [nzTitle]="nzTitle" nzDescription="{{item.Address}}">
             <ng-template #nzTitle>
-              <span class="ant-typography"><code>*</code></span>
-              <a href="javascript:void(0);" (click)="storeselect(item.Id)">{{ item.Name }}</a>
+              <i nz-icon nzType="shop" nzTheme="outline" class="pr-2"></i>
+              <a href="javascript:void(0);" (click)="storeselect(item.Id)"><b>{{ item.Name }}</b></a>
             </ng-template>
           </nz-list-item-meta>
         </nz-list-item>
