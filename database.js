@@ -4,7 +4,7 @@ var app = express();
 var cors = require('cors')
 var ip = require('ip')
 const bodyParser = require('body-parser');
-const { PosPrinter } = require("electron-pos-printer");
+// const { PosPrinter } = require("electron-pos-printer");
 
 var db = {};
 
